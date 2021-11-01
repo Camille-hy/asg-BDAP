@@ -1,0 +1,7 @@
+hello uI8 1 1
+hello huI8 1 0
+hi hI8 1 0
+he Hu8 1 1
+oi Iu8 1 0
+oi Iu8 1 0
+eh Iu8 0 0
