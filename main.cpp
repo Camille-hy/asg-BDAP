@@ -7,7 +7,7 @@ using namespace std;
 
 void Main_Menu();
 void Statistical_Analysis_Menu();
-void Admin_Menu();
+void Admin_Menu(string name);
 void Report_Menu();
 void Statistical_Calculation_Menu();
 
@@ -24,7 +24,8 @@ void Menu_Dashboard() {
   cout << "+--------------------------------------------------+" << endl;
   cout << "|            Basic Data Analysis Program           |" << endl;
   cout << "|                    (  BDAP  )                    |" << endl;
-  cout << "+--------------------------------------------------+" << endl;
+  cout << "+--------------------------------------------------+" << endl
+       << endl;
 }
 
 bool checkUser(vector<Users> &users, string name, string pass) {
@@ -114,7 +115,6 @@ void UserRegister() {
            << endl;
   } while (!valid);
 }
-
 int main() {
   bool found = false;
   bool isAdmin = false;
@@ -149,6 +149,12 @@ int main() {
         cin >> name;
         cout << "Please enter password: ";
         cin >> pass;
+        isAdmin = checkType(users, name, pass);
+        if (isAdmin) {
+          Admin_Menu(name);
+        } else {
+          Main_Menu(name);
+        }
 
       } while (!checkUser(users, name, pass));
 
@@ -161,6 +167,30 @@ int main() {
   } while (choice != '1' && choice != '2');
 
   return 0;
+}
+
+bool checkUser(vector<Users> &users, string name, string pass) {
+  bool found = false;
+  for (auto elem : users) {
+    if (name == elem.user && pass == elem.pass && elem.status == 1) {
+      found = true;
+      break;
+    }
+  }
+  return found;
+}
+
+bool checkType(vector<Users> &users, string name, string pass) {
+  bool isAdmin = false;
+  for (auto elem : users) {
+    if (name == elem.user && pass == elem.pass && elem.status == 1 &&
+        elem.type == 1) {
+      isAdmin = true;
+      break;
+    }
+  }
+
+  return isAdmin;
 }
 
 void Statistical_Analysis_Menu() {
@@ -235,7 +265,7 @@ void Statistical_Calculation_Menu() {
   }
 }
 
-void Main_Menu() {
+void Main_Menu(string name) {
   bool valid;
   char user_choice;
   Menu_Dashboard();
@@ -245,6 +275,7 @@ void Main_Menu() {
   cout << "3.   View User Log" << endl;
   cout << "4.   Change Password" << endl;
   cout << "5.   Log out" << endl;
+  cout << "Welcome User, " << name << endl << endl;
 
   while (valid) {
     cout << "Please Enter Your choice: ";
@@ -301,13 +332,14 @@ void Report_Menu() {
   }
 }
 
-void Admin_Menu() {
+void Admin_Menu(string name) {
   bool valid;
   char user_choice;
   cout << "1.   Create User Account" << endl;
   cout << "2.   Modify User Account" << endl;
   cout << "3.   Log out" << endl;
 
+  cout << "Welcome Admin," << name << endl << endl;
   while (valid) {
     cout << "Please Enter Your choice: ";
     cin >> user_choice;
@@ -321,7 +353,7 @@ void Admin_Menu() {
     }
 
     else if (user_choice == '3') {
-      cout << "User log" << endl;
+      cout << "Log out" << endl;
     }
 
     else {
