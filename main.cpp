@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void Main_Menu();
+void Main_Menu(string name);
 void Statistical_Analysis_Menu();
 void Admin_Menu(string name);
 void Report_Menu();
@@ -115,6 +115,7 @@ void UserRegister() {
            << endl;
   } while (!valid);
 }
+
 int main() {
   bool found = false;
   bool isAdmin = false;
@@ -167,30 +168,6 @@ int main() {
   } while (choice != '1' && choice != '2');
 
   return 0;
-}
-
-bool checkUser(vector<Users> &users, string name, string pass) {
-  bool found = false;
-  for (auto elem : users) {
-    if (name == elem.user && pass == elem.pass && elem.status == 1) {
-      found = true;
-      break;
-    }
-  }
-  return found;
-}
-
-bool checkType(vector<Users> &users, string name, string pass) {
-  bool isAdmin = false;
-  for (auto elem : users) {
-    if (name == elem.user && pass == elem.pass && elem.status == 1 &&
-        elem.type == 1) {
-      isAdmin = true;
-      break;
-    }
-  }
-
-  return isAdmin;
 }
 
 void Statistical_Analysis_Menu() {
