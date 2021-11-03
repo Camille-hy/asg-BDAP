@@ -86,7 +86,7 @@ void UserRegister()
 {
     string usertype, username, password, confirmpw;
     bool valid;
-
+    system("cls");
     do{
         cout << "User Type(Admin/User): " ; cin >> usertype; cin.ignore(80, '\n');
         cout << "Username: " ; cin >> username; cin.ignore(80, '\n');
@@ -108,11 +108,25 @@ void UserRegister()
     }while(!valid);
 }
 
+char adminMenu(){
+    char option;
+
+    cout << "Please Choose" << endl << endl;
+    cout << "1. Create User Account" << endl;
+    cout << "2. Modify User Account" << endl;
+    cout << "3. Log Out" << endl << endl;
+    cin >> option; cin.ignore(80, '\n');
+
+    return option;
+}
+
 int main()
 {
+    system("cls");
     bool found = false;
     bool isAdmin = false;
-    char choice;
+    bool isLogin = false;
+    char choice, option;
     cout << "+--------------------------------------------------+" << endl;
     cout << "|                    Welcome to                    |" << endl;
     cout << "|            Basic Data Analysis Program           |" << endl;
@@ -123,7 +137,7 @@ int main()
         cout << "Please Choose " << endl << endl;
         cout << "1. Login" << endl;
         cout << "2. Quit" << endl;
-        cin >> choice;
+        cin >> choice; cin.ignore(80, '\n');
         if(choice == '1')
         {
             Users userdata;
@@ -143,6 +157,7 @@ int main()
             do{
                 cout<< "Please enter username: " ;cin >> name;
                 cout<< "Please enter password: " ;cin >> pass;
+                system("cls");
                 isAdmin = checkType(users, name, pass);
                 if(isAdmin){
                     cout << "+--------------------------------------------------+" << endl;
@@ -150,10 +165,20 @@ int main()
                     cout << "|                    (  BDAP  )                    |" << endl;
                     cout << "+--------------------------------------------------+" << endl << endl;
                     cout << "Welcome Admin, " << name << endl << endl;
-                    cout << "Please Choose" << endl << endl;
-                    cout << "1. Create User Account" << endl;
-                    cout << "2. Modify User Account" << endl;
-                    cout << "3. Log Out" << endl;
+
+                    option = adminMenu();
+                    if(option == '1')
+                    {
+                        UserRegister();
+                        cout << "Register Successful" << endl << endl;
+                        system("cls");
+                        adminMenu();
+                    }
+                    else if(option == '3'){
+                        cout << "See ya!" << endl << endl;
+                        main();
+                    }
+
                 }else
                 {   
                     cout << "+--------------------------------------------------+" << endl;
@@ -166,7 +191,7 @@ int main()
                     cout << "2. View Saved Report" << endl;
                     cout << "3. View User Log" << endl;
                     cout << "4. Change Password" << endl;
-                    cout << "5. Log Out" << endl;
+                    cout << "5. Log Out" << endl << endl;
                 }
 
             }while(!checkUser(users, name, pass));
