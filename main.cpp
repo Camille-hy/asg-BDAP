@@ -29,7 +29,6 @@ bool checkUser(vector<Users> &users, string name, string pass){
             pass == elem.pass &&
             elem.status == 1 )
         {
-            cout << elem.type << endl;
             found = true;
             break;
         }
@@ -46,11 +45,11 @@ bool checkType(vector<Users> &users, string name, string pass){
             elem.status == 1 &&
             elem.type == 1)
         {
-            cout << elem.type << endl;
             isAdmin = true;
             break;
         }
     }
+    
     return isAdmin;
 }
 
@@ -144,6 +143,31 @@ int main()
             do{
                 cout<< "Please enter username: " ;cin >> name;
                 cout<< "Please enter password: " ;cin >> pass;
+                isAdmin = checkType(users, name, pass);
+                if(isAdmin){
+                    cout << "+--------------------------------------------------+" << endl;
+                    cout << "|            Basic Data Analysis Program           |" << endl;
+                    cout << "|                    (  BDAP  )                    |" << endl;
+                    cout << "+--------------------------------------------------+" << endl << endl;
+                    cout << "Welcome Admin, " << name << endl << endl;
+                    cout << "Please Choose" << endl << endl;
+                    cout << "1. Create User Account" << endl;
+                    cout << "2. Modify User Account" << endl;
+                    cout << "3. Log Out" << endl;
+                }else
+                {   
+                    cout << "+--------------------------------------------------+" << endl;
+                    cout << "|            Basic Data Analysis Program           |" << endl;
+                    cout << "|                    (  BDAP  )                    |" << endl;
+                    cout << "+--------------------------------------------------+" << endl << endl;
+                    cout << "Welcome User, " << name << endl << endl;
+                    cout << "Please Choose" << endl << endl;
+                    cout << "1. Enter Statistical Analysis Menu" << endl;
+                    cout << "2. View Saved Report" << endl;
+                    cout << "3. View User Log" << endl;
+                    cout << "4. Change Password" << endl;
+                    cout << "5. Log Out" << endl;
+                }
 
             }while(!checkUser(users, name, pass));
 
