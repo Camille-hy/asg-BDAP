@@ -452,7 +452,7 @@ public:
             cout << "What is the filename" << endl;
             getline(cin, fileName);
             path = dataDir + slash + fileName;
-            cout << path << endl;
+            // cout << path << endl;
             readFile(path);
             if (error)
                 continue;
@@ -537,6 +537,68 @@ public:
             system(path.c_str());
         }
     }
+
+    void printTxtReport(string path)
+    {
+        ifstream file(path);
+        string line;
+        while (!file.eof())
+        {
+            getline(file, line);
+            cout << line << endl;
+        }
+        file.close();
+    }
+
+    void txtReportScreen()
+    {
+        string filename;
+        while (true)
+        {
+            showHeader();
+            cout << "Please enter the name of txt report (without file extension -> .txt) " << endl;
+            cin.ignore(30, '\n');
+            getline(cin, filename);
+            filename += ".txt";
+            string path = reportDir + slash + filename;
+            if (fileExist(path))
+            {
+                printTxtReport(path);
+                break;
+            }
+            else
+            {
+                cout << "The file cannot found" << endl;
+                cout << "Press enter to continue" << endl;
+                cin.get();
+            }
+        }
+    }
+
+    void htmlReportScreen()
+    {
+        string filename;
+        while (true)
+        {
+            showHeader();
+            cout << "Please enter the name of html report (without file extension -> .html) " << endl;
+            cin.ignore(30, '\n');
+            getline(cin, filename);
+            filename += ".html";
+            string path = htmlDir + slash + filename;
+            if (fileExist(path))
+            {
+                system(path.c_str());
+                break;
+            }
+            else
+            {
+                cout << "The file cannot found" << endl;
+                cout << "Press enter to continue" << endl;
+                cin.get();
+            }
+        }
+    }
 };
 
 class Log
@@ -571,7 +633,7 @@ private:
         while (!file.eof())
         {
             getline(file, log);
-            if (log!="")
+            if (log != "")
             {
                 logs.push_back(log);
             }
@@ -684,3 +746,40 @@ public:
         }
     };
 };
+
+// int main()
+// {
+//     File file("limcz");
+//     file.loadScreen();
+//     int col = file.getCol();
+//     int row = file.getRow();
+//     vector<pair<string, int>> title = file.getTitle();
+//     vector<int> compute = file.getCompute();
+//     vector<vector<int>> data = file.getData();
+    
+
+//     cout << col << endl;
+//     cout << row << endl;
+
+//     for (auto c : compute)
+//     {
+//         cout << c << ' ';
+//     }
+
+//     cout << endl;
+
+//     for (auto p : title)
+//     {
+//         cout << p.first << " ";
+//     }
+//     cout << endl;
+
+//     for (auto row : data)
+//     {
+//         for (auto col : row)
+//         {
+//             cout << col << " ";
+//         }
+//         cout << endl;
+//     }
+// }
