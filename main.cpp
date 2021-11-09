@@ -168,16 +168,6 @@ void Generate_HTML_Report(string data) {
   htmlFile.close();
 }
 
-
-
-
-
-
-void histogram(vector<vector<int>> data, int col) {
-
-}
-
-
 // void distinctMember(vector<vector<int>> data, int col) {
 //     vector<int> distincts;
 //     for (auto row: data) {
