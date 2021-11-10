@@ -115,11 +115,66 @@ double find_stdv(vector2d arr , int row, int column)
 // }
 
 
-vector<vector<int>> classInterval(vector<int> data) {
-  int c, min , max ;
+// -----------------------------------------------------------------------------------
+vector<pair<int, int>> distinctMember(vector<vector<int>> data, int col)
+{
+    vector<int> distincts;
+    vector<pair<int, int>> distinctCount;
+    pair<int, int> temp;
+
+    for (auto row : data)
+    {
+        if (find(distincts.begin(), distincts.end(), row[col]) == distincts.end())
+            distincts.push_back(row[col]);
+    }
+
+    sort(distincts.begin(), distincts.end());
+
+    for (auto num : distincts)
+    {
+        int count = 0;
+        for (auto row : data)
+        {
+            if (num == row[col])
+                count++;
+        }
+        temp.first = num;
+        temp.second = count;
+        distinctCount.push_back(temp);
+    }
+    return distinctCount;
+}
+
+string tabularForm(vector<pair<int, int>> data)
+{
+    string form;
+    stringstream ss;
+    string temp;
+    // form += "Distinct Number | Count\n";
+    ss << "+-----------------+-------+" << endl;
+    ss << "| Distinct Number | Count |" << endl;
+    ss << "+-----------------+-------+" << endl;
+    for (auto p : data)
+    {
+        ss << "|" << setw(9) << p.first << setw(9)
+           << "|" << setw(4) << p.second << setw(4)
+           << "|" << endl;
+    }
+    ss << "+-----------------+-------+" << endl;
+    form = ss.str();
+    cout << form;
+
+    return form;
+}
+
+
+// -----------------------------------------------------------------------------------
+
+
+vector<vector<int>> classInterval(int min, int max, int row) {
+  int c;
   vector<vector<int>> interval;
-	// min = find_min();
-  c = ceil(1 + (3.3 * log10(data.size())));
+  c = ceil(1 + (3.3 * log10(row)));
   int classWidth = ceil((max - min) / float(c));
   int lowerBoundary = min;
   int upperBoundary = min + classWidth - 1;
@@ -132,22 +187,21 @@ vector<vector<int>> classInterval(vector<int> data) {
     // 129
     upperBoundary += classWidth;
   }
-
   return interval;
 }
 
-vector<pair<double, int>> countData(vector<int> data,
-                                    vector<vector<int>> interval) {
+vector<pair<double, int>> countData(vector2d data,
+                                    vector<vector<int>> interval, int index) {
   vector<pair<double, int>> count;
   for (auto i : interval) {
     int counter = 0;
     for (auto d : data) {
-      if (d >= i[0] && d <= i[1]) {
+      if (d[index] >= i[0] && d[index] <= i[1]) {
         counter++;
       }
     }
-    double midpoint = (i[0] + i[1]) / 2;
-    pair<int, double> temp = {midpoint, counter};
+    double midpoint = (i[0] + i[1]) / 2.0;
+    pair<double, int> temp = {midpoint, counter};
     count.push_back(temp);
   }
   return count;
@@ -156,6 +210,7 @@ vector<pair<double, int>> countData(vector<int> data,
 string createTable(vector<pair<double, int>> count) {
   stringstream table;
 
+  table << setprecision(1) << fixed;
   table << left;
   table << "Counts\t"
         << "Mid-points" << endl;
@@ -173,10 +228,14 @@ string createTable(vector<pair<double, int>> count) {
   return table.str();
 }
 
+string histogram(vector2d data, int min, int max, int row, int index) {
+  vector<vector<int>> interval = classInterval(min, max, row);
+  vector<pair<double, int>> count = countData(data, interval, index);
+  string table = createTable(count);
+  cout << table;
+  return table;
+}
+
 // int main() {
-//   vector<vector<int>> interval = classInterval(data);
-//   vector<pair<double, int>> count = countData(data, interval);
-//   string table = createTable(count);
-//   cout << table;
 //   return 0;
 // }

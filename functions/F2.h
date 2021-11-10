@@ -5,6 +5,7 @@
 #include <ctime>
 #include <utility>
 #include <iomanip>
+#include "misc.h"
 
 #if defined(__linux__) || defined(__APPLE__)
 #define slash "/"
@@ -18,17 +19,19 @@ using namespace std;
 
 void showHeader()
 {
+    clearScreen();
     cout << "+--------------------------------------------------+" << endl;
     cout << "|            Basic Data Analysis Program           |" << endl;
     cout << "|                    (  BDAP  )                    |" << endl;
     cout << "+--------------------------------------------------+" << endl;
 }
 
+typedef vector<vector<int>> vector2d;
+typedef vector<pair<string, int>> vecpair;
+
 class File
 {
 private:
-    typedef vector<vector<int>> vector2d;
-    typedef vector<pair<string, int>> vecpair;
     int numCol = 0, numRow = 0;
     vector2d data;
     vecpair title;
@@ -44,9 +47,9 @@ private:
         if (!col)
         {
             cout << "Number of column is missing" << endl;
-            cout << "Press enter to continue" << endl;
+
             error = true;
-            cin.get();
+            pressEnter();
             return 0;
         }
         file.ignore(100, '\n');
@@ -57,13 +60,14 @@ private:
     {
         vecpair titles;
         pair<string, int> temp;
-        stringstream stream;
+        stringstream ss;
         string line;
         getline(inFile, line);
-        stream << line;
+        ss << line;
         string col;
         int index = 1;
-        while (stream >> col)
+        // while (stream >> col)
+        while (getline(ss, col, ','))
         {
             temp = {col, index};
             titles.push_back(temp);
@@ -75,9 +79,9 @@ private:
             error = true;
             int difference = numCol - titles.size();
             cout << difference << " title " << (difference > 1 ? "are" : "is") << " missing" << endl;
-            cout << "Press enter to continue" << endl;
+
             titles.clear();
-            cin.get();
+            pressEnter();
         }
         return titles;
     }
@@ -85,14 +89,15 @@ private:
     vector<int> readCompute(ifstream &file)
     {
         vector<int> computes;
-        stringstream stream;
+        stringstream ss;
         string line;
         getline(inFile, line);
-        stream << line;
-        int col;
-        while (stream >> col)
+        ss << line;
+        string col;
+        // while (stream >> col)
+        while (getline(ss, col, ','))
         {
-            computes.push_back(col);
+            computes.push_back(stoi(col));
         }
 
         if (computes.size() != numCol)
@@ -101,8 +106,7 @@ private:
             int difference = numCol - computes.size();
             computes.clear();
             cout << difference << " computability " << (difference > 1 ? "are" : "is") << " missing" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
         }
         return computes;
     }
@@ -115,8 +119,7 @@ private:
         {
             error = true;
             cout << "Number of row is missing" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
             return 0;
         }
         file.ignore(100, '\n');
@@ -167,11 +170,11 @@ private:
     vector<int> getLineData(const string &line, const int &currentRow)
     {
         vector<int> row;
-        stringstream stream;
+        stringstream ss;
         string strCol;
         int intCol;
-        stream << line;
-        while (stream >> strCol)
+        ss << line;
+        while (getline(ss, strCol, ','))
         {
             intCol = getInt(strCol);
             if (intCol != -1)
@@ -189,8 +192,7 @@ private:
             int difference = numCol - row.size();
             cout << difference << " data in row " << currentRow + 1 << (difference > 1 ? " are" : " is") << " missing or invalid" << endl;
             row.clear();
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
             return row;
         }
     }
@@ -205,8 +207,7 @@ private:
             vector<int> d = getLineData(line, countRow);
             if (error)
             {
-                cout << "Press enter to continue" << endl;
-                cin.get();
+                pressEnter();
                 return;
             }
             data.push_back(d);
@@ -218,8 +219,7 @@ private:
             error = true;
             int difference = numRow - data.size();
             cout << difference << " row " << (difference > 1 ? "are" : "is") << " missing" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
         }
     }
 
@@ -245,8 +245,7 @@ private:
         {
             error = true;
             cout << "The file cannot open" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
             return;
         }
     }
@@ -262,8 +261,7 @@ private:
                 if (c == filename[i])
                 {
                     cout << "The filename cannot contain '\\', '/', ':', '*', '?', '<', '>', '|' character." << endl;
-                    cout << "Press enter to continue" << endl;
-                    cin.get();
+                    pressEnter();
                     return false;
                 }
             }
@@ -285,8 +283,7 @@ private:
             if (res != "yes" && res != "no")
             {
                 cout << "Please enter a valid input" << endl;
-                cout << "Press enter to continue" << endl;
-                cin.get();
+                pressEnter();
             }
 
         } while (res != "yes" && res != "no");
@@ -303,7 +300,7 @@ private:
     {
         for (pair<string, int> temp : data)
         {
-            file << temp.first << " ";
+            file << temp.first << ",";
         }
         file << endl;
     }
@@ -312,7 +309,7 @@ private:
     {
         for (int i : data)
         {
-            file << i << " ";
+            file << i << ",";
         }
         file << endl;
     }
@@ -323,7 +320,7 @@ private:
         {
             for (int col : data[i])
             {
-                file << col << " ";
+                file << col << ",";
             }
             if (i < numRow - 1)
             {
@@ -425,6 +422,8 @@ private:
 
     // ------------------------------------------------------------------------
 public:
+    // typedef vector<vector<int>> vector2d;
+    // typedef vector<pair<string, int>> vecpair;
     File(string username)
     {
         dir += slash + username;
@@ -511,11 +510,25 @@ public:
         outFile.open(path);
         outFile << data;
         outFile.close();
-        cout << "Do you want to view the report? Type 'yes' to view or press enter to skip" << endl;
-        cin >> input;
-        if (input == "yes")
+        while (true)
         {
-            cout << data << endl;
+            cout << "Do you want to view the report? Type 'yes' to view or 'no' to skip" << endl;
+            cin >> input;
+            cin.ignore(50, '\n');
+            if (input == "yes")
+            {
+                cout << data << endl;
+                pressEnter();
+                return;
+            }
+            else if (input == "no")
+            {
+                return;
+            }
+            else
+            {
+                cout << "Invalid input" << endl;
+            }
         }
     }
 
@@ -529,12 +542,25 @@ public:
         outFile.open(path);
         outFile << data;
         outFile.close();
-        cout << "Do you want to view the report? Type 'yes' to view or press enter to skip" << endl;
-        cin >> input;
-        if (input == "yes")
+        while (true)
         {
-            cout << path << endl;
-            system(path.c_str());
+            cout << "Do you want to view the report? Type 'yes' to view or 'no' to skip" << endl;
+            cin >> input;
+            cin.ignore(50, '\n');
+            if (input == "yes")
+            {
+                system(path.c_str());
+                pressEnter();
+                return;
+            }
+            else if (input == "no")
+            {
+                return;
+            }
+            else
+            {
+                cout << "Invalid input" << endl;
+            }
         }
     }
 
@@ -557,20 +583,20 @@ public:
         {
             showHeader();
             cout << "Please enter the name of txt report (without file extension -> .txt) " << endl;
-            cin.ignore(30, '\n');
+            // cin.ignore(30, '\n');
             getline(cin, filename);
             filename += ".txt";
             string path = reportDir + slash + filename;
             if (fileExist(path))
             {
                 printTxtReport(path);
+                pressEnter();
                 break;
             }
             else
             {
                 cout << "The file cannot found" << endl;
-                cout << "Press enter to continue" << endl;
-                cin.get();
+                pressEnter();
             }
         }
     }
@@ -582,7 +608,7 @@ public:
         {
             showHeader();
             cout << "Please enter the name of html report (without file extension -> .html) " << endl;
-            cin.ignore(30, '\n');
+            // cin.ignore(30, '\n');
             getline(cin, filename);
             filename += ".html";
             string path = htmlDir + slash + filename;
@@ -594,8 +620,7 @@ public:
             else
             {
                 cout << "The file cannot found" << endl;
-                cout << "Press enter to continue" << endl;
-                cin.get();
+                pressEnter();
             }
         }
     }
@@ -683,16 +708,14 @@ private:
         else
         {
             cout << "Please enter a valid input" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
             return false;
         }
 
         if (i < 1 || i > num)
         {
             cout << "Please enter a valid input" << endl;
-            cout << "Press enter to continue" << endl;
-            cin.get();
+            pressEnter();
             return false;
         }
 
@@ -756,7 +779,6 @@ public:
 //     vector<pair<string, int>> title = file.getTitle();
 //     vector<int> compute = file.getCompute();
 //     vector<vector<int>> data = file.getData();
-    
 
 //     cout << col << endl;
 //     cout << row << endl;
