@@ -1,38 +1,24 @@
 #include <iostream>
 #include <algorithm> // for sort
 #include <cmath> // for pow
-
+#include <sstream>
+#include <vector>
+#include <iomanip>
 using namespace std;
 
 // find a specific column or all columns
-int select_column()
+char select_column()
 {
     cout << "Specific column or all column?"
             << " (1 for specific, 2 for all): ";
-    int choice;
+    char choice;
     cin >> choice;
-
-    if (choice == 1)
-    {
-        cout << "Enter the column number: ";
-        int column;
-        cin >> column;
-        return column;
-    }
-    else if (choice == 2)
-    {
-        return -1;
-    }
-    else
-    {
-        cout << "Invalid input.\n";
-        return select_column();
-    }
+    return choice;
 }
 
 
 //find min from a 2d array
-int find_min(int arr[][3] , int row, int column)
+int find_min(vector2d arr , int row, int column)
 {
     int min = arr[0][column];
     for (int i = 0; i < row; i++)
@@ -47,7 +33,7 @@ int find_min(int arr[][3] , int row, int column)
 
 
 // find max from a 2d array
-int find_max(int arr[][3] , int row, int column)
+int find_max(vector2d arr , int row, int column)
 {
     int max = arr[0][column];
     for (int i = 0; i < row; i++)
@@ -61,7 +47,7 @@ int find_max(int arr[][3] , int row, int column)
 }
 
 // find median from a 2d array
-double find_median(int arr[][3] , int row, int column)
+double find_median(vector2d arr , int row, int column)
 {
     double median = 0;
     double temp[row];
@@ -81,7 +67,7 @@ double find_median(int arr[][3] , int row, int column)
     return median;
 }
 
-double find_mean(int arr[][3] , int row, int column)
+double find_mean(vector2d arr , int row, int column)
 {
     double sum = 0;
     for (int i = 0; i < row; i++)
@@ -91,7 +77,7 @@ double find_mean(int arr[][3] , int row, int column)
     return sum / row;
 }
 
-double find_variance(int arr[][3] , int row, int column)
+double find_variance(vector2d arr, int row, int column)
 {
     double mean = find_mean(arr, row, column);
     double sum = 0;
@@ -102,7 +88,7 @@ double find_variance(int arr[][3] , int row, int column)
     return sum / row;
 }
 
-double find_stdv(int arr[][3] , int row, int column)
+double find_stdv(vector2d arr , int row, int column)
 {
     double variance = find_variance(arr, row, column);
     return sqrt(variance);
@@ -110,22 +96,87 @@ double find_stdv(int arr[][3] , int row, int column)
 
 
 
-// Allocates dynamic array
-int **allocateArray(int row, int col)
-{
-    int **arr;
-    arr = new int*[row];
-    for (int i=0; i<row; i++)   
-        arr[i] = new int[col];
-    return arr;
+// // Allocates dynamic array
+// int **allocateArray(int row, int col)
+// {
+//     int **arr;
+//     arr = new int*[row];
+//     for (int i=0; i<row; i++)   
+//         arr[i] = new int[col];
+//     return arr;
+// }
+
+// //Free dynamic array
+// void freeArray(int **arr, int row)
+// {
+//     for (int i=0; i<row; i++)   
+//         delete[] arr[i];
+//     delete[] arr;
+// }
+
+
+vector<vector<int>> classInterval(vector<int> data) {
+  int c, min , max ;
+  vector<vector<int>> interval;
+	// min = find_min();
+  c = ceil(1 + (3.3 * log10(data.size())));
+  int classWidth = ceil((max - min) / float(c));
+  int lowerBoundary = min;
+  int upperBoundary = min + classWidth - 1;
+
+  for (int i = 0; i < c; i++) {
+    vector<int> temp = {lowerBoundary, upperBoundary};
+    interval.push_back(temp);
+    // 125
+    lowerBoundary += classWidth;
+    // 129
+    upperBoundary += classWidth;
+  }
+
+  return interval;
 }
 
-//Free dynamic array
-void freeArray(int **arr, int row)
-{
-    for (int i=0; i<row; i++)   
-        delete[] arr[i];
-    delete[] arr;
+vector<pair<double, int>> countData(vector<int> data,
+                                    vector<vector<int>> interval) {
+  vector<pair<double, int>> count;
+  for (auto i : interval) {
+    int counter = 0;
+    for (auto d : data) {
+      if (d >= i[0] && d <= i[1]) {
+        counter++;
+      }
+    }
+    double midpoint = (i[0] + i[1]) / 2;
+    pair<int, double> temp = {midpoint, counter};
+    count.push_back(temp);
+  }
+  return count;
 }
 
+string createTable(vector<pair<double, int>> count) {
+  stringstream table;
 
+  table << left;
+  table << "Counts\t"
+        << "Mid-points" << endl;
+  for (int i = count.size() - 1; i >= 0; i--) {
+    table << setw(10) << count[i].second << setw(4) << count[i].first << "|";
+    for (int j = 0; j < count[i].second; j++) {
+      table << "=";
+    }
+    table << endl;
+  }
+  table << setw(14) << ""
+        << "+---------+---------+---------+---------+---------+" << endl;
+  table << setw(14) << ""
+        << "0         10        20        30        40        50" << endl;
+  return table.str();
+}
+
+// int main() {
+//   vector<vector<int>> interval = classInterval(data);
+//   vector<pair<double, int>> count = countData(data, interval);
+//   string table = createTable(count);
+//   cout << table;
+//   return 0;
+// }

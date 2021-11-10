@@ -29,6 +29,7 @@ int main()
         cout << "Invalid Choice!" << endl << endl;
         Login_Choice(flag, isAdmin, name);
     }
+
     
     // Determine if user is admin or user and log into respective menu
     if(isAdmin)
@@ -38,6 +39,8 @@ int main()
     } 
     else 
     {
+        // Logger logger(name);
+        File f(name);
         while(true) // Remain in User Menu
         {
             User_Menu(name);
@@ -81,34 +84,528 @@ int main()
                                     cout << "Invalid Input" << endl;
                                     choice = Statistical_Calculation_Menu_Selection();
                                 }
+                                                                
 
                                 if (choice == '1')
                                 {
                                     // Find Minimum
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find Minimum for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_min(arr2d, row, index);
+                                                cout << "Minimum of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_min(arr2d, row, i);
+                                                cout << "Minimum of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
+                                    
 
                                 }
                                 else if (choice == '2')
                                 {
                                     // Find Maximum
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find Maximum for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_max(arr2d, row, index);
+                                                cout << "Maximum of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+                                                    
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_max(arr2d, row, i);
+                                                cout << "Maximum of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
                                 }
                                 else if (choice == '3')
                                 {
                                     // Find Median
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find Median for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_median(arr2d, row, index);
+                                                cout << "Median of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+                                                    
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_median(arr2d, row, i);
+                                                cout << "Median of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
 
                                 }
                                 else if (choice == '4')
                                 {
                                     // Find Mean
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find Mean for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_mean(arr2d, row, index);
+                                                cout << "Mean of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+                                                    
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_mean(arr2d, row, i);
+                                                cout << "Mean of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
                                     
                                 }
                                 else if (choice == '5')
                                 {
                                     // Find Variance
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find Variance for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_variance(arr2d, row, index);
+                                                cout << "Variance of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+                                                    
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_variance(arr2d, row, i);
+                                                cout << "Variance of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
                                 
                                 }
                                 else if (choice == '6')
                                 {
                                     // Find Standard Deviation
+                                    f.loadScreen();
+                                    int col = f.getCol();
+                                    int row = f.getRow();
+                                    vecpair titles = f.getTitle();
+                                    vector<int> computable = f.getCompute();
+                                    vector2d arr2d = f.getData();
+                                    cout << "       Computable Titles       " << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    cout << "|  Index  |       Titles      |" << endl;
+                                    cout << "+---------+-------------------+" << endl;
+                                    for (int i = 0; i < titles.size(); i++)
+                                    {
+                                        if (computable[i] == 1)
+                                        {
+                                            cout << "|" << setw(5) << titles[i].second << setw(5)
+                                                 << "|" << setw(13) << titles[i].first << setw(7)
+                                                 << "|" << endl;
+
+                                        }
+                                    }
+                                    cout << "+---------+-------------------+" << endl;
+
+                                    int select_col = select_column();
+
+                                    while(select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                    {
+                                        cout << "Invalid Input" << endl;
+                                        select_col = select_column();
+                                    }
+
+                                    if (select_col == '1')
+                                    {
+                                        // Find STDV for single column
+                                        while(true)
+                                        {
+                                            cout << "Select title by index" << endl;
+                                            int choice;
+                                            cin >> choice;;
+                                            int index = choice - 1;
+
+                                            if (computable[index] == 0)
+                                            {
+                                                cout << "Error: Title not computable" << endl;
+                                                pressEnter();
+                                            }
+                                            else if (choice < 0 || choice > computable.size())
+                                            {
+                                                cout << "Error: Invalid index" << endl;
+                                                pressEnter();
+                                            }
+                                            else
+                                            {
+                                                int min = find_stdv(arr2d, row, index);
+                                                cout << "Standard Deviation of " 
+                                                    << titles[index].first << ": " 
+                                                    << min << endl;
+                                                    
+                                                cin.ignore();
+                                                pressEnter();
+                                                break;
+                                            
+                                            }
+                                        }              
+                                        
+                                    }
+                                    else if (select_col == '2')
+                                    {
+                                        for (int i = 0; i < titles.size(); i++)
+                                        {
+                                            if (computable[i] == 1)
+                                            {
+                                                int min = find_stdv(arr2d, row, i);
+                                                cout << "Standard Deviation of " 
+                                                    << titles[i].first << ": " 
+                                                    << min << endl;
+
+                                            }
+                                        }
+                                        cin.ignore();
+                                        pressEnter();
+                                        break;
+                                    }
                                 
                                 }
                                 else if (choice == '7')
@@ -118,27 +615,27 @@ int main()
                                 }
                             }
                                     
-                                }
-                                else if (choice == '2')
-                                {
-                                    //Plot histogram
+                        }
+                        else if (choice == '2')
+                        {
+                            //Plot histogram
 
-                                }
-                                else if (choice == '3')
-                                {
-                                    //Correlation
+                        }
+                        else if (choice == '3')
+                        {
+                            //Correlation
 
-                                }
-                                else if (choice == '4')
-                                {
-                                    //Distinct data members
-                                    
-                                }
-                                else if (choice == '5')
-                                {
-                                    //Go Back
-                                    break;
-                                }
+                        }
+                        else if (choice == '4')
+                        {
+                            //Distinct data members
+                            
+                        }
+                        else if (choice == '5')
+                        {
+                            //Go Back
+                            break;
+                        }
 
                     }
             
@@ -147,11 +644,20 @@ int main()
             else if (choice == '2')
                 {
                     // View Saved Report
-                    Report_Menu();
+                    char input = Report_Menu();
+                    if (input == '1') {
+                        // f.txtReportScreen();
+                        
+                    }
+                    else {
+                        // f.htmlReportScreen();
+
+                    }
                 }
             else if (choice == '3')
                 {
                     //View User log
+                    //f.showLogScreen();
 
                 }
             else if (choice == '4')
