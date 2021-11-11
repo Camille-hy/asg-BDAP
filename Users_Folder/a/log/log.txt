@@ -1,0 +1,7 @@
+2021-Nov-11  23:57:23    User enter statistical analysis menu
+2021-Nov-11  23:57:27    User go back to main menu
+2021-Nov-11  23:57:54    User enter statistical analysis menu
+2021-Nov-11  23:57:56    User chooses correlation
+2021-Nov-11  23:59:45    User enter statistical analysis menu
+2021-Nov-11  23:59:46    User chooses correlation
+2021-Nov-12  00:00:18    User save html report

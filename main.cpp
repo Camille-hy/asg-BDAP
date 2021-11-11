@@ -33,7 +33,55 @@ int main()
     // Determine if user is admin or user and log into respective menu
     if (isAdmin)
     {
-        Admin_Menu(name);
+        while (true)
+        {
+            Admin_Menu(name);
+            choice = Admin_Menu_Selection(name);
+            while (choice != '1' && choice != '2' && choice != '3') // Bool remain true until user entered valid selection
+            {
+                Admin_Menu(name);
+                cout << "Invalid Input" << endl;
+                choice = Admin_Menu_Selection(name);
+            }
+
+            if (choice == '1')
+            {
+                UserRegister();
+            }
+            else if (choice == '2')
+            {
+                while (true)
+                {
+                    Modify_User_Menu();
+                    choice = Modify_User_Selection();
+                    while (choice != '1' && choice != '2' && choice != '3')
+                    {
+                        Modify_User_Menu();
+                        cout << "Invalid Choice" << endl;
+                        choice = Modify_User_Selection();
+                    }
+                    if (choice == '1')
+                    {
+                        AdminChangePassword();
+                    }
+                    else if (choice == '2')
+                    {
+                        UserDelete();
+                    }
+                    else if (choice == '3')
+                    {
+                        break;
+                    }
+                }
+            }
+            else if (choice == '3')
+            {
+                cout << "Logging Out..." << endl;
+                pressEnter();
+                main();
+                break;
+            }
+        }
     }
     else
     {
@@ -43,17 +91,20 @@ int main()
         {
             User_Menu(name);
             choice = User_Menu_Selection(name);
+            cin.ignore(50, '\n');
+            // cin.get();
 
             while (choice != '1' && choice != '2' && choice != '3' && choice != '4' && choice != '5') // Bool remain true until user entered valid selection
             {
                 User_Menu(name);
                 cout << "Invalid Input" << endl;
+                logger.log("User Enter Invalid Input");
                 choice = User_Menu_Selection(name);
             }
-
+            cout << choice << endl;
             if (choice == '1') // Statistical Analysis Menu
             {
-
+                logger.log("User enter statistical analysis menu");
                 while (true) // Remain in Statistical Analysis Menu
                 {
                     // Show Statistical Analysis Menu
@@ -66,11 +117,14 @@ int main()
                         cout << "Invalid Input" << endl;
                         choice = Statistical_Analysis_Menu_Selection();
                     }
+                    int result = -1;
+                    string method;
 
-                    if (choice == '1') //Statistical Calculation Menu
-                    {
+                    if (choice == '1')
+                    {   logger.log("User enter statistical calculation menu");
                         while (true) // Remain in Statistical Calculation Menu
                         {
+                                                                        
                             // Show Statistical Calculation Menu
                             Statistical_Calculation_Menu();
                             choice = Statistical_Calculation_Menu_Selection();
@@ -81,30 +135,18 @@ int main()
                                 cout << "Invalid Input" << endl;
                                 choice = Statistical_Calculation_Menu_Selection();
                             }
-
+                            // Find Minimum
                             if (choice == '1')
                             {
-                                // Find Minimum
+                                logger.log("User chooses minimum");
+                                method = "MINIMUM";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -116,78 +158,61 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find Minimum for single column
-                                    while (true)
+                                    // Find for single column
+                                    logger.log("User chooses to find single column");
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_min(arr2d, row, index);
-                                            cout << "Minimum of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+
+                                                // html
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_min(arr2d, row, i);
-                                            cout << "Minimum of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    logger.log("User chooses to find all column");
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
                                 }
                             }
+
                             else if (choice == '2')
                             {
                                 // Find Maximum
+                                logger.log("User chooses maximum");
+                                method = "MAXIMUM";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -199,50 +224,43 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find Maximum for single column
-                                    while (true)
+                                    logger.log("User chooses to find single column");
+                                    // Find for single column
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_max(arr2d, row, index);
-                                            cout << "Maximum of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
+                                                // plain text
+                                                logger.log("User save plain text report");
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+                                                // html
+                                                logger.log("User save html report");
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_max(arr2d, row, i);
-                                            cout << "Maximum of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
@@ -250,27 +268,16 @@ int main()
                             }
                             else if (choice == '3')
                             {
+                                logger.log("User chooses median");
                                 // Find Median
+                                method = "MEDIAN";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -282,50 +289,42 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find Median for single column
-                                    while (true)
+                                    // Find for single column
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_median(arr2d, row, index);
-                                            cout << "Median of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
+                                                // plain text
+                                                logger.log("User save plain text report");
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+                                                // html
+                                                logger.log("User save html report");
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_median(arr2d, row, i);
-                                            cout << "Median of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
@@ -334,26 +333,15 @@ int main()
                             else if (choice == '4')
                             {
                                 // Find Mean
+                                logger.log("User chooses mean");
+                                method = "MEAN";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -365,50 +353,42 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find Mean for single column
-                                    while (true)
+                                    // Find for single column
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_mean(arr2d, row, index);
-                                            cout << "Mean of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
+                                                // plain text
+                                                logger.log("User save plain text report");
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+                                                // html
+                                                logger.log("User save html report");
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_mean(arr2d, row, i);
-                                            cout << "Mean of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
@@ -416,27 +396,16 @@ int main()
                             }
                             else if (choice == '5')
                             {
+                                logger.log("User chooses variance");
                                 // Find Variance
+                                method = "VARIANCE";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -448,50 +417,43 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find Variance for single column
-                                    while (true)
+                                    // Find for single column
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_variance(arr2d, row, index);
-                                            cout << "Variance of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
+                                                // plain text
+                                                logger.log("User save plain text report");
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+                                                // html
+                                                logger.log("User save html report");
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_variance(arr2d, row, i);
-                                            cout << "Variance of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
@@ -500,26 +462,15 @@ int main()
                             else if (choice == '6')
                             {
                                 // Find Standard Deviation
+                                logger.log("User chooses standard deviation");
+                                method = "STANDARD DEVIATION";
                                 f.loadScreen();
                                 int col = f.getCol();
                                 int row = f.getRow();
                                 vecpair titles = f.getTitle();
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
-                                cout << "       Computable Titles       " << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                cout << "|  Index  |       Titles      |" << endl;
-                                cout << "+---------+-------------------+" << endl;
-                                for (int i = 0; i < titles.size(); i++)
-                                {
-                                    if (computable[i] == 1)
-                                    {
-                                        cout << "|" << setw(5) << titles[i].second << setw(5)
-                                             << "|" << setw(13) << titles[i].first << setw(7)
-                                             << "|" << endl;
-                                    }
-                                }
-                                cout << "+---------+-------------------+" << endl;
+                                showComputableTitles(titles, computable);
 
                                 int select_col = select_column();
 
@@ -531,50 +482,42 @@ int main()
 
                                 if (select_col == '1')
                                 {
-                                    // Find STDV for single column
-                                    while (true)
+                                    // Find for single column
+                                    flag = true;
+                                    bool flag2 = false;
+                                    while (flag)
                                     {
-                                        cout << "Select title by index" << endl;
-                                        int choice;
-                                        cin >> choice;
-                                        ;
-                                        int index = choice - 1;
+                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+                                        if (flag2)
+                                        {
+                                            string s = Save_Report_Menu();
+                                            string d;
+                                            int choicetoint = choice - '0';
+                                            int index = choicetoint - 1;
 
-                                        if (computable[index] == 0)
-                                        {
-                                            cout << "Error: Title not computable" << endl;
-                                            pressEnter();
-                                        }
-                                        else if (choice < 0 || choice > computable.size())
-                                        {
-                                            cout << "Error: Invalid index" << endl;
-                                            pressEnter();
-                                        }
-                                        else
-                                        {
-                                            int min = find_stdv(arr2d, row, index);
-                                            cout << "Standard Deviation of "
-                                                 << titles[index].first << ": "
-                                                 << min << endl;
+                                            if (s == "1")
+                                            {
+                                                // plain text
+                                                logger.log("User save plain text report");
+                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
+                                            else if (s == "2")
+                                            {
+                                                // html
+                                                logger.log("User save html report");
+                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
+                                                f.saveHtmlReport(d);
+                                            }
 
-                                            cin.ignore();
-                                            pressEnter();
-                                            break;
+                                            flag = false;
                                         }
                                     }
                                 }
                                 else if (select_col == '2')
                                 {
-                                    for (int i = 0; i < titles.size(); i++)
-                                    {
-                                        if (computable[i] == 1)
-                                        {
-                                            int min = find_stdv(arr2d, row, i);
-                                            cout << "Standard Deviation of "
-                                                 << titles[i].first << ": "
-                                                 << min << endl;
-                                        }
-                                    }
+                                    // Find for all column
+                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
                                     cin.ignore();
                                     pressEnter();
                                     break;
@@ -583,12 +526,15 @@ int main()
                             else if (choice == '7')
                             {
                                 //Go Back
+                                logger.log("User go back to statistical analysis menu");
                                 break;
                             }
                         }
                     }
                     else if (choice == '2')
                     {
+
+                        logger.log("User chooses histogram");
                         f.loadScreen();
                         int col = f.getCol();
                         int row = f.getRow();
@@ -647,16 +593,18 @@ int main()
                                 if (s == "1")
                                 {
                                     // plain text
-                                    f.saveTxtReport(graph);
+                                    logger.log("User save plain text report");
+                                    string d = Generate_Plain_Text_Report("HISTOGRAM", graph, titles[index].first);
+                                    f.saveTxtReport(d);
                                 }
                                 else if (s == "2")
                                 {
                                     // html
-                                    string d = Generate_HTML_Report(graph);
+                                    logger.log("User save html report");
+                                    string d = Generate_HTML_Report("HISTOGRAM", graph, titles[index].first);
                                     f.saveHtmlReport(d);
                                 }
 
-                                // f.htmlReportScreen();
                                 break;
                             }
                         }
@@ -664,6 +612,7 @@ int main()
 
                     else if (choice == '3')
                     {
+                        logger.log("User chooses correlation");
                         //Correlation
                         f.loadScreen();
                         int col = f.getCol();
@@ -713,25 +662,40 @@ int main()
                             }
                             else
                             {
-                                // int min = find_min(arr2d, row, index);
-                                // int max = find_max(arr2d, row, index);
+                                double c = correlation(arr2d, row, index1, index2);
+                                cout << "Correlation of "
+                                     << titles[index1].first << " & " << titles[index2].first << ": "
+                                     << c << endl;
 
-                                // int min = find_stdv(arr2d, row, index);
-                                // cout << "Standard Deviation of "
-                                //      << titles[index].first << ": "
-                                //      << min << endl;
-                                // histogram(arr2d, min, max, row, index);
+                                /// ---------------------------------------------------------
                                 cin.ignore();
                                 pressEnter();
-                                Save_Report_Menu();
 
-                                // f.htmlReportScreen();
+                                string s = Save_Report_Menu();
+                                if (s == "1")
+                                {
+                                    // plain text
+                                    logger.log("User save plain text report");
+
+                                    string d = Generate_Plain_Text_Report("CORRELATION", to_string(c), titles[index1].first, titles[index2].first);
+                                    f.saveTxtReport(d);
+                                }
+                                else if (s == "2")
+                                {
+                                    // html
+                                    logger.log("User save html report");
+
+                                    string d = Generate_HTML_Report("CORRELATION", to_string(c), titles[index1].first, titles[index2].first);
+                                    f.saveHtmlReport(d);
+                                }
+
                                 break;
                             }
                         }
                     }
                     else if (choice == '4')
                     {
+                        logger.log("User chooses distinct data members");
                         f.loadScreen();
                         int col = f.getCol();
                         int row = f.getRow();
@@ -776,16 +740,32 @@ int main()
                             }
                             else
                             {
-                                int min = find_min(arr2d, row, index);
-                                int max = find_max(arr2d, row, index);
+                                // int min = find_min(arr2d, row, index);
+                                // int max = find_max(arr2d, row, index);
 
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
                                 string form = tabularForm(distinct);
 
                                 cin.ignore();
                                 pressEnter();
-                                Save_Report_Menu();
+                                // Save_Report_Menu();
+                                string s = Save_Report_Menu();
+                                if (s == "1")
+                                {
+                                    // plain text
+                                    logger.log("User save plain text report");
 
+                                    string d = Generate_Plain_Text_Report("DISTINCT DATA MEMBERS", form, titles[index].first);
+                                    f.saveTxtReport(d);
+                                }
+                                else if (s == "2")
+                                {
+                                    // html
+                                    logger.log("User save html report");
+
+                                    string d = Generate_HTML_Report("DISTINCT DATA MEMBERS", form, titles[index].first);
+                                    f.saveHtmlReport(d);
+                                }
                                 break;
                             }
                         }
@@ -793,13 +773,14 @@ int main()
                     else if (choice == '5')
                     {
                         //Go Back
+                        logger.log("User go back to main menu");
                         break;
                     }
                 }
             }
-
             else if (choice == '2')
             {
+                logger.log("User view saved report");
                 // View Saved Report
                 char input = Report_Menu();
                 if (input == '1')
@@ -813,12 +794,13 @@ int main()
             }
             else if (choice == '3')
             {
-                //View User log
-                //f.showLogScreen();
+                logger.log("User view user log");
+                logger.showLogScreen();
             }
             else if (choice == '4')
             {
                 // Change Password
+                logger.log("User change password");
                 Menu_Dashboard();
                 UserChangePassword(name);
             }

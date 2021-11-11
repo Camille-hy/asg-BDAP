@@ -733,6 +733,7 @@ public:
 
     void log(string operation)
     {
+        cout << operation << endl;
         ofstream file(logPath, ios::app);
         file << left;
         file << setw(25) << getCurrentTime() << operation << endl;

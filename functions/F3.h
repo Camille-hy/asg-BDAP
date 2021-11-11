@@ -236,6 +236,116 @@ string histogram(vector2d data, int min, int max, int row, int index) {
   return table;
 }
 
+double correlation(vector<vector<int>> data,int row,int x,int y)
+{
+    double correlation, sumXY, sumX2, sumY2;
+    double mean_x = find_mean(data, row, x);
+    double mean_y = find_mean(data, row, y);
+    for(int i=0;i<row;i++)
+    {
+        sumXY += data[i][x] * data[i][y];
+        sumX2 += pow((data[i][x]), 2);
+        sumY2 += pow((data[i][y]), 2);
+    }
+    double numerator = sumXY - (row*mean_x*mean_y);
+    double mean_x2 = pow(mean_x, 2);
+    double mean_y2 = pow(mean_y, 2);
+    double denominator = (sqrt(sumX2 - row*mean_x2)) * (sqrt(sumY2 - row*mean_y2));
+    correlation = numerator / denominator;
+
+    return correlation;
+}
+
+
+// Show Computable Titles
+void showComputableTitles(vecpair titles, vector<int> computable)
+{
+  cout << "       Computable Titles       " << endl;
+  cout << "+---------+-------------------+" << endl;
+  cout << "|  Index  |       Titles      |" << endl;
+  cout << "+---------+-------------------+" << endl;
+  for (int i = 0; i < titles.size(); i++)
+  {
+      if (computable[i] == 1)
+      {
+          cout << "|" << setw(5) << titles[i].second << setw(5)
+                << "|" << setw(13) << titles[i].first << setw(7)
+                << "|" << endl;
+      }
+  }
+  cout << "+---------+-------------------+" << endl;
+}
+
+int returnFunction(char choice, vector2d arr2d, int row, int index)
+{
+  if (choice == '1')
+    return find_min(arr2d, row, index);
+  else if (choice == '2')
+    return find_max(arr2d, row, index);
+  else if (choice == '3')
+    return find_median(arr2d, row, index);
+  else if (choice == '4')
+    return find_mean(arr2d, row, index);
+  else if (choice == '5')
+    return find_variance(arr2d, row, index);
+  else if (choice == '6')
+    return find_stdv(arr2d, row, index);
+}
+
+int singleColumnCompute
+(string method,
+char &choice,
+vecpair titles, 
+vector<int> computable,
+vector2d arr2d, 
+int row,
+bool &flag2)
+{
+  cout << "Select title by index" << endl;
+  cin >> choice;
+  int choicetoint = choice - '0';
+  int index = choicetoint - 1;
+
+  if (computable[index] == 0)
+  {
+      cout << "Error: Title not computable" << endl;
+      pressEnter();
+  }
+  else if (choicetoint < 0 || choicetoint > computable.size())
+  {
+      cout << "Error: Invalid index" << endl;
+      pressEnter();
+  }
+  else
+  {
+      int result = returnFunction(choice, arr2d, row, index);
+      cout << method << " of " 
+          << titles[index].first << ": " 
+          << result << endl;
+
+      cin.ignore();
+      pressEnter();
+      flag2 = true;
+      return result;
+  }
+}
+
+void allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
+{
+  for (int i = 0; i < titles.size(); i++)
+    {
+      if (computable[i] == 1)
+      {
+          int result = returnFunction(choice, arr2d, row, i);
+          cout << method << " of " 
+              << titles[i].first << ": " 
+              << result << endl;
+
+      }
+    }
+}
+
+
 // int main() {
 //   return 0;
 // }

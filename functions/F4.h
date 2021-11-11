@@ -20,6 +20,19 @@ void Welcome_Screen()
     cout << endl;
 }
 
+int CenterText(string name)
+{
+    int length = name.size();
+    int width = 0;
+    int pos = (52 / 2) + (length / 2);
+    for (int i = 0; i < pos; i++)
+    {
+        width += 1;
+    }
+
+    return width;
+}
+
 void Menu_Dashboard()
 {
     clearScreen();
@@ -92,8 +105,9 @@ char Statistical_Calculation_Menu_Selection()
 void User_Menu(string name)
 {
     Menu_Dashboard();
-
-    cout << "Welcome User, " << name << endl
+    int width = CenterText(name);
+    cout << setw(34) << "Welcome User, " << endl;
+    cout << right << setw(width) << fixed << name << endl
          << endl;
     cout << "1.   Enter Statistical Analysis Menu" << endl;
     cout << "2.   View Saved Report" << endl;
@@ -102,9 +116,23 @@ void User_Menu(string name)
     cout << "5.   Log out" << endl;
 }
 
-string Save_Report_Menu()
+void Admin_Menu(string name)
 {
     Menu_Dashboard();
+
+    int width = CenterText(name);
+    cout << "Width: " << width << endl;
+    cout << setw(35) << "Welcome Admin, " << endl;
+    cout << right << setw(width) << fixed << name << endl
+         << endl;
+    cout << "1.   Create User Account" << endl;
+    cout << "2.   Modify User Account" << endl;
+    cout << "3.   Log out" << endl;
+}
+
+string Save_Report_Menu()
+{
+    //Menu_Dashboard();
     string user_choice;
     cout << "Do you want to save as report" << endl;
     cout << "Type 'y' save the report or 'n' to go back" << endl;
@@ -166,6 +194,7 @@ string Save_Report_Action()
         }
         else if (user_choice == "3")
         {
+
             Save_Report_Menu();
             break;
         }
@@ -177,16 +206,63 @@ string Save_Report_Action()
     }
 }
 
-string Generate_HTML_Report(string data)
+string reportMethod(string method)
 {
-    stringstream htmlData("data.html");
-		
+    stringstream ss;
+    ss << "+";
+    for (int i = 0; i < (method.length() + 4); i++)
+    {
+        ss << "-";
+    }
+    ss << "+" << endl;
+    ss << "|  " + method + "  |" << endl;
+    ss << "+";
+    for (int i = 0; i < (method.length() + 4); i++)
+    {
+        ss << "-";
+    }
+    ss << "+" << endl;
+
+    return ss.str();
+}
+
+string Generate_HTML_Report(string method, string data, string title, string title2 = "")
+{
+    stringstream htmlData;
+    string m = reportMethod(method);
+
     htmlData << "<html>" << endl;
     htmlData << "<body>" << endl;
+    htmlData << "<h1>"
+             << "<pre>" << m << "</pre>"
+             << "</h1>" << endl;
+    htmlData << "<h2>"<< "Title: " << title ;
+    if (title2 != "")
+    {
+        htmlData << " & "<< title2;
+    }
+    htmlData << "</h2>" << endl;
     htmlData << "<pre>" << data << "</pre>" << endl;
     htmlData << "</body>" << endl;
     htmlData << "</html>" << endl;
-		return htmlData.str();
+    return htmlData.str();
+}
+
+string Generate_Plain_Text_Report(string method, string data, string title, string title2 = "")
+{
+    stringstream plainTextData;
+
+    string m = reportMethod(method);
+    plainTextData << m << endl;
+
+    plainTextData << "Title: " << title;
+    if (title2 != "")
+    {
+        plainTextData << " & " << title2;
+    }
+    plainTextData << endl;
+    plainTextData << data;
+    return plainTextData.str();
 }
 
 char User_Menu_Selection(string name)
@@ -228,6 +304,32 @@ char User_Menu_Selection(string name)
     }
 }
 
+char Admin_Menu_Selection(string name)
+{
+    char admin_choice;
+    cout << "Please Enter Your choice: ";
+    cin >> admin_choice;
+
+    if (admin_choice == '1')
+    {
+        // Create User Account
+        return '1';
+    }
+
+    else if (admin_choice == '2')
+    {
+        // Modify User Account
+        return '2';
+    }
+
+    else if (admin_choice == '3')
+    {
+        // Log Out
+        cin.ignore();
+        return '3';
+    }
+}
+
 void Modify_User_Menu()
 {
     clearScreen();
@@ -237,41 +339,31 @@ void Modify_User_Menu()
     cout << "1.   Change Password" << endl;
     cout << "2.   Delete User Account" << endl;
     cout << "3.   Back" << endl;
+}
 
-    while (valid)
+char Modify_User_Selection()
+{
+    char modify_choice;
+    cout << "Please Enter Your choice: ";
+    cin >> modify_choice;
+
+    if (modify_choice == '1')
     {
-        cout << "Please Enter Your choice: ";
-        cin >> user_choice;
-        cin.ignore(30, '\n');
+        // Change User Password
+        return '1';
+    }
 
-        if (user_choice == '1')
-        {
-            clearScreen();
-            cout << "Change Password" << endl
-                 << endl;
-            cout << "Status 0 = Deleted, Status 1 = Active" << endl;
-            cout << "Type 0 = User, Type 1 = Admin" << endl
-                 << endl;
-            AdminChangePassword();
-            break;
-        }
-        else if (user_choice == '2')
-        {
-            clearScreen();
-            cout << "Delete user account" << endl
-                 << endl;
-            cout << "Status 0 = Deleted, Status 1 = Active" << endl;
-            cout << "Type 0 = User, Type 1 = Admin" << endl
-                 << endl;
-            UserDelete();
-            break;
-        }
-        else if (user_choice == '3')
-        {
-            clearScreen();
-            Admin_Menu("123");
-            break;
-        }
+    else if (modify_choice == '2')
+    {
+        // Delete User Account
+        return '2';
+    }
+
+    else if (modify_choice == '3')
+    {
+        // Back
+        cin.ignore();
+        return '3';
     }
 }
 

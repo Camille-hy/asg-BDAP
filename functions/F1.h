@@ -70,11 +70,12 @@ void User_Data_In(string usertype, string username, string password)
         file << username << " " << password << " " << active << " " << admin << endl;
     } else if (usertype == "User" || usertype == "user"){
         file << username << " " << password << " " << active << " " << user << endl;
+        string dir = "Users_Folder";
+        string path = dir + slash + username;
+        system((mkdir + path).c_str());
     }
     file.close();
-    string dir = "Users_Folder";
-    string path = dir + slash + username;
-    system((mkdir + path).c_str());
+
 }
 
 // Check if registering account password is legit
@@ -145,17 +146,16 @@ void writeUser(vector<Users> users) {
 // Registering User Account
 void UserRegister()
 {
-    string usertype, username, password, confirmpw;
+    string usertype, username, password;
     vector<Users> users = readUser();
     bool usernameExist = false, valid = false;
     
     do{
-        //Menu_Dashboard();
+        clearScreen();
         cout << "Register User Account" << endl << endl;
         cout << "User Type(Admin/User): " ; cin >> usertype; cin.ignore(80, '\n');
         cout << "Username: " ; cin >> username; cin.ignore(80, '\n');
         cout << "Password: " ; cin >> password; cin.ignore(80, '\n');
-        cout << "Confirm Password: "; cin >> confirmpw; cin.ignore(80, '\n');
         for (auto elem: users)
         {
             if (username == elem.user && elem.status == 1){
@@ -167,8 +167,8 @@ void UserRegister()
             cout << "User type does not exist" << endl;
         else if (usernameExist)
             cout << "Username already exists" << endl;
-        else if(confirmpw != password)
-            cout << "Password does not match" << endl;
+        else if(username.size() > 20 || password.size() > 20)
+            cout << "Username and password cant be more than 20 characters" << endl;
         else if(!isalpha(password[0]))
             cout << "Password can only start with letter" << endl;
         else if(check_pw(password)){
@@ -185,39 +185,19 @@ void UserRegister()
 
 }
 
-// Admin Menu Dashboard
-void Admin_Menu(string name) {
-    bool valid = true;
-    char user_choice;
-    //Menu_Dashboard();
-    
-    cout << "Welcome Admin," << name << endl << endl;
-    cout << "1.   Create User Account" << endl;
-    cout << "2.   Modify User Account" << endl;
-    cout << "3.   Log out" << endl;
+// Show all Users information
+void UserInfo(){
+    clearScreen();
+    cout << "Delete User Account" << endl << endl;
+    cout << "Status 0 = Deleted, Status 1 = Active" << endl;
+    cout << "Type 0 = User, Type 1 = Admin" << endl << endl;
+    vector<Users> users = readUser();
 
-    while (valid) {
-        cout << "Please Enter Your choice: ";
-        cin >> user_choice; cin.ignore(30, '\n');
-
-        if (user_choice == '1') {
-            UserRegister(); 
-            break;
-        }
-
-        else if (user_choice == '2') {
-            cout << "Modify User Account" << endl;
-            //Modify_User_Menu();
-            break;
-        }
-
-        else if (user_choice == '3') {
-            // main();
-            break;
-        }
-        else {
-        cout << "Invalid Input" << endl;
-        }
+    for (Users u: users) {
+        cout << "Username: " << left << setw(20) << fixed  << u.user << " " 
+        << "Password: " << left << setw(20) << fixed  << u.pass << " " 
+        << "Status: " <<  left << setw(20) << fixed  << u.status << " " 
+        << "Type: " <<  left << setw(20) << fixed  << u.type << " " << endl;
     }
 }
 
@@ -227,11 +207,7 @@ void UserDelete()
     bool userExists = false;
     string username;
     vector<Users> users = readUser();
-    for (Users u: users) {
-        cout << "Username: " << u.user << "\t\tPassword: " << " " << u.pass 
-        << "\t\tStatus: " << u.status << " " 
-        << "\t\tType: " << u.type << " " << endl;
-    }
+    UserInfo();
     
     do{
         cout << "\nPlease enter the account username you wish to delete: " << endl;
@@ -245,7 +221,6 @@ void UserDelete()
             writeUser(users);
             cout << "User deleted" << endl;
             pressEnter();
-            //Modify_User_Menu();
             userExists = true;
         }
     }while(!userExists);
@@ -255,12 +230,10 @@ void UserDelete()
 // Menu for Change User Password (Admin)
 void AdminChangePassword()
 {
-    bool userExists = false;
-    bool valid = false;
+    bool userExists = false, valid = false;
     string username, newpass;
     vector<Users> users = readUser();
-    for (Users u: users) 
-        cout << "Username: " << u.user << "\t\tPassword: " << " " << u.pass << "\t\tStatus: " << u.status << " " << "\t\tType: " << u.type << " " << endl;
+    UserInfo();
     
     do{
         cout << "\nPlease enter the account username you wish to change password: " << endl;
@@ -281,7 +254,6 @@ void AdminChangePassword()
                     writeUser(users);
                     cout << "Password Changed" << endl;
                     pressEnter();
-                    //Modify_User_Menu();
                     valid = true;
                 }
                 else{
@@ -309,7 +281,6 @@ void UserChangePassword(string username){
             writeUser(users);
             cout << "Password Changed" << endl;
             pressEnter();
-            //Main_Menu(username);
             valid = true;
         }
         else{
@@ -374,7 +345,7 @@ int Login_Choice(char &stat, bool &isAdmin, string &name)
             stat = false;
             // Exit Program
             cout << "Exiting Program..." << endl;
-            return 0;
+            exit(0);
         }
         else
         {
