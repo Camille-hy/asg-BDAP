@@ -5,14 +5,7 @@
 #include <ctime>
 #include <utility>
 #include <iomanip>
-
-#if defined(__linux__) || defined(__APPLE__)
-#define slash "/"
-#define mkdir "mkdir -p"
-#else
-#define slash "\\"
-#define mkdir "mkdir "
-#endif
+#include "misc.h"
 
 using namespace std;
 

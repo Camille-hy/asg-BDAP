@@ -14,7 +14,6 @@ using namespace std;
 int main()
 {
     //// Welcome Dashboard ////
-    bool found = false;     // if Account is found
     bool isAdmin = false;   // if Found Account is Admin
     char choice;            // User's Choice
     char flag = true;       // Flag if True or False

@@ -18,6 +18,18 @@ void Welcome_Screen()
     cout << "|                    (  BDAP  )                    |" << endl;
     cout << "+--------------------------------------------------+" << endl;
     cout << endl;
+} //16 20 16
+
+int CenterText(string name)
+{
+    int length = name.size();
+    int width = 0;
+    int pos = (52/2) + (length/2);
+    for (int i =0; i < pos; i++){
+        width += 1;
+    }
+
+    return width;
 }
 
 void Menu_Dashboard()
@@ -86,8 +98,9 @@ char Statistical_Calculation_Menu_Selection()
 
 void User_Menu(string name) {
     Menu_Dashboard();
-
-    cout << "Welcome User, " << name << endl << endl;
+    int width = CenterText(name);
+    cout << setw(34) << "Welcome User, " << endl;
+    cout << right << setw(width) << fixed << name << endl << endl;
     cout << "1.   Enter Statistical Analysis Menu" << endl;
     cout << "2.   View Saved Report" << endl;
     cout << "3.   View User Log" << endl;
@@ -98,7 +111,9 @@ void User_Menu(string name) {
 void Admin_Menu(string name){
     Menu_Dashboard();
 
-    cout << "Welcome Admin, " << name << endl << endl;
+    int width = CenterText(name);
+    cout << setw(35) << "Welcome Admin, " << endl; 
+    cout << right << setw(width) << fixed << name << endl << endl;
     cout << "1.   Create User Account" << endl;
     cout << "2.   Modify User Account" << endl;
     cout << "3.   Log out" << endl;
