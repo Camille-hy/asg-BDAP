@@ -121,7 +121,6 @@ void Admin_Menu(string name)
     Menu_Dashboard();
 
     int width = CenterText(name);
-    cout << "Width: " << width << endl;
     cout << setw(35) << "Welcome Admin, " << endl;
     cout << right << setw(width) << fixed << name << endl
          << endl;
