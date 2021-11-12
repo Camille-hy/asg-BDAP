@@ -60,3 +60,79 @@
 2021-Nov-12  22:42:41    User chooses correlation
 2021-Nov-12  22:43:26    User chooses correlation
 2021-Nov-12  22:44:09    User chooses distinct data members
+2021-Nov-12  22:51:46    User enter statistical analysis menu
+2021-Nov-12  23:01:02    User enter statistical analysis menu
+2021-Nov-12  23:01:04    User enter statistical calculation menu
+2021-Nov-12  23:01:06    User chooses standard deviation
+2021-Nov-12  23:01:51    User enter statistical calculation menu
+2021-Nov-12  23:01:54    User chooses mean
+2021-Nov-12  23:03:28    User enter statistical analysis menu
+2021-Nov-12  23:03:30    User enter statistical calculation menu
+2021-Nov-12  23:03:33    User chooses mean
+2021-Nov-12  23:22:29    User enter statistical analysis menu
+2021-Nov-12  23:22:32    User enter statistical calculation menu
+2021-Nov-12  23:22:33    User chooses minimum
+2021-Nov-12  23:22:38    User chooses to find single column
+2021-Nov-12  23:23:05    User chooses minimum
+2021-Nov-12  23:23:09    User chooses to find all column
+2021-Nov-12  23:23:15    User enter statistical calculation menu
+2021-Nov-12  23:23:16    User chooses minimum
+2021-Nov-12  23:23:21    User chooses to find single column
+2021-Nov-12  23:23:44    User chooses minimum
+2021-Nov-12  23:24:15    User chooses to find all column
+2021-Nov-12  23:24:22    User enter statistical calculation menu
+2021-Nov-12  23:24:23    User chooses maximum
+2021-Nov-12  23:24:26    User chooses to find single column
+2021-Nov-12  23:26:14    User enter statistical analysis menu
+2021-Nov-12  23:26:14    User enter statistical calculation menu
+2021-Nov-12  23:26:16    User chooses minimum
+2021-Nov-12  23:26:18    User chooses to find all column
+2021-Nov-12  23:26:20    User enter statistical calculation menu
+2021-Nov-12  23:26:20    User chooses minimum
+2021-Nov-12  23:26:23    User chooses to find single column
+2021-Nov-12  23:27:43    User enter statistical analysis menu
+2021-Nov-12  23:27:43    User enter statistical calculation menu
+2021-Nov-12  23:27:44    User chooses minimum
+2021-Nov-12  23:27:47    User chooses to find single column
+2021-Nov-12  23:31:31    User enter statistical analysis menu
+2021-Nov-12  23:31:33    User enter statistical calculation menu
+2021-Nov-12  23:31:35    User chooses minimum
+2021-Nov-12  23:31:38    User chooses to find single column
+2021-Nov-12  23:34:06    User enter statistical analysis menu
+2021-Nov-12  23:34:07    User enter statistical calculation menu
+2021-Nov-12  23:34:08    User chooses minimum
+2021-Nov-12  23:34:13    User chooses to find single column
+2021-Nov-12  23:36:20    User enter statistical analysis menu
+2021-Nov-12  23:36:21    User enter statistical calculation menu
+2021-Nov-12  23:36:21    User chooses minimum
+2021-Nov-12  23:36:29    User chooses to find single column
+2021-Nov-12  23:36:47    User save plain text report
+2021-Nov-12  23:36:52    User chooses maximum
+2021-Nov-12  23:36:58    User chooses to find single column
+2021-Nov-12  23:37:03    User save html report
+2021-Nov-12  23:37:15    User chooses median
+2021-Nov-12  23:37:39    User chooses mean
+2021-Nov-12  23:37:44    User chooses to find single column
+2021-Nov-12  23:37:50    User chooses standard deviation
+2021-Nov-12  23:37:55    User chooses to find single column
+2021-Nov-12  23:38:09    User chooses standard deviation
+2021-Nov-12  23:38:12    User chooses to find all column
+2021-Nov-12  23:38:28    User enter statistical calculation menu
+2021-Nov-12  23:38:30    User chooses standard deviation
+2021-Nov-12  23:38:36    User chooses to find single column
+2021-Nov-12  23:38:46    User chooses standard deviation
+2021-Nov-12  23:38:51    User chooses to find single column
+2021-Nov-12  23:39:11    User chooses mean
+2021-Nov-12  23:39:15    User chooses to find single column
+2021-Nov-12  23:41:37    User enter statistical analysis menu
+2021-Nov-12  23:41:39    User enter statistical calculation menu
+2021-Nov-12  23:41:42    User chooses standard deviation
+2021-Nov-12  23:43:21    User enter statistical analysis menu
+2021-Nov-12  23:43:22    User enter statistical calculation menu
+2021-Nov-12  23:43:23    User chooses maximum
+2021-Nov-12  23:43:29    User chooses to find all column
+2021-Nov-12  23:43:37    User enter statistical calculation menu
+2021-Nov-12  23:43:38    User chooses maximum
+2021-Nov-12  23:43:41    User chooses to find single column
+2021-Nov-12  23:43:46    User chooses minimum
+2021-Nov-12  23:43:53    User chooses to find single column

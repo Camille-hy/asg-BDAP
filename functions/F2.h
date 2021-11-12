@@ -433,6 +433,7 @@ public:
         system((mkdir + dataDir).c_str());
         system((mkdir + reportDir).c_str());
         system((mkdir + htmlDir).c_str());
+        clearScreen();
     }
 
     void loadScreen()
@@ -728,6 +729,7 @@ public:
         logDir += slash + username + slash + "log";
         string createDir = mkdir + logDir;
         system(createDir.c_str());
+        clearScreen();
         logPath += logDir + slash + "log.txt";
     }
 

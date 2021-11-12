@@ -276,7 +276,7 @@ void showComputableTitles(vecpair titles, vector<int> computable)
   cout << "+---------+-------------------+" << endl;
 }
 
-int returnFunction(char choice, vector2d arr2d, int row, int index)
+double returnFunction(char choice, vector2d arr2d, int row, int index)
 {
   if (choice == '1')
     return find_min(arr2d, row, index);
@@ -292,7 +292,7 @@ int returnFunction(char choice, vector2d arr2d, int row, int index)
     return find_stdv(arr2d, row, index);
 }
 
-int singleColumnCompute
+double singleColumnCompute
 (string method,
 char &choice,
 vecpair titles, 
@@ -318,7 +318,7 @@ bool &flag2)
   }
   else
   {
-      int result = returnFunction(choice, arr2d, row, index);
+      double result = returnFunction(choice, arr2d, row, index);
       cout << method << " of " 
           << titles[index].first << ": " 
           << result << endl;

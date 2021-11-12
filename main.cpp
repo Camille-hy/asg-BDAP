@@ -44,6 +44,60 @@ void saveReport(int index, string method, string result, vecpair titles, Logger 
     }
 }
 
+void select_1(File &f, Logger &logger, string method, char choice, vecpair titles, vector<int> computable, vector2d arr2d, int row)
+{
+    bool flag = true;
+    bool flag2 = false;
+    while (flag)
+    {
+        int result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+        if (flag2)
+        {
+            int choicetoint = choice - '0';
+            int index = choicetoint - 1;
+            saveReport(index, method, to_string(result), titles, logger, f);
+            flag = false;
+        }
+    }
+}
+
+bool statistical_calculation(File &f, Logger &logger, string method, char choice)
+{
+    f.loadScreen();
+    int col = f.getCol();
+    int row = f.getRow();
+    bool breakLoop = false;
+    vecpair titles = f.getTitle();
+    vector<int> computable = f.getCompute();
+    vector2d arr2d = f.getData();
+    showComputableTitles(titles, computable);
+
+    int select_col = select_column();
+
+    while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+    {
+        cout << "Invalid Input" << endl;
+        select_col = select_column();
+    }
+
+    if (select_col == '1')
+    {
+        // Find for single column
+        logger.log("User chooses to find single column");
+        select_1(f, logger, method, choice, titles, computable, arr2d, row);
+    }
+    else if (select_col == '2')
+    {
+        logger.log("User chooses to find all column");
+        // Find for all column
+        allColumnCompute(method, titles, computable, choice, arr2d, row);
+        cin.ignore();
+        pressEnter();
+        breakLoop = true;
+    }
+    return breakLoop;
+}
+
 int main()
 {
     //// Welcome Dashboard ////
@@ -153,7 +207,8 @@ int main()
                         cout << "Invalid Input" << endl;
                         choice = Statistical_Analysis_Menu_Selection();
                     }
-                    int result = -1;
+                    double result;
+                    ;
                     string method;
 
                     if (choice == '1')
@@ -177,47 +232,10 @@ int main()
                             {
                                 logger.log("User chooses minimum");
                                 method = "MINIMUM";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
 
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    // Find for single column
-                                    logger.log("User chooses to find single column");
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    logger.log("User chooses to find all column");
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
@@ -227,47 +245,10 @@ int main()
                                 // Find Maximum
                                 logger.log("User chooses maximum");
                                 method = "MAXIMUM";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
 
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    logger.log("User chooses to find single column");
-                                    // Find for single column
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
@@ -276,45 +257,10 @@ int main()
                                 logger.log("User chooses median");
                                 // Find Median
                                 method = "MEDIAN";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
 
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    // Find for single column
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
@@ -323,48 +269,10 @@ int main()
                                 // Find Mean
                                 logger.log("User chooses mean");
                                 method = "MEAN";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
-                                // getData()
 
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    // Find for single column
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
@@ -373,47 +281,9 @@ int main()
                                 logger.log("User chooses variance");
                                 // Find Variance
                                 method = "VARIANCE";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
-
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    // Find for single column
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
@@ -422,47 +292,10 @@ int main()
                                 // Find Standard Deviation
                                 logger.log("User chooses standard deviation");
                                 method = "STANDARD DEVIATION";
-                                f.loadScreen();
-                                int col = f.getCol();
-                                int row = f.getRow();
-                                vecpair titles = f.getTitle();
-                                vector<int> computable = f.getCompute();
-                                vector2d arr2d = f.getData();
-                                showComputableTitles(titles, computable);
 
-                                int select_col = select_column();
-
-                                while (select_col != '1' && select_col != '2') // bool remain true until user entered valid selection
+                                bool breakLoop = statistical_calculation(f, logger, method, choice);
+                                if (breakLoop)
                                 {
-                                    cout << "Invalid Input" << endl;
-                                    select_col = select_column();
-                                }
-
-                                if (select_col == '1')
-                                {
-                                    // Find for single column
-                                    flag = true;
-                                    bool flag2 = false;
-                                    while (flag)
-                                    {
-                                        result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-                                        if (flag2)
-                                        {
-
-                                            int choicetoint = choice - '0';
-                                            int index = choicetoint - 1;
-                                            saveReport(index, method, to_string(result), titles, logger, f);
-
-                                            flag = false;
-                                        }
-                                    }
-                                }
-                                else if (select_col == '2')
-                                {
-                                    // Find for all column
-                                    allColumnCompute(method, titles, computable, choice, arr2d, row);
-                                    cin.ignore();
-                                    pressEnter();
                                     break;
                                 }
                             }
