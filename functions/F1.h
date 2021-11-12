@@ -89,6 +89,24 @@ bool check_pw(string password)
         return false;
 }
 
+bool check_Space(string username, string password)
+{
+    bool hasSpace = false;
+
+    for (int i = 0; i < username.size(); i++)
+    {
+        if(isspace(username[i]))
+            hasSpace = true;
+    }
+
+    for (int i = 0; i < password.size(); i++)
+    {
+        if(isspace(password[i]))
+            hasSpace = true;
+    }
+    return hasSpace;
+}
+
 // Read user account from file into a vector
 vector<Users> readUser() {
     ifstream file("UserData.txt");
@@ -148,10 +166,13 @@ void checkInformation(string usertype, string username, string password, string 
             usernameExist = true;
         }
     }
+    
     if(usertype != "Admin" && usertype != "admin" && usertype != "User" && usertype != "user")
         cout << "User type does not exist" << endl;
     else if (usernameExist)
         cout << "Username already exists" << endl;
+    else if (check_Space(username, password))
+        cout << "Username and password cant consist of spaces" << endl;
     else if(username.size() > 20)
         cout << "Username cant be more than 20 characters" << endl;
     else if (password.size() > 20)
@@ -183,11 +204,9 @@ void UserRegister()
         cin >> usertype; 
         cin.ignore(80, '\n');
         cout << "Username: " ; 
-        cin >> username; 
-        cin.ignore(80, '\n');
+        getline(cin, username); 
         cout << "Password: " ; 
-        cin >> password; 
-        cin.ignore(80, '\n');
+        getline(cin, password); 
         cout << "Confirm Password: " ; 
         cin >> confirmPw;
         cin.ignore(80, '\n');
