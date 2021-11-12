@@ -11,13 +11,17 @@
 using namespace std;
 
 #if defined(__linux__) || defined(__APPLE__)
+    #define cls "clear"
     #define mkdir "mkdir -p "
     #define slash "/"
 #else
+    #define cls "cls"
     #define mkdir "mkdir "
     #define slash "\\"
 #endif
 
+
+string global_username;
 
 
 // Class for User Account
@@ -89,25 +93,6 @@ bool check_pw(string password)
         return false;
 }
 
-// Check if username or password has space
-bool check_Space(string username, string password)
-{
-    bool hasSpace = false;
-
-    for (int i = 0; i < username.size(); i++)
-    {
-        if(isspace(username[i]))
-            hasSpace = true;
-    }
-
-    for (int i = 0; i < password.size(); i++)
-    {
-        if(isspace(password[i]))
-            hasSpace = true;
-    }
-    return hasSpace;
-}
-
 // Read user account from file into a vector
 vector<Users> readUser() {
     ifstream file("UserData.txt");
@@ -158,71 +143,51 @@ void writeUser(vector<Users> users) {
     file.close();
 }
 
-void checkInformation(string usertype, string username, string password, string confirmPw, bool &valid)
-{
-    bool usernameExist = false;
-    vector<Users> users = readUser();
-    for (auto elem: users)
-    {
-        if (username == elem.user && elem.status == 1){
-            usernameExist = true;
-        }
-    }
-    
-    if(usertype != "Admin" && usertype != "admin" && usertype != "User" && usertype != "user")
-        cout << "User type does not exist" << endl;
-    else if (usernameExist)
-        cout << "Username already exists" << endl;
-    else if (check_Space(username, password))
-        cout << "Username and password cant consist of spaces" << endl;
-    else if(username.size() > 20)
-        cout << "Username cant be more than 20 characters" << endl;
-    else if (password.size() > 20)
-        cout << "Password cant be more than 20 characters" << endl;
-    else if (password != confirmPw)
-        cout << "Password does not match" << endl;
-    else if(!isalpha(password[0]))
-        cout << "Password can only start with letter" << endl;
-    else if(check_pw(password)){
-        User_Data_In(usertype, username, password);
-        cout << "Register successful" << endl;
-        valid = true;
-    }
-    else
-        cout << "Password must include at least one capital letter and one digit!" << endl;
-        pressEnter();
-}
-
 // Registering User Account
 void UserRegister()
 {
-    string usertype, username, password, confirmPw;
-    bool valid = false;
+    string usertype, username, password;
+    vector<Users> users = readUser();
+    bool usernameExist = false, valid = false;
     
     do{
         clearScreen();
         cout << "Register User Account" << endl << endl;
-        cout << "User Type(Admin/User): " ; 
-        cin >> usertype; 
-        cin.ignore(80, '\n');
-        cout << "Username: " ; 
-        getline(cin, username); 
-        cout << "Password: " ; 
-        getline(cin, password); 
-        cout << "Confirm Password: " ; 
-        cin >> confirmPw;
-        cin.ignore(80, '\n');
+        cout << "User Type(Admin/User): " ; cin >> usertype; cin.ignore(80, '\n');
+        cout << "Username: " ; cin >> username; cin.ignore(80, '\n');
+        cout << "Password: " ; cin >> password; cin.ignore(80, '\n');
+        for (auto elem: users)
+        {
+            if (username == elem.user && elem.status == 1){
+                usernameExist = true;
+            }
+        }
 
-        checkInformation(usertype, username, password, confirmPw, valid);
+        if(usertype != "Admin" && usertype != "admin" && usertype != "User" && usertype != "user")
+            cout << "User type does not exist" << endl;
+        else if (usernameExist)
+            cout << "Username already exists" << endl;
+        else if(username.size() > 20 || password.size() > 20)
+            cout << "Username and password cant be more than 20 characters" << endl;
+        else if(!isalpha(password[0]))
+            cout << "Password can only start with letter" << endl;
+        else if(check_pw(password)){
+            User_Data_In(usertype, username, password);
+            cout << "Register successful" << endl;
+            valid = true;
+        }
+        else
+            cout << "Password must include at least one capital letter and one digit!" << endl;
+            pressEnter();
     }while(!valid);
+
+    //Admin_Menu("123");
 
 }
 
 // Show all Users information
-void UserInfo()
-{
+void UserInfo(){
     clearScreen();
-
     cout << "Delete User Account" << endl << endl;
     cout << "Status 0 = Deleted, Status 1 = Active" << endl;
     cout << "Type 0 = User, Type 1 = Admin" << endl << endl;
@@ -360,7 +325,12 @@ int Login_Choice(char &stat, bool &isAdmin, string &name)
                 bool found;
                 found = checkUser(users, name, pass, isAdmin);
 
-                if (!found){
+                if (found) {
+                    global_username = name;
+                    // File file(name);     // cz function
+                    // Logger logger(name); //cz function
+
+                } else {
                     cout << "Your username or password is incorrect" << endl;
                     cout << "Press enter to continue" << endl;
                     cin.ignore(30,'\n');
