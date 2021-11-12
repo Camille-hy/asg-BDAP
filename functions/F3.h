@@ -330,20 +330,39 @@ bool &flag2)
   }
 }
 
-void allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
+// void allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
+// {
+//   for (int i = 0; i < titles.size(); i++)
+//     {
+//       if (computable[i] == 1)
+//       {
+//           int result = returnFunction(choice, arr2d, row, i);
+//           cout << method << " of " 
+//               << titles[i].first << ": " 
+//               << result << endl;
+
+//       }
+//     }
+// }
+
+string allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
 {
+  stringstream ss;
   for (int i = 0; i < titles.size(); i++)
     {
       if (computable[i] == 1)
       {
           int result = returnFunction(choice, arr2d, row, i);
-          cout << method << " of " 
+          ss << method << " of " 
               << titles[i].first << ": " 
               << result << endl;
 
       }
     }
+    cout << ss.str();
+    return ss.str();
 }
+
 
 
 // int main() {

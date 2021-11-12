@@ -513,16 +513,16 @@ public:
         outFile.close();
         while (true)
         {
-            cout << "Do you want to view the report? Type 'yes' to view or 'no' to skip" << endl;
+            cout << "Do you want to view the report? Type 'y' to view or 'n' to skip" << endl;
             cin >> input;
             cin.ignore(50, '\n');
-            if (input == "yes")
+            if (input == "y")
             {
                 cout << data << endl;
                 pressEnter();
-                return;
+                 return;
             }
-            else if (input == "no")
+            else if (input == "n")
             {
                 return;
             }
@@ -545,16 +545,16 @@ public:
         outFile.close();
         while (true)
         {
-            cout << "Do you want to view the report? Type 'yes' to view or 'no' to skip" << endl;
+            cout << "Do you want to view the report? Type 'y' to view or 'n' to skip" << endl;
             cin >> input;
             cin.ignore(50, '\n');
-            if (input == "yes")
+            if (input == "y")
             {
                 system(path.c_str());
                 pressEnter();
                 return;
             }
-            else if (input == "no")
+            else if (input == "n")
             {
                 return;
             }

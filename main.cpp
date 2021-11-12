@@ -61,6 +61,30 @@ void select_1(File &f, Logger &logger, string method, char choice, vecpair title
     }
 }
 
+void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
+{
+    string result = allColumnCompute(method, titles, computable, choice, arr2d, row);
+    cin.ignore();
+    pressEnter();
+    string s = Save_Report_Menu();
+    string d;
+
+    if (s == "1")
+    {
+        // plain text
+        logger.log("User save plain text report");
+        d = Generate_Plain_Text_Report(method, result);
+        f.saveTxtReport(d);
+    }
+    else if (s == "2")
+    {
+        // html
+        logger.log("User save html report");
+        d = Generate_HTML_Report(method, result);
+        f.saveHtmlReport(d);
+    }
+}
+
 bool statistical_calculation(File &f, Logger &logger, string method, char choice)
 {
     f.loadScreen();
@@ -89,10 +113,7 @@ bool statistical_calculation(File &f, Logger &logger, string method, char choice
     else if (select_col == '2')
     {
         logger.log("User chooses to find all column");
-        // Find for all column
-        allColumnCompute(method, titles, computable, choice, arr2d, row);
-        cin.ignore();
-        pressEnter();
+        select_2(f, logger, method, titles, computable, choice, arr2d, row);
         breakLoop = true;
     }
     return breakLoop;
@@ -208,7 +229,6 @@ int main()
                         choice = Statistical_Analysis_Menu_Selection();
                     }
                     double result;
-                    ;
                     string method;
 
                     if (choice == '1')

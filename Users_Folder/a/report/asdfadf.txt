@@ -1,0 +1,11 @@
++-----------+
+|  MINIMUM  |
++-----------+
+
+All Titles
+MINIMUM of Age: 16
+MINIMUM of Math: 21
+MINIMUM of Science: 20
+MINIMUM of Malay: 20
+MINIMUM of English: 20
+MINIMUM of Geography: 21

@@ -236,10 +236,11 @@ string Generate_HTML_Report(string method, string data, string title, string tit
     htmlData << "<h1>"
              << "<pre>" << m << "</pre>"
              << "</h1>" << endl;
-    htmlData << "<h2>"<< "Title: " << title ;
+    htmlData << "<h2>"
+             << "Title: " << title;
     if (title2 != "")
     {
-        htmlData << " & "<< title2;
+        htmlData << " & " << title2;
     }
     htmlData << "</h2>" << endl;
     htmlData << "<pre>" << data << "</pre>" << endl;
@@ -263,6 +264,38 @@ string Generate_Plain_Text_Report(string method, string data, string title, stri
     plainTextData << endl;
     plainTextData << data;
     return plainTextData.str();
+}
+
+string Generate_Plain_Text_Report(string method, string data)
+{
+    stringstream plainTextData;
+
+    string m = reportMethod(method);
+    plainTextData << m << endl;
+
+    plainTextData << "All Titles" << endl;
+
+    plainTextData << data;
+    return plainTextData.str();
+}
+
+string Generate_HTML_Report(string method, string data)
+{
+    stringstream htmlData;
+    string m = reportMethod(method);
+
+    htmlData << "<html>" << endl;
+    htmlData << "<body>" << endl;
+    htmlData << "<h1>"
+             << "<pre>" << m << "</pre>"
+             << "</h1>" << endl;
+    htmlData << "<h2>"
+             << "All Titles"
+             << "</h2>" << endl;
+    htmlData << "<pre>" << data << "</pre>" << endl;
+    htmlData << "</body>" << endl;
+    htmlData << "</html>" << endl;
+    return htmlData.str();
 }
 
 char User_Menu_Selection(string name)
