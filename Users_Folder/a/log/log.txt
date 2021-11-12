@@ -1,0 +1,10 @@
+2021-Nov-12  21:26:52    User enter statistical analysis menu
+2021-Nov-12  21:29:19    User go back to main menu
+2021-Nov-12  21:29:20    User enter statistical analysis menu
+2021-Nov-12  21:29:28    User enter statistical calculation menu
+2021-Nov-12  21:29:30    User go back to statistical analysis menu
+2021-Nov-12  21:29:32    User go back to main menu
+2021-Nov-12  21:30:17    User enter statistical analysis menu
+2021-Nov-12  21:30:19    User enter statistical calculation menu
+2021-Nov-12  21:30:23    User go back to statistical analysis menu
+2021-Nov-12  21:30:25    User go back to main menu

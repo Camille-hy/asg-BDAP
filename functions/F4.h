@@ -113,7 +113,8 @@ void User_Menu(string name)
     cout << "2.   View Saved Report" << endl;
     cout << "3.   View User Log" << endl;
     cout << "4.   Change Password" << endl;
-    cout << "5.   Log out" << endl;
+    cout << "5.   Save file as other name" << endl;
+    cout << "6.   Log out" << endl;
 }
 
 void Admin_Menu(string name)

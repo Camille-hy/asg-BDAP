@@ -35,7 +35,9 @@ int main()
     {
         while (true)
         {
+            
             Admin_Menu(name);
+            // Admin_Menu_Section will return a string which will be assign to choice
             choice = Admin_Menu_Selection(name);
             while (choice != '1' && choice != '2' && choice != '3') // Bool remain true until user entered valid selection
             {
@@ -94,7 +96,7 @@ int main()
             cin.ignore(50, '\n');
             // cin.get();
 
-            while (choice != '1' && choice != '2' && choice != '3' && choice != '4' && choice != '5') // Bool remain true until user entered valid selection
+            while (choice != '1' && choice != '2' && choice != '3' && choice != '4' && choice != '5' && choice != '6') // Bool remain true until user entered valid selection
             {
                 User_Menu(name);
                 cout << "Invalid Input" << endl;
@@ -175,13 +177,14 @@ int main()
                                             if (s == "1")
                                             {
 
+                                                // generate plain text report
                                                 d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
                                                 f.saveHtmlReport(d);
                                             }
                                             else if (s == "2")
                                             {
 
-                                                // html
+                                                // generate HTML report
                                                 d = Generate_HTML_Report(method, to_string(result), titles[index].first);
                                                 f.saveHtmlReport(d);
                                             }
@@ -582,10 +585,6 @@ int main()
                                 int min = find_min(arr2d, row, index);
                                 int max = find_max(arr2d, row, index);
 
-                                // int min = find_stdv(arr2d, row, index);
-                                // cout << "Standard Deviation of "
-                                //      << titles[index].first << ": "
-                                //      << min << endl;
                                 string graph = histogram(arr2d, min, max, row, index);
                                 cin.ignore();
                                 pressEnter();
@@ -740,8 +739,6 @@ int main()
                             }
                             else
                             {
-                                // int min = find_min(arr2d, row, index);
-                                // int max = find_max(arr2d, row, index);
 
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
                                 string form = tabularForm(distinct);
@@ -806,11 +803,16 @@ int main()
             }
             else if (choice == '5')
             {
-                // Log out
+                f.loadScreen();
+                f.savedAs();
+            } 
+            else if (choice == '6'){
+                 // Log out
                 cout << "Logging Out..." << endl;
                 pressEnter();
                 main();
                 break;
+            
             }
         }
     }

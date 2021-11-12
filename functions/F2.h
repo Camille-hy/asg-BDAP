@@ -448,9 +448,9 @@ public:
             showHeader();
             cout << endl
                  << endl;
-            cout << "What is the filename" << endl;
+            cout << "What is the filename (without file extension -> .txt)" << endl;
             getline(cin, fileName);
-            path = dataDir + slash + fileName;
+            path = dataDir + slash + fileName + ".txt";
             // cout << path << endl;
             readFile(path);
             if (error)
@@ -582,7 +582,7 @@ public:
         while (true)
         {
             showHeader();
-            cout << "Please enter the name of txt report (without file extension -> .txt) " << endl;
+            cout << "Please enter the name of txt report (without file extension -> .txt)" << endl;
             // cin.ignore(30, '\n');
             getline(cin, filename);
             filename += ".txt";
