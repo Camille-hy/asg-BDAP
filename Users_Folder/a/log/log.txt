@@ -54,3 +54,9 @@
 2021-Nov-12  22:35:59    User save html report
 2021-Nov-12  22:36:13    User chooses distinct data members
 2021-Nov-12  22:36:20    User save html report
+2021-Nov-12  22:41:58    User enter statistical analysis menu
+2021-Nov-12  22:42:00    User chooses histogram
+2021-Nov-12  22:42:15    User chooses correlation
+2021-Nov-12  22:42:41    User chooses correlation
+2021-Nov-12  22:43:26    User chooses correlation
+2021-Nov-12  22:44:09    User chooses distinct data members

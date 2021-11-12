@@ -330,6 +330,7 @@ int main()
                                 vector<int> computable = f.getCompute();
                                 vector2d arr2d = f.getData();
                                 showComputableTitles(titles, computable);
+                                // getData()
 
                                 int select_col = select_column();
 
@@ -398,7 +399,7 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
- 
+
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
                                             saveReport(index, method, to_string(result), titles, logger, f);
@@ -447,7 +448,7 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
- 
+
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
                                             saveReport(index, method, to_string(result), titles, logger, f);
@@ -486,21 +487,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
-                        cout << "       Computable Titles       " << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        cout << "|  Index  |       Titles      |" << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        for (int i = 0; i < titles.size(); i++)
-                        {
-                            if (computable[i] == 1)
-                            {
-                                cout << "|" << setw(5) << titles[i].second << setw(5)
-                                     << "|" << setw(13) << titles[i].first << setw(7)
-                                     << "|" << endl;
-                            }
-                        }
-                        cout << "+---------+-------------------+" << endl;
-
+                        showComputableTitles(titles, computable);
                         // Find STDV for single column
                         while (true)
                         {
@@ -549,20 +536,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
-                        cout << "       Computable Titles       " << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        cout << "|  Index  |       Titles      |" << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        for (int i = 0; i < titles.size(); i++)
-                        {
-                            if (computable[i] == 1)
-                            {
-                                cout << "|" << setw(5) << titles[i].second << setw(5)
-                                     << "|" << setw(13) << titles[i].first << setw(7)
-                                     << "|" << endl;
-                            }
-                        }
-                        cout << "+---------+-------------------+" << endl;
+                        showComputableTitles(titles, computable);
 
                         // Find STDV for single column
                         while (true)
@@ -598,7 +572,6 @@ int main()
                                 cin.ignore();
                                 pressEnter();
 
-
                                 saveReport(index1, method, to_string(result), titles, logger, f, index2);
                                 break;
                             }
@@ -616,20 +589,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
-                        cout << "       Computable Titles       " << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        cout << "|  Index  |       Titles      |" << endl;
-                        cout << "+---------+-------------------+" << endl;
-                        for (int i = 0; i < titles.size(); i++)
-                        {
-                            if (computable[i] == 1)
-                            {
-                                cout << "|" << setw(5) << titles[i].second << setw(5)
-                                     << "|" << setw(13) << titles[i].first << setw(7)
-                                     << "|" << endl;
-                            }
-                        }
-                        cout << "+---------+-------------------+" << endl;
+                        showComputableTitles(titles, computable);
 
                         // Find STDV for single column
                         while (true)
@@ -654,11 +614,10 @@ int main()
                                 string method = "DISTINCT DATA MEMBERS";
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
                                 string form = tabularForm(distinct);
-                                
 
                                 cin.ignore();
                                 pressEnter();
-    
+
                                 saveReport(index, method, form, titles, logger, f);
                                 break;
                             }
