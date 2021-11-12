@@ -17,7 +17,7 @@ using namespace std;
     #define mkdir "mkdir "
     #define slash "\\"
 #endif
-string global_username;
+
 
 
 // Class for User Account
@@ -89,6 +89,7 @@ bool check_pw(string password)
         return false;
 }
 
+// Check if username or password has space
 bool check_Space(string username, string password)
 {
     bool hasSpace = false;
@@ -157,7 +158,8 @@ void writeUser(vector<Users> users) {
     file.close();
 }
 
-void checkInformation(string usertype, string username, string password, string confirmPw, bool &valid){
+void checkInformation(string usertype, string username, string password, string confirmPw, bool &valid)
+{
     bool usernameExist = false;
     vector<Users> users = readUser();
     for (auto elem: users)
@@ -217,8 +219,10 @@ void UserRegister()
 }
 
 // Show all Users information
-void UserInfo(){
+void UserInfo()
+{
     clearScreen();
+
     cout << "Delete User Account" << endl << endl;
     cout << "Status 0 = Deleted, Status 1 = Active" << endl;
     cout << "Type 0 = User, Type 1 = Admin" << endl << endl;
@@ -299,7 +303,7 @@ void AdminChangePassword()
 void UserChangePassword(string username){
     bool valid = false;
     string newpass;
-    
+    // username = global_username;
     do{
         cout << "Enter new password: ";
         cin >> newpass; cin.ignore(80, '\n');
