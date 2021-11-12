@@ -10,6 +10,40 @@
 
 using namespace std;
 
+void saveReport(int index, string method, string result, vecpair titles, Logger &logger, File &f, int index2 = -1)
+{
+    string s = Save_Report_Menu();
+    string d;
+    if (s == "1")
+    {
+        // plain text
+        logger.log("User save plain text report");
+        if (index2 != -1)
+        {
+            d = Generate_Plain_Text_Report(method, result, titles[index].first, titles[index2].first);
+        }
+        else
+        {
+            d = Generate_Plain_Text_Report(method, result, titles[index].first);
+        }
+        f.saveTxtReport(d);
+    }
+    else if (s == "2")
+    {
+        // html
+        logger.log("User save html report");
+        if (index2 != -1)
+        {
+            d = Generate_HTML_Report(method, result, titles[index].first, titles[index2].first);
+        }
+        else
+        {
+            d = Generate_HTML_Report(method, result, titles[index].first);
+        }
+        f.saveHtmlReport(d);
+    }
+}
+
 int main()
 {
     //// Welcome Dashboard ////
@@ -35,7 +69,7 @@ int main()
     {
         while (true)
         {
-            
+
             Admin_Menu(name);
             // Admin_Menu_Section will return a string which will be assign to choice
             choice = Admin_Menu_Selection(name);
@@ -123,10 +157,11 @@ int main()
                     string method;
 
                     if (choice == '1')
-                    {   logger.log("User enter statistical calculation menu");
+                    {
+                        logger.log("User enter statistical calculation menu");
                         while (true) // Remain in Statistical Calculation Menu
                         {
-                                                                        
+
                             // Show Statistical Calculation Menu
                             Statistical_Calculation_Menu();
                             choice = Statistical_Calculation_Menu_Selection();
@@ -169,26 +204,9 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-
-                                                // generate plain text report
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-
-                                                // generate HTML report
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-
+                                            saveReport(index, method, to_string(result), titles, logger, f);
                                             flag = false;
                                         }
                                     }
@@ -236,26 +254,10 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
+
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-                                                // plain text
-                                                logger.log("User save plain text report");
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-                                                // html
-                                                logger.log("User save html report");
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-
+                                            saveReport(index, method, to_string(result), titles, logger, f);
                                             flag = false;
                                         }
                                     }
@@ -300,26 +302,9 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-                                                // plain text
-                                                logger.log("User save plain text report");
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-                                                // html
-                                                logger.log("User save html report");
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-
+                                            saveReport(index, method, to_string(result), titles, logger, f);
                                             flag = false;
                                         }
                                     }
@@ -364,25 +349,10 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
+
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-                                                // plain text
-                                                logger.log("User save plain text report");
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-                                                // html
-                                                logger.log("User save html report");
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
+                                            saveReport(index, method, to_string(result), titles, logger, f);
 
                                             flag = false;
                                         }
@@ -428,26 +398,10 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
+ 
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-                                                // plain text
-                                                logger.log("User save plain text report");
-
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-                                                // html
-                                                logger.log("User save html report");
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
+                                            saveReport(index, method, to_string(result), titles, logger, f);
 
                                             flag = false;
                                         }
@@ -493,25 +447,10 @@ int main()
                                         result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
                                         if (flag2)
                                         {
-                                            string s = Save_Report_Menu();
-                                            string d;
+ 
                                             int choicetoint = choice - '0';
                                             int index = choicetoint - 1;
-
-                                            if (s == "1")
-                                            {
-                                                // plain text
-                                                logger.log("User save plain text report");
-                                                d = Generate_Plain_Text_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
-                                            else if (s == "2")
-                                            {
-                                                // html
-                                                logger.log("User save html report");
-                                                d = Generate_HTML_Report(method, to_string(result), titles[index].first);
-                                                f.saveHtmlReport(d);
-                                            }
+                                            saveReport(index, method, to_string(result), titles, logger, f);
 
                                             flag = false;
                                         }
@@ -584,25 +523,13 @@ int main()
                             {
                                 int min = find_min(arr2d, row, index);
                                 int max = find_max(arr2d, row, index);
+                                string method = "HISTOGRAM";
 
                                 string graph = histogram(arr2d, min, max, row, index);
                                 cin.ignore();
                                 pressEnter();
-                                string s = Save_Report_Menu();
-                                if (s == "1")
-                                {
-                                    // plain text
-                                    logger.log("User save plain text report");
-                                    string d = Generate_Plain_Text_Report("HISTOGRAM", graph, titles[index].first);
-                                    f.saveTxtReport(d);
-                                }
-                                else if (s == "2")
-                                {
-                                    // html
-                                    logger.log("User save html report");
-                                    string d = Generate_HTML_Report("HISTOGRAM", graph, titles[index].first);
-                                    f.saveHtmlReport(d);
-                                }
+
+                                saveReport(index, method, graph, titles, logger, f);
 
                                 break;
                             }
@@ -661,33 +588,18 @@ int main()
                             }
                             else
                             {
-                                double c = correlation(arr2d, row, index1, index2);
+                                double result = correlation(arr2d, row, index1, index2);
+                                method = "CORRELATION";
                                 cout << "Correlation of "
                                      << titles[index1].first << " & " << titles[index2].first << ": "
-                                     << c << endl;
+                                     << result << endl;
 
                                 /// ---------------------------------------------------------
                                 cin.ignore();
                                 pressEnter();
 
-                                string s = Save_Report_Menu();
-                                if (s == "1")
-                                {
-                                    // plain text
-                                    logger.log("User save plain text report");
 
-                                    string d = Generate_Plain_Text_Report("CORRELATION", to_string(c), titles[index1].first, titles[index2].first);
-                                    f.saveTxtReport(d);
-                                }
-                                else if (s == "2")
-                                {
-                                    // html
-                                    logger.log("User save html report");
-
-                                    string d = Generate_HTML_Report("CORRELATION", to_string(c), titles[index1].first, titles[index2].first);
-                                    f.saveHtmlReport(d);
-                                }
-
+                                saveReport(index1, method, to_string(result), titles, logger, f, index2);
                                 break;
                             }
                         }
@@ -739,30 +651,15 @@ int main()
                             }
                             else
                             {
-
+                                string method = "DISTINCT DATA MEMBERS";
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
                                 string form = tabularForm(distinct);
+                                
 
                                 cin.ignore();
                                 pressEnter();
-                                // Save_Report_Menu();
-                                string s = Save_Report_Menu();
-                                if (s == "1")
-                                {
-                                    // plain text
-                                    logger.log("User save plain text report");
-
-                                    string d = Generate_Plain_Text_Report("DISTINCT DATA MEMBERS", form, titles[index].first);
-                                    f.saveTxtReport(d);
-                                }
-                                else if (s == "2")
-                                {
-                                    // html
-                                    logger.log("User save html report");
-
-                                    string d = Generate_HTML_Report("DISTINCT DATA MEMBERS", form, titles[index].first);
-                                    f.saveHtmlReport(d);
-                                }
+    
+                                saveReport(index, method, form, titles, logger, f);
                                 break;
                             }
                         }
@@ -805,14 +702,14 @@ int main()
             {
                 f.loadScreen();
                 f.savedAs();
-            } 
-            else if (choice == '6'){
-                 // Log out
+            }
+            else if (choice == '6')
+            {
+                // Log out
                 cout << "Logging Out..." << endl;
                 pressEnter();
                 main();
                 break;
-            
             }
         }
     }

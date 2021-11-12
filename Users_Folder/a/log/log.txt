@@ -8,3 +8,49 @@
 2021-Nov-12  21:30:19    User enter statistical calculation menu
 2021-Nov-12  21:30:23    User go back to statistical analysis menu
 2021-Nov-12  21:30:25    User go back to main menu
+2021-Nov-12  22:03:45    User enter statistical analysis menu
+2021-Nov-12  22:03:46    User enter statistical calculation menu
+2021-Nov-12  22:03:47    User chooses minimum
+2021-Nov-12  22:03:51    User chooses to find single column
+2021-Nov-12  22:04:10    User save plain text report
+2021-Nov-12  22:04:56    User enter statistical analysis menu
+2021-Nov-12  22:05:21    User enter statistical analysis menu
+2021-Nov-12  22:05:21    User enter statistical calculation menu
+2021-Nov-12  22:05:22    User chooses minimum
+2021-Nov-12  22:05:26    User chooses to find all column
+2021-Nov-12  22:05:28    User enter statistical calculation menu
+2021-Nov-12  22:05:29    User chooses minimum
+2021-Nov-12  22:05:33    User chooses to find single column
+2021-Nov-12  22:05:42    User save plain text report
+2021-Nov-12  22:07:06    User enter statistical analysis menu
+2021-Nov-12  22:07:08    User enter statistical calculation menu
+2021-Nov-12  22:07:09    User chooses minimum
+2021-Nov-12  22:07:13    User chooses to find single column
+2021-Nov-12  22:07:21    User save plain text report
+2021-Nov-12  22:07:33    User chooses minimum
+2021-Nov-12  22:24:28    User enter statistical analysis menu
+2021-Nov-12  22:24:32    User chooses histogram
+2021-Nov-12  22:24:40    User save plain text report
+2021-Nov-12  22:25:43    User enter statistical calculation menu
+2021-Nov-12  22:25:45    User chooses mean
+2021-Nov-12  22:25:50    User enter statistical calculation menu
+2021-Nov-12  22:25:52    User chooses mean
+2021-Nov-12  22:26:03    User save plain text report
+2021-Nov-12  22:26:13    User go back to statistical analysis menu
+2021-Nov-12  22:26:14    User chooses histogram
+2021-Nov-12  22:26:23    User save plain text report
+2021-Nov-12  22:30:45    User enter statistical analysis menu
+2021-Nov-12  22:30:52    User enter statistical calculation menu
+2021-Nov-12  22:30:54    User chooses standard deviation
+2021-Nov-12  22:31:11    User save plain text report
+2021-Nov-12  22:31:23    User go back to statistical analysis menu
+2021-Nov-12  22:31:26    User chooses histogram
+2021-Nov-12  22:31:58    User save plain text report
+2021-Nov-12  22:32:48    User enter statistical analysis menu
+2021-Nov-12  22:32:49    User chooses histogram
+2021-Nov-12  22:32:55    User save plain text report
+2021-Nov-12  22:33:06    User chooses correlation
+2021-Nov-12  22:33:44    User chooses correlation
+2021-Nov-12  22:35:59    User save html report
+2021-Nov-12  22:36:13    User chooses distinct data members
+2021-Nov-12  22:36:20    User save html report
