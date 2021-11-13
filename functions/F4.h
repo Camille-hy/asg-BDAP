@@ -23,12 +23,7 @@ void Welcome_Screen()
 int CenterText(string name)
 {
     int length = name.size();
-    int width = 0;
-    int pos = (52 / 2) + (length / 2);
-    for (int i = 0; i < pos; i++)
-    {
-        width += 1;
-    }
+    int width = (52 / 2) + (length / 2);
 
     return width;
 }
