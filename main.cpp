@@ -102,6 +102,8 @@ bool statistical_calculation(File &f, Logger &logger, string method, char choice
     vecpair titles = f.getTitle();
     vector<int> computable = f.getCompute();
     vector2d arr2d = f.getData();
+
+    Menu_Dashboard();
     showComputableTitles(titles, computable);
 
     int select_col = select_column();
@@ -206,6 +208,7 @@ int main()
     {
         Logger logger(name);
         File f(name);
+        logger.log("User login");
         while (true) // Remain in User Menu
         {
             User_Menu(name);
@@ -348,6 +351,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
+                        Menu_Dashboard();
                         showComputableTitles(titles, computable);
                         // Find STDV for single column
                         while (true)
@@ -397,6 +401,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
+                        Menu_Dashboard();
                         showComputableTitles(titles, computable);
 
                         // Find STDV for single column
@@ -450,6 +455,7 @@ int main()
                         vecpair titles = f.getTitle();
                         vector<int> computable = f.getCompute();
                         vector2d arr2d = f.getData();
+                        Menu_Dashboard();
                         showComputableTitles(titles, computable);
 
                         // Find STDV for single column
@@ -496,15 +502,17 @@ int main()
             }
             else if (choice == '2')
             {
-                logger.log("User view saved report");
+                logger.log("User go to view save report menu");
                 // View Saved Report
                 char input = Report_Menu();
                 if (input == '1')
                 {
+                    logger.log("User view plain text report");
                     f.txtReportScreen();
                 }
                 else if (input == '2')
                 {
+                    logger.log("User view html report");
                     f.htmlReportScreen();
                 }
                 else
@@ -527,12 +535,14 @@ int main()
             }
             else if (choice == '5')
             {
+                logger.log("User save the data file as another name");
                 f.loadScreen();
                 f.savedAs();
             }
             else if (choice == '6')
             {
                 // Log out
+                logger.log("User logout");
                 cout << "Logging Out..." << endl;
                 pressEnter();
                 main();

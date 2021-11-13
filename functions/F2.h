@@ -270,7 +270,8 @@ private:
         }
         return true;
     }
-
+// ya, just my function got some problem
+// ok
     bool fileExistScreen()
     {
         string res;
@@ -312,15 +313,6 @@ private:
         file << endl;
     }
 
-    // void writeLine(ofstream &file, const vector<int> &data)
-    // {
-    //     for (int i : data)
-    //     {
-    //         file << i << ",";
-    //     }
-    //     file << endl;
-    // }
-
     void writeLine(ofstream &file, const vector<int> &data)
     {
         for (int i = 0; i < numCol; i++)
@@ -337,21 +329,6 @@ private:
         file << endl;
     }
 
-    // void writeLine(ofstream &file, const vector2d &data)
-    // {
-    //     for (int i = 0; i < numRow; i++)
-    //     {
-    //         for (int col : data[i])
-    //         {
-
-    //             file << col << ",";
-    //         }
-    //         if (i < numRow - 1)
-    //         {
-    //             file << endl;
-    //         }
-    //     }
-    // }
     void writeLine(ofstream &file, const vector2d &data)
     {
         for (int i = 0; i < numRow; i++)
@@ -459,7 +436,7 @@ private:
         }
     }
 
-    // ------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------------------------------------
 public:
     // typedef vector<vector<int>> vector2d;
     // typedef vector<pair<string, int>> vecpair;
@@ -657,8 +634,12 @@ public:
         {
             showHeader();
             cout << "Please enter the name of html report (without file extension -> .html) " << endl;
-            // cin.ignore(30, '\n');
+            cout << "Press enter to go back" << endl;
             getline(cin, filename);
+            if (filename == "")
+            {
+                return;
+            }
             filename += ".html";
             string path = htmlDir + slash + filename;
             if (fileExist(path))

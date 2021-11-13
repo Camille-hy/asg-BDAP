@@ -260,6 +260,7 @@ double correlation(vector<vector<int>> data,int row,int x,int y)
 // Show Computable Titles
 void showComputableTitles(vecpair titles, vector<int> computable)
 {
+  
   cout << "       Computable Titles       " << endl;
   cout << "+---------+-------------------+" << endl;
   cout << "|  Index  |       Titles      |" << endl;
@@ -290,6 +291,7 @@ double returnFunction(char choice, vector2d arr2d, int row, int index)
     return find_variance(arr2d, row, index);
   else if (choice == '6')
     return find_stdv(arr2d, row, index);
+  return 0;
 }
 
 double singleColumnCompute
@@ -305,7 +307,6 @@ bool &flag2)
   cout << "Select title by index" << endl;
   cin >> choiceindex;
   int index = choiceindex - 1;
-  cout << index << endl;
 
   // if choiceto int is in between 0 to computable.size()
   if ((choiceindex >= 0) && (choiceindex <= computable.size()))
@@ -329,6 +330,7 @@ bool &flag2)
   {
     cout << "Error: Invalid index" << endl;
   }
+  return 0;
 }
 
 string allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
