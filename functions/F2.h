@@ -42,6 +42,9 @@ private:
     bool error;
     string dir = "Users_Folder", dataDir, reportDir, htmlDir;
 
+    // ------------------------------------------------------------------------
+
+    // Read number of columns from the data file
     int readCol(ifstream &file)
     {
         int col;
@@ -58,6 +61,7 @@ private:
         return col;
     }
 
+    // Read titles from the data file
     vecpair readTitle(ifstream &file)
     {
         vecpair titles;
@@ -88,6 +92,7 @@ private:
         return titles;
     }
 
+    //Read computable from data file
     vector<int> readCompute(ifstream &file)
     {
         vector<int> computes;
@@ -113,6 +118,7 @@ private:
         return computes;
     }
 
+    // Read number of row from data file
     int readRow(ifstream &file)
     {
         int row;
@@ -128,6 +134,7 @@ private:
         return row;
     }
 
+    // Combine readcol, readTitle, readCompute & readRow
     void readInfo(ifstream &file)
     {
         string line;
@@ -149,6 +156,7 @@ private:
             return;
     }
 
+    // Check and convert string to integer
     int getInt(const string &strNum)
     {
         int intNum;
@@ -169,6 +177,7 @@ private:
         return intNum;
     }
 
+    // Read and check the line of the data from the data file
     vector<int> getLineData(const string &line, const int &currentRow)
     {
         vector<int> row;
@@ -199,6 +208,7 @@ private:
         }
     }
 
+    // Read the data from the data file
     void readData(vector2d &data, int row)
     {
         string line;
@@ -225,6 +235,7 @@ private:
         }
     }
 
+    // Combine the readInfo & readData
     void readFile(string path)
     {
         inFile.open(path);
@@ -253,6 +264,19 @@ private:
     }
 
     // ------------------------------------------------------------------------
+
+    // Check if the file exist or not
+    bool fileExist(const string &path)
+    {
+        ifstream file(path);
+        bool exist = file ? true : false;
+        file.close();
+        return exist;
+    }
+
+    // ------------------------------------------------------------------------
+
+    // Check if the file name accepted by system
     bool properName(const string &filename)
     {
         char character[] = {'\\', '/', ':', '*', '?', '<', '>', '|'};
@@ -270,8 +294,8 @@ private:
         }
         return true;
     }
-// ya, just my function got some problem
-// ok
+
+    // A screen will show if the file exists
     bool fileExistScreen()
     {
         string res;
@@ -292,73 +316,7 @@ private:
         return res == "y" ? true : false;
     }
 
-    void writeLine(ofstream &file, const int &data)
-    {
-        file << data << endl;
-    }
-
-    void writeLine(ofstream &file, const vecpair &data)
-    {
-        for (int i = 0; i < numCol; i++)
-        {
-            if (i != numCol - 1)
-            {
-                file << data[i].first << ",";
-            }
-            else
-            {
-                file << data[i].first;
-            }
-        }
-        file << endl;
-    }
-
-    void writeLine(ofstream &file, const vector<int> &data)
-    {
-        for (int i = 0; i < numCol; i++)
-        {
-            if (i != numCol - 1)
-            {
-                file << data[i] << ",";
-            }
-            else
-            {
-                file << data[i];
-            }
-        }
-        file << endl;
-    }
-
-    void writeLine(ofstream &file, const vector2d &data)
-    {
-        for (int i = 0; i < numRow; i++)
-        {
-            for (int j = 0; j < numCol; j++)
-            {
-                if (j != numCol - 1)
-                {
-                    file << data[i][j] << ",";
-                }
-                else
-                {
-                    file << data[i][j];
-                }
-            }
-            if (i < numRow - 1)
-            {
-                file << endl;
-            }
-        }
-    }
-
-    bool fileExist(const string &path)
-    {
-        ifstream file(path);
-        bool exist = file ? true : false;
-        file.close();
-        return exist;
-    }
-
+    // Ask the filename from the user
     void askFilename(string &filename)
     {
         while (true)
@@ -383,8 +341,72 @@ private:
         }
     }
 
+    // Write one integer data such as number of column/row into the file
+    void writeLine(ofstream &file, const int &data)
+    {
+        file << data << endl;
+    }
+
+    // Write title into the file
+    void writeLine(ofstream &file, const vecpair &data)
+    {
+        for (int i = 0; i < numCol; i++)
+        {
+            if (i != numCol - 1)
+            {
+                file << data[i].first << ",";
+            }
+            else
+            {
+                file << data[i].first;
+            }
+        }
+        file << endl;
+    }
+
+    // Write a vector of data such as computable into the file
+    void writeLine(ofstream &file, const vector<int> &data)
+    {
+        for (int i = 0; i < numCol; i++)
+        {
+            if (i != numCol - 1)
+            {
+                file << data[i] << ",";
+            }
+            else
+            {
+                file << data[i];
+            }
+        }
+        file << endl;
+    }
+
+    // Write the data into the file
+    void writeLine(ofstream &file, const vector2d &data)
+    {
+        for (int i = 0; i < numRow; i++)
+        {
+            for (int j = 0; j < numCol; j++)
+            {
+                if (j != numCol - 1)
+                {
+                    file << data[i][j] << ",";
+                }
+                else
+                {
+                    file << data[i][j];
+                }
+            }
+            if (i < numRow - 1)
+            {
+                file << endl;
+            }
+        }
+    }
+
     // ------------------------------------------------------------------------
 
+    // Ask text report name from the user
     void askTxtName(string &filename)
     {
         while (true)
@@ -410,6 +432,7 @@ private:
 
     // ------------------------------------------------------------------------
 
+    // Ask html report name from the user
     void askHtmlName(string &filename)
     {
         while (true)
@@ -435,6 +458,20 @@ private:
             break;
         }
     }
+    // ------------------------------------------------------------------------
+
+    // Show the content of text report
+    void printTxtReport(string path)
+    {
+        ifstream file(path);
+        string line;
+        while (!file.eof())
+        {
+            getline(file, line);
+            cout << line << endl;
+        }
+        file.close();
+    }
 
     // ----------------------------------------------------------------------------------------------------------------------------------------------------
 public:
@@ -452,6 +489,7 @@ public:
         clearScreen();
     }
 
+    // Screen that ask filename
     void loadScreen()
     {
         do
@@ -474,31 +512,37 @@ public:
         } while (error);
     }
 
+    // Return number of column
     int getCol()
     {
         return numCol;
     }
 
+    // Return titles
     vecpair getTitle()
     {
         return title;
     }
 
+    // Return compute
     vector<int> getCompute()
     {
         return compute;
     }
 
+    // Return number of row
     int getRow()
     {
         return numRow;
     }
 
+    // Return data
     vector2d getData()
     {
         return data;
     }
 
+    // Save the data file as another name
     void savedAs()
     {
         string filename, path;
@@ -515,18 +559,16 @@ public:
         writeLine(outFile, data);
 
         cout << "Your data file is saved as '" << filename << "' successfully" << endl;
-        pressEnter(); 
+        pressEnter();
     }
 
+    // Save the generated plain text report
     void saveTxtReport(const string &data)
     {
         ofstream outFile;
         string filename;
         string input;
         askTxtName(filename);
-        // if (filename == "") {
-        //     return;
-        // }
         string path = reportDir + slash + filename;
         outFile.open(path);
         outFile << data;
@@ -553,6 +595,7 @@ public:
         }
     }
 
+    // Save the generated html report
     void saveHtmlReport(const string &data)
     {
         ofstream outFile;
@@ -585,18 +628,7 @@ public:
         }
     }
 
-    void printTxtReport(string path)
-    {
-        ifstream file(path);
-        string line;
-        while (!file.eof())
-        {
-            getline(file, line);
-            cout << line << endl;
-        }
-        file.close();
-    }
-
+    // Screen that show plain text report
     void txtReportScreen()
     {
         string filename;
@@ -605,8 +637,9 @@ public:
             showHeader();
             cout << "Please enter the name of txt report (without file extension -> .txt)" << endl;
             cout << "Press enter to go back" << endl;
-            // cin.ignore(30, '\n');
+
             getline(cin, filename);
+
             if (filename == "")
             {
                 return;
@@ -627,6 +660,7 @@ public:
         }
     }
 
+    // Screen that show html report
     void htmlReportScreen()
     {
         string filename;
@@ -667,6 +701,7 @@ private:
     string logPath, logDir = "Users_Folder";
     vector<string> logs;
 
+    // Get current date and time
     string getCurrentTime()
     {
         stringstream t;
@@ -677,6 +712,7 @@ private:
         return year + "-" + month + "-" + date + "  " + times;
     }
 
+    // read log from the log file
     vector<string> readFile()
     {
         ifstream file(logPath);
@@ -697,6 +733,7 @@ private:
         return logs;
     }
 
+    // Show all log
     void showLogMenu(string options[], int &num, int &start, int &end)
     {
         vector<string> logs = readFile();
@@ -724,11 +761,11 @@ private:
         options[num - 1] = "g";
     }
 
+    // Get and check input from the user
     bool getValidInput(int &i, int &num)
     {
         string input;
         cout << "Please enter your input" << endl;
-        // cin.ignore(30,'\n');
         cin >> input;
         cin.ignore(30, '\n');
         if (isdigit(input[0]))
@@ -762,15 +799,16 @@ public:
         logPath += logDir + slash + "log.txt";
     }
 
+    // Log and write into the log file
     void log(string operation)
     {
-        cout << operation << endl;
         ofstream file(logPath, ios::app);
         file << left;
         file << setw(25) << getCurrentTime() << operation << endl;
         file.close();
     }
 
+    // Screen that show all log
     void showLogScreen()
     {
         int start = 0, end = 10, input;
