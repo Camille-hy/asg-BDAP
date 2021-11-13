@@ -18,9 +18,9 @@ char select_column()
 
 
 //find min from a 2d array
-int find_min(vector2d arr , int row, int column)
+double find_min(vector2d arr , int row, int column)
 {
-    int min = arr[0][column];
+    double min = arr[0][column];
     for (int i = 0; i < row; i++)
     {
         if (arr[i][column] < min)
@@ -33,9 +33,9 @@ int find_min(vector2d arr , int row, int column)
 
 
 // find max from a 2d array
-int find_max(vector2d arr , int row, int column)
+double find_max(vector2d arr , int row, int column)
 {
-    int max = arr[0][column];
+    double max = arr[0][column];
     for (int i = 0; i < row; i++)
     {
         if (arr[i][column] > max)
@@ -260,6 +260,7 @@ double correlation(vector<vector<int>> data,int row,int x,int y)
 // Show Computable Titles
 void showComputableTitles(vecpair titles, vector<int> computable)
 {
+  
   cout << "       Computable Titles       " << endl;
   cout << "+---------+-------------------+" << endl;
   cout << "|  Index  |       Titles      |" << endl;
@@ -290,6 +291,7 @@ double returnFunction(char choice, vector2d arr2d, int row, int index)
     return find_variance(arr2d, row, index);
   else if (choice == '6')
     return find_stdv(arr2d, row, index);
+  return 0;
 }
 
 double singleColumnCompute
@@ -301,49 +303,35 @@ vector2d arr2d,
 int row,
 bool &flag2)
 {
+  int choiceindex;
   cout << "Select title by index" << endl;
-  cin >> choice;
-  int choicetoint = choice - '0';
-  int index = choicetoint - 1;
+  cin >> choiceindex;
+  int index = choiceindex - 1;
 
-  if (computable[index] == 0)
+  // if choiceto int is in between 0 to computable.size()
+  if ((choiceindex >= 0) && (choiceindex <= computable.size()))
   {
-      cout << "Error: Title not computable" << endl;
-      pressEnter();
-  }
-  else if (choicetoint < 0 || choicetoint > computable.size())
-  {
-      cout << "Error: Invalid index" << endl;
-      pressEnter();
-  }
-  else
-  {
+    if (computable[index] == 1)
+    {
       double result = returnFunction(choice, arr2d, row, index);
       cout << method << " of " 
           << titles[index].first << ": " 
           << result << endl;
 
-      cin.ignore();
-      pressEnter();
       flag2 = true;
       return result;
+    }
+    else
+    {
+      cout << "Error: Title not computable" << endl;
+    }
   }
+  else
+  {
+    cout << "Error: Invalid index" << endl;
+  }
+  return 0;
 }
-
-// void allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
-// {
-//   for (int i = 0; i < titles.size(); i++)
-//     {
-//       if (computable[i] == 1)
-//       {
-//           int result = returnFunction(choice, arr2d, row, i);
-//           cout << method << " of " 
-//               << titles[i].first << ": " 
-//               << result << endl;
-
-//       }
-//     }
-// }
 
 string allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
 {
@@ -352,7 +340,7 @@ string allColumnCompute(string method, vecpair titles, vector<int> computable, c
     {
       if (computable[i] == 1)
       {
-          int result = returnFunction(choice, arr2d, row, i);
+          double result = returnFunction(choice, arr2d, row, i);
           ss << method << " of " 
               << titles[i].first << ": " 
               << result << endl;
@@ -362,9 +350,3 @@ string allColumnCompute(string method, vecpair titles, vector<int> computable, c
     cout << ss.str();
     return ss.str();
 }
-
-
-
-// int main() {
-//   return 0;
-// }

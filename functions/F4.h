@@ -23,12 +23,7 @@ void Welcome_Screen()
 int CenterText(string name)
 {
     int length = name.size();
-    int width = 0;
-    int pos = (52 / 2) + (length / 2);
-    for (int i = 0; i < pos; i++)
-    {
-        width += 1;
-    }
+    int width = (52 / 2) + (length / 2);
 
     return width;
 }
@@ -114,7 +109,7 @@ void User_Menu(string name)
     cout << "3.   View User Log" << endl;
     cout << "4.   Change Password" << endl;
     cout << "5.   Save file as other name" << endl;
-    cout << "6.   Log out" << endl;
+    cout << "6.   Log out" << endl << endl;
 }
 
 void Admin_Menu(string name)
@@ -129,6 +124,8 @@ void Admin_Menu(string name)
     cout << "2.   Modify User Account" << endl;
     cout << "3.   Log out" << endl;
 }
+
+
 
 string Save_Report_Menu()
 {
@@ -168,6 +165,8 @@ string Save_Report_Menu()
     }
 }
 
+
+
 string Save_Report_Action()
 {
     string user_choice;
@@ -182,20 +181,8 @@ string Save_Report_Action()
         cout << "Please Enter Your Choice: ";
         getline(cin, user_choice);
 
-        if (user_choice == "1")
+        if (user_choice == "1" || user_choice == "2" || user_choice == "3")
         {
-            return user_choice;
-            break;
-        }
-        else if (user_choice == "2")
-        {
-            return user_choice;
-            break;
-        }
-        else if (user_choice == "3")
-        {
-
-            Save_Report_Menu();
             break;
         }
         else
@@ -204,6 +191,7 @@ string Save_Report_Action()
             pressEnter();
         }
     }
+    return user_choice;
 }
 
 string reportMethod(string method)
@@ -304,37 +292,7 @@ char User_Menu_Selection(string name)
     cout << "Please Enter Your choice: ";
     cin >> user_choice;
 
-    if (user_choice == '1')
-    {
-        // Statistical Menu
-        return '1';
-    }
-
-    else if (user_choice == '2')
-    {
-        // View Saved Report
-        return '2';
-    }
-
-    else if (user_choice == '3')
-    {
-        // View User Log
-        return '3';
-    }
-
-    else if (user_choice == '4')
-    {
-        // Change Password
-        // UserChangePassword();
-        return '4';
-    }
-
-    else if (user_choice == '5')
-    {
-        // Log out
-        cin.ignore();
-        return '5';
-    }
+    return user_choice;
 }
 
 char Admin_Menu_Selection(string name)
@@ -343,24 +301,7 @@ char Admin_Menu_Selection(string name)
     cout << "Please Enter Your choice: ";
     cin >> admin_choice;
 
-    if (admin_choice == '1')
-    {
-        // Create User Account
-        return '1';
-    }
-
-    else if (admin_choice == '2')
-    {
-        // Modify User Account
-        return '2';
-    }
-
-    else if (admin_choice == '3')
-    {
-        // Log Out
-        cin.ignore();
-        return '3';
-    }
+    return admin_choice;
 }
 
 void Modify_User_Menu()
@@ -380,33 +321,17 @@ char Modify_User_Selection()
     cout << "Please Enter Your choice: ";
     cin >> modify_choice;
 
-    if (modify_choice == '1')
-    {
-        // Change User Password
-        return '1';
-    }
-
-    else if (modify_choice == '2')
-    {
-        // Delete User Account
-        return '2';
-    }
-
-    else if (modify_choice == '3')
-    {
-        // Back
-        cin.ignore();
-        return '3';
-    }
+    return modify_choice;
 }
 
 char Report_Menu()
 {
-    bool valid;
+    bool valid = true;
     char user_choice;
-
+    Menu_Dashboard();
     cout << "1.   View plain text report" << endl;
     cout << "2.   View HTML report" << endl;
+    cout << "3.   Go back" << endl;
 
     while (valid)
     {
@@ -414,24 +339,31 @@ char Report_Menu()
         cin >> user_choice;
         cin.ignore(30, '\n');
 
-        if (user_choice == '1')
-        {
-            return user_choice;
-            // cout << "Plain Text Report" << endl;
+        if (user_choice == '1' || user_choice =='2' || user_choice =='3') {
+            valid = false;
         }
+        // if (user_choice == '1')
+        // {
+        //     return user_choice;
+        //     valid = false;
+        //     // cout << "Plain Text Report" << endl;
+        // }
 
-        else if (user_choice == '2')
-        {
-            // cout << "HTML Report" << endl;
-            return user_choice;
-        }
+        // else if (user_choice == '2')
+        // {
+        //     // cout << "HTML Report" << endl;
+        //     valid = false;
+        //     return user_choice;
+        // }
 
         else
         {
             cout << "Invalid Input" << endl;
+            continue;
             // return '0';
         }
     }
+    return user_choice;
 }
 
 #endif

@@ -14,13 +14,9 @@ using namespace std;
     #define mkdir "mkdir -p "
     #define slash "/"
 #else
-    #define mkdir "mkdir "
+    #define mkdir "mkdir "   // Create new folder for new user registered
     #define slash "\\"
 #endif
-
-
-
-
 
 // Class for User Account
 class Users {
@@ -31,9 +27,7 @@ class Users {
         int type;
 };
 
-
-
-// Check if user status (is Admin or User)
+// Check if username and password correct, check user status and user type (admin or user)
 bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin){
     bool found = false;
 
@@ -69,14 +63,14 @@ void User_Data_In(string usertype, string username, string password)
     } else if (usertype == "User" || usertype == "user"){
         file << username << " " << password << " " << active << " " << user << endl;
         string dir = "Users_Folder";
-        string path = dir + slash + username;
+        string path = dir + slash + username;   // Create new folder for user
         system((mkdir + path).c_str());
     }
     file.close();
 
 }
 
-// Check if registering account password is legit
+// Check if registering account password is legit (at least 1 uppercase and 1 digit)
 bool check_pw(string password)
 {
     bool hasUpper = false, hasDigit = false;
@@ -127,10 +121,10 @@ vector<Users> readUser() {
     return users;
 }
 
-// Find the user account info in the vector
+// Find the user account info in the vector and return its index
 int findUserbyName(vector<Users> users, string name) {
     for (int i=0;i<users.size();i++) {
-        // cout << u.user << " " << u.pass << " " << u.status << " " << u.type << endl;
+
         if (users[i].user == name && users[i].status == 1) {
             return i;
         }
@@ -148,7 +142,7 @@ void modifyUser(vector<Users> &users, int index, string password) {
     users[index].pass = password;
 }
 
-// Rewrite whole user account data in file after deleting or changing
+// Rewrite whole user account data in file after deleting or changing password
 void writeUser(vector<Users> users) {
     ofstream file("UserData.txt");
     for (int i=0;i<users.size();i++) {
@@ -237,17 +231,19 @@ void UserInfo(){
     }
 }
 
-// Menu for Delete User Account
+// Delete User Account
 void UserDelete()
 {
     bool userExists = false;
     string username;
     vector<Users> users = readUser();
     UserInfo();
-    
+
     do{
         cout << "\nPlease enter the account username you wish to delete: " << endl;
         cin >> username; cin.ignore(80, '\n');
+
+
         int index = findUserbyName(users, username);
         if(index == -1){
             cout << "User does not exists or is deleted" << endl;
@@ -270,10 +266,11 @@ void AdminChangePassword()
     string username, newpass;
     vector<Users> users = readUser();
     UserInfo();
-    
+
     do{
         cout << "\nPlease enter the account username you wish to change password: " << endl;
         cin >> username; cin.ignore(80, '\n');
+
         int index = findUserbyName(users, username);
         if(index == -1){
             cout << "User does not exists or is deleted" << endl;
@@ -304,7 +301,7 @@ void AdminChangePassword()
 void UserChangePassword(string username){
     bool valid = false;
     string newpass;
-    // username = global_username;
+
     do{
         cout << "Enter new password: ";
         cin >> newpass; cin.ignore(80, '\n');
@@ -361,7 +358,8 @@ int Login_Choice(char &stat, bool &isAdmin, string &name)
                 bool found;
                 found = checkUser(users, name, pass, isAdmin);
 
-                if (!found){
+                if (!found)  
+                {
                     cout << "Your username or password is incorrect" << endl;
                     cout << "Press enter to continue" << endl;
                     cin.ignore(30,'\n');
