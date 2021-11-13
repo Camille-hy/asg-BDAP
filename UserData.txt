@@ -1,5 +1,5 @@
-test1 Abc1 1 1
-test2 Abc2 1 0
+test1 Abc1 0 1
+test2 A1 0 0
 test3 Abc3 1 0
 a a 1 0
 b b 1 1

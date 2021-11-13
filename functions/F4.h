@@ -1,5 +1,3 @@
-#ifndef F4_H
-#define F4_H
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -9,6 +7,20 @@
 
 using namespace std;
 string Save_Report_Action();
+
+// Function for centering text
+int CenterText(string name)
+{
+    int length = name.size();
+    int width = (52 / 2) + (length / 2);
+
+    return width;
+}
+
+/* ========================================================== */
+
+// Title Screen
+
 void Welcome_Screen()
 {
     clearScreen();
@@ -20,14 +32,9 @@ void Welcome_Screen()
     cout << endl;
 }
 
-int CenterText(string name)
-{
-    int length = name.size();
-    int width = (52 / 2) + (length / 2);
+/* ========================================================== */
 
-    return width;
-}
-
+// Dashboard Screen
 void Menu_Dashboard()
 {
     clearScreen();
@@ -40,12 +47,7 @@ void Menu_Dashboard()
 
 char Login_Dashboard()
 {
-    clearScreen();
-    cout << "+--------------------------------------------------+" << endl;
-    cout << "|            Basic Data Analysis Program           |" << endl;
-    cout << "|                    (  BDAP  )                    |" << endl;
-    cout << "+--------------------------------------------------+" << endl;
-    cout << endl;
+    Menu_Dashboard();
     cout << "Please Choose " << endl
          << endl;
     cout << "1. Login" << endl;
@@ -57,6 +59,9 @@ char Login_Dashboard()
     return choice;
 }
 
+/* ========================================================== */
+
+// Statistical related screen
 void Statistical_Analysis_Menu()
 {
     Menu_Dashboard();
@@ -97,6 +102,33 @@ char Statistical_Calculation_Menu_Selection()
     return user_choice;
 }
 
+/* ========================================================== */
+
+// Generate titles with each computation's titles
+string reportMethod(string method)
+{
+    stringstream ss;
+    ss << "+";
+    for (int i = 0; i < (method.length() + 4); i++)
+    {
+        ss << "-";
+    }
+    ss << "+" << endl;
+    ss << "|  " + method + "  |" << endl;
+    ss << "+";
+    for (int i = 0; i < (method.length() + 4); i++)
+    {
+        ss << "-";
+    }
+    ss << "+" << endl;
+
+    return ss.str();
+}
+
+/* ========================================================== */
+
+// User Screen
+
 void User_Menu(string name)
 {
     Menu_Dashboard();
@@ -112,24 +144,19 @@ void User_Menu(string name)
     cout << "6.   Log out" << endl << endl;
 }
 
-void Admin_Menu(string name)
+char User_Menu_Selection(string name)
 {
-    Menu_Dashboard();
+    char user_choice;
+    cout << "Please Enter Your choice: ";
+    cin >> user_choice;
 
-    int width = CenterText(name);
-    cout << setw(35) << "Welcome Admin, " << endl;
-    cout << right << setw(width) << fixed << name << endl
-         << endl;
-    cout << "1.   Create User Account" << endl;
-    cout << "2.   Modify User Account" << endl;
-    cout << "3.   Log out" << endl;
+    return user_choice;
 }
-
 
 
 string Save_Report_Menu()
 {
-    //Menu_Dashboard();
+
     string user_choice;
     cout << "Do you want to save as report" << endl;
     cout << "Type 'y' save the report or 'n' to go back" << endl;
@@ -138,16 +165,10 @@ string Save_Report_Menu()
     {
         cout << "Please Enter Your Choice: ";
         getline(cin, user_choice);
-        // cin.ignore(30, '\n');
-        // cin.get(user_choice);
 
         if (user_choice == "y")
         {
             user_choice = Save_Report_Action();
-
-            // if (user_choice == '3') {
-
-            // }
             return user_choice;
             break;
         }
@@ -159,11 +180,39 @@ string Save_Report_Menu()
         else
         {
             cout << "Invalid Input" << endl;
-            // cin.ignore(50, '\n');
             pressEnter();
         }
     }
 }
+
+char Report_Menu()
+{
+    bool valid = true;
+    char user_choice;
+    Menu_Dashboard();
+    cout << "1.   View plain text report" << endl;
+    cout << "2.   View HTML report" << endl;
+    cout << "3.   Go back" << endl;
+
+    while (valid)
+    {
+        cout << "Please Enter Your choice: ";
+        cin >> user_choice;
+        cin.ignore(30, '\n');
+
+        if (user_choice == '1' || user_choice =='2' || user_choice =='3') {
+            valid = false;
+        }
+
+        else
+        {
+            cout << "Invalid Input" << endl;
+            continue;
+        }
+    }
+    return user_choice;
+}
+
 
 
 
@@ -194,25 +243,7 @@ string Save_Report_Action()
     return user_choice;
 }
 
-string reportMethod(string method)
-{
-    stringstream ss;
-    ss << "+";
-    for (int i = 0; i < (method.length() + 4); i++)
-    {
-        ss << "-";
-    }
-    ss << "+" << endl;
-    ss << "|  " + method + "  |" << endl;
-    ss << "+";
-    for (int i = 0; i < (method.length() + 4); i++)
-    {
-        ss << "-";
-    }
-    ss << "+" << endl;
 
-    return ss.str();
-}
 
 string Generate_HTML_Report(string method, string data, string title, string title2 = "")
 {
@@ -231,6 +262,26 @@ string Generate_HTML_Report(string method, string data, string title, string tit
         htmlData << " & " << title2;
     }
     htmlData << "</h2>" << endl;
+    htmlData << "<pre>" << data << "</pre>" << endl;
+    htmlData << "</body>" << endl;
+    htmlData << "</html>" << endl;
+    return htmlData.str();
+}
+
+
+string Generate_HTML_Report(string method, string data)
+{
+    stringstream htmlData;
+    string m = reportMethod(method);
+
+    htmlData << "<html>" << endl;
+    htmlData << "<body>" << endl;
+    htmlData << "<h1>"
+             << "<pre>" << m << "</pre>"
+             << "</h1>" << endl;
+    htmlData << "<h2>"
+             << "All Titles"
+             << "</h2>" << endl;
     htmlData << "<pre>" << data << "</pre>" << endl;
     htmlData << "</body>" << endl;
     htmlData << "</html>" << endl;
@@ -267,32 +318,23 @@ string Generate_Plain_Text_Report(string method, string data)
     return plainTextData.str();
 }
 
-string Generate_HTML_Report(string method, string data)
+
+
+/* ========================================================== */
+
+// Admin screen
+
+void Admin_Menu(string name)
 {
-    stringstream htmlData;
-    string m = reportMethod(method);
+    Menu_Dashboard();
 
-    htmlData << "<html>" << endl;
-    htmlData << "<body>" << endl;
-    htmlData << "<h1>"
-             << "<pre>" << m << "</pre>"
-             << "</h1>" << endl;
-    htmlData << "<h2>"
-             << "All Titles"
-             << "</h2>" << endl;
-    htmlData << "<pre>" << data << "</pre>" << endl;
-    htmlData << "</body>" << endl;
-    htmlData << "</html>" << endl;
-    return htmlData.str();
-}
-
-char User_Menu_Selection(string name)
-{
-    char user_choice;
-    cout << "Please Enter Your choice: ";
-    cin >> user_choice;
-
-    return user_choice;
+    int width = CenterText(name);
+    cout << right << setw(35) << "Welcome Admin, " << endl;
+    cout << right << setw(width) << fixed << name << endl
+         << endl;
+    cout << "1.   Create User Account" << endl;
+    cout << "2.   Modify User Account" << endl;
+    cout << "3.   Log out" << endl;
 }
 
 char Admin_Menu_Selection(string name)
@@ -324,46 +366,6 @@ char Modify_User_Selection()
     return modify_choice;
 }
 
-char Report_Menu()
-{
-    bool valid = true;
-    char user_choice;
-    Menu_Dashboard();
-    cout << "1.   View plain text report" << endl;
-    cout << "2.   View HTML report" << endl;
-    cout << "3.   Go back" << endl;
 
-    while (valid)
-    {
-        cout << "Please Enter Your choice: ";
-        cin >> user_choice;
-        cin.ignore(30, '\n');
 
-        if (user_choice == '1' || user_choice =='2' || user_choice =='3') {
-            valid = false;
-        }
-        // if (user_choice == '1')
-        // {
-        //     return user_choice;
-        //     valid = false;
-        //     // cout << "Plain Text Report" << endl;
-        // }
 
-        // else if (user_choice == '2')
-        // {
-        //     // cout << "HTML Report" << endl;
-        //     valid = false;
-        //     return user_choice;
-        // }
-
-        else
-        {
-            cout << "Invalid Input" << endl;
-            continue;
-            // return '0';
-        }
-    }
-    return user_choice;
-}
-
-#endif
