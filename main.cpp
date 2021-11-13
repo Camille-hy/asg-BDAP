@@ -42,15 +42,22 @@ void saveReport(int index, string method, string result, vecpair titles, Logger 
         }
         f.saveHtmlReport(d);
     }
+    else if (s == "3")
+    {
+        logger.log("User go back to the ");
+    }
 }
 
+// Statistical Calculation, Select 1 = Select only for Single Column
 void select_1(File &f, Logger &logger, string method, char choice, vecpair titles, vector<int> computable, vector2d arr2d, int row)
 {
     bool flag = true;
     bool flag2 = false;
     while (flag)
     {
-        int result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+        double result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
+        cin.ignore(0);
+        pressEnter();
         if (flag2)
         {
             int choicetoint = choice - '0';
@@ -61,6 +68,7 @@ void select_1(File &f, Logger &logger, string method, char choice, vecpair title
     }
 }
 
+// Statistical Calculation, Select 2 = Select only for All Column
 void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
 {
     string result = allColumnCompute(method, titles, computable, choice, arr2d, row);
@@ -481,6 +489,8 @@ int main()
                         //Go Back
                         logger.log("User go back to main menu");
                         break;
+                        // continue;
+
                     }
                 }
             }
@@ -493,9 +503,14 @@ int main()
                 {
                     f.txtReportScreen();
                 }
-                else
+                else if (input == '2')
                 {
                     f.htmlReportScreen();
+                }
+                else
+                {
+                    logger.log("User go back to main menu");
+                    continue;
                 }
             }
             else if (choice == '3')

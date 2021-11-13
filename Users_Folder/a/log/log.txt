@@ -201,3 +201,105 @@
 2021-Nov-13  00:25:04    User chooses maximum
 2021-Nov-13  00:25:10    User chooses to find all column
 2021-Nov-13  00:25:23    User save html report
+2021-Nov-13  12:18:05    User enter statistical analysis menu
+2021-Nov-13  12:18:06    User enter statistical calculation menu
+2021-Nov-13  12:18:07    User chooses minimum
+2021-Nov-13  12:18:17    User chooses to find single column
+2021-Nov-13  12:18:45    User enter statistical analysis menu
+2021-Nov-13  12:18:46    User enter statistical calculation menu
+2021-Nov-13  12:18:47    User chooses minimum
+2021-Nov-13  12:19:03    User chooses to find single column
+2021-Nov-13  12:19:50    User chooses mean
+2021-Nov-13  12:19:55    User chooses to find single column
+2021-Nov-13  12:27:24    User enter statistical analysis menu
+2021-Nov-13  12:27:27    User enter statistical calculation menu
+2021-Nov-13  12:27:28    User chooses maximum
+2021-Nov-13  12:27:35    User chooses to find single column
+2021-Nov-13  12:27:43    User go back to the save report menu
+2021-Nov-13  12:27:57    User go back to statistical analysis menu
+2021-Nov-13  12:27:59    User go back to main menu
+2021-Nov-13  12:28:08    User enter statistical analysis menu
+2021-Nov-13  12:28:09    User enter statistical calculation menu
+2021-Nov-13  12:28:21    User chooses minimum
+2021-Nov-13  12:28:25    User chooses to find single column
+2021-Nov-13  12:28:29    User save html report
+2021-Nov-13  12:28:44    User chooses minimum
+2021-Nov-13  12:28:49    User chooses to find single column
+2021-Nov-13  12:28:54    User go back to the save report menu
+2021-Nov-13  12:29:13    User chooses minimum
+2021-Nov-13  12:29:17    User chooses to find single column
+2021-Nov-13  12:29:22    User go back to the save report menu
+2021-Nov-13  12:31:28    User enter statistical analysis menu
+2021-Nov-13  12:31:29    User enter statistical calculation menu
+2021-Nov-13  12:31:32    User chooses maximum
+2021-Nov-13  12:31:34    User chooses to find single column
+2021-Nov-13  12:39:51    User enter statistical analysis menu
+2021-Nov-13  12:39:52    User enter statistical calculation menu
+2021-Nov-13  12:39:53    User chooses minimum
+2021-Nov-13  12:39:56    User chooses to find single column
+2021-Nov-13  12:40:02    User go back to the save report menu
+2021-Nov-13  12:40:05    User save html report
+2021-Nov-13  12:41:35    User enter statistical analysis menu
+2021-Nov-13  12:41:38    User enter statistical calculation menu
+2021-Nov-13  12:41:39    User chooses maximum
+2021-Nov-13  12:41:42    User chooses to find single column
+2021-Nov-13  12:41:46    User go back to the save report menu
+2021-Nov-13  12:41:49    User go back to the save report menu
+2021-Nov-13  12:41:51    User save plain text report
+2021-Nov-13  12:44:10    User Enter Invalid Input
+2021-Nov-13  12:44:14    User enter statistical analysis menu
+2021-Nov-13  12:57:24    User view saved report
+2021-Nov-13  13:00:39    User view saved report
+2021-Nov-13  13:02:19    User view saved report
+2021-Nov-13  13:03:40    User view saved report
+2021-Nov-13  13:03:59    User view saved report
+2021-Nov-13  13:04:16    User view saved report
+2021-Nov-13  13:05:06    User view saved report
+2021-Nov-13  13:05:31    User view saved report
+2021-Nov-13  13:06:44    User view saved report
+2021-Nov-13  13:07:30    User view saved report
+2021-Nov-13  13:09:29    User view saved report
+2021-Nov-13  13:10:15    User view saved report
+2021-Nov-13  13:11:51    User view user log
+2021-Nov-13  13:14:59    User change password
+2021-Nov-13  13:28:32    User view saved report
+2021-Nov-13  13:28:38    User enter statistical analysis menu
+2021-Nov-13  13:28:40    User go back to main menu
+2021-Nov-13  13:28:41    User view saved report
+2021-Nov-13  13:30:17    User view saved report
+2021-Nov-13  13:35:49    User view saved report
+2021-Nov-13  13:36:18    User view saved report
+2021-Nov-13  13:37:38    User view saved report
+2021-Nov-13  13:37:39    User go back to main menu
+2021-Nov-13  13:38:56    User view saved report
+2021-Nov-13  13:38:57    User go back to main menu
+2021-Nov-13  13:39:46    User view saved report
+2021-Nov-13  13:39:47    User go back to main menu
+2021-Nov-13  13:39:49    User view saved report
+2021-Nov-13  13:41:25    User view saved report
+2021-Nov-13  13:41:30    User go back to main menu
+2021-Nov-13  13:42:06    User Enter Invalid Input
+2021-Nov-13  13:42:06    User Enter Invalid Input
+2021-Nov-13  13:42:06    User Enter Invalid Input
+2021-Nov-13  13:42:06    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:42:07    User Enter Invalid Input
+2021-Nov-13  13:45:50    User Enter Invalid Input
+2021-Nov-13  13:45:50    User Enter Invalid Input
+2021-Nov-13  13:45:50    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input
+2021-Nov-13  13:45:51    User Enter Invalid Input

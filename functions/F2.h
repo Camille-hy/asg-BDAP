@@ -24,6 +24,8 @@ void showHeader()
     cout << "|            Basic Data Analysis Program           |" << endl;
     cout << "|                    (  BDAP  )                    |" << endl;
     cout << "+--------------------------------------------------+" << endl;
+    cout << endl
+         << endl;
 }
 
 typedef vector<vector<int>> vector2d;
@@ -275,20 +277,18 @@ private:
         do
         {
             showHeader();
-            cout << endl
-                 << endl;
             cout << "The filename already exist" << endl;
-            cout << "Type 'yes' to replace and 'no' to set a new name" << endl;
+            cout << "Type 'y' to replace and 'n' to set a new name" << endl;
             getline(cin, res);
-            if (res != "yes" && res != "no")
+            if (res != "y" && res != "n")
             {
                 cout << "Please enter a valid input" << endl;
                 pressEnter();
             }
 
-        } while (res != "yes" && res != "no");
+        } while (res != "y" && res != "n");
 
-        return res == "yes" ? true : false;
+        return res == "y" ? true : false;
     }
 
     void writeLine(ofstream &file, const int &data)
@@ -298,29 +298,74 @@ private:
 
     void writeLine(ofstream &file, const vecpair &data)
     {
-        for (pair<string, int> temp : data)
+        for (int i = 0; i < numCol; i++)
         {
-            file << temp.first << ",";
+            if (i != numCol - 1)
+            {
+                file << data[i].first << ",";
+            }
+            else
+            {
+                file << data[i].first;
+            }
         }
         file << endl;
     }
+
+    // void writeLine(ofstream &file, const vector<int> &data)
+    // {
+    //     for (int i : data)
+    //     {
+    //         file << i << ",";
+    //     }
+    //     file << endl;
+    // }
 
     void writeLine(ofstream &file, const vector<int> &data)
     {
-        for (int i : data)
+        for (int i = 0; i < numCol; i++)
         {
-            file << i << ",";
+            if (i != numCol - 1)
+            {
+                file << data[i] << ",";
+            }
+            else
+            {
+                file << data[i];
+            }
         }
         file << endl;
     }
 
+    // void writeLine(ofstream &file, const vector2d &data)
+    // {
+    //     for (int i = 0; i < numRow; i++)
+    //     {
+    //         for (int col : data[i])
+    //         {
+
+    //             file << col << ",";
+    //         }
+    //         if (i < numRow - 1)
+    //         {
+    //             file << endl;
+    //         }
+    //     }
+    // }
     void writeLine(ofstream &file, const vector2d &data)
     {
         for (int i = 0; i < numRow; i++)
         {
-            for (int col : data[i])
+            for (int j = 0; j < numCol; j++)
             {
-                file << col << ",";
+                if (j != numCol - 1)
+                {
+                    file << data[i][j] << ",";
+                }
+                else
+                {
+                    file << data[i][j];
+                }
             }
             if (i < numRow - 1)
             {
@@ -342,8 +387,6 @@ private:
         while (true)
         {
             showHeader();
-            cout << endl
-                 << endl;
             cout << "What is the name of new file (without the file extension -> .txt)" << endl;
             cin >> filename;
             cin.ignore(50, '\n');
@@ -370,8 +413,6 @@ private:
         while (true)
         {
             showHeader();
-            cout << endl
-                 << endl;
             cout << "What is the name of txt report (without file extension -> .txt)" << endl;
             cin >> filename;
             cin.ignore(50, '\n');
@@ -397,8 +438,6 @@ private:
         while (true)
         {
             showHeader();
-            cout << endl
-                 << endl;
             cout << "What is the name of html report (without file extension -> .html)" << endl;
             cin >> filename;
             cin.ignore(50, '\n');
@@ -447,8 +486,6 @@ public:
             string path, fileName;
 
             showHeader();
-            cout << endl
-                 << endl;
             cout << "What is the filename (without file extension -> .txt)" << endl;
             getline(cin, fileName);
             path = dataDir + slash + fileName + ".txt";
@@ -499,6 +536,9 @@ public:
         writeLine(outFile, compute);
         writeLine(outFile, numRow);
         writeLine(outFile, data);
+
+        cout << "Your data file is saved as '" << filename << "' successfully" << endl;
+        pressEnter(); 
     }
 
     void saveTxtReport(const string &data)
@@ -507,6 +547,9 @@ public:
         string filename;
         string input;
         askTxtName(filename);
+        // if (filename == "") {
+        //     return;
+        // }
         string path = reportDir + slash + filename;
         outFile.open(path);
         outFile << data;
@@ -520,7 +563,7 @@ public:
             {
                 cout << data << endl;
                 pressEnter();
-                 return;
+                return;
             }
             else if (input == "n")
             {
@@ -584,8 +627,13 @@ public:
         {
             showHeader();
             cout << "Please enter the name of txt report (without file extension -> .txt)" << endl;
+            cout << "Press enter to go back" << endl;
             // cin.ignore(30, '\n');
             getline(cin, filename);
+            if (filename == "")
+            {
+                return;
+            }
             filename += ".txt";
             string path = reportDir + slash + filename;
             if (fileExist(path))
@@ -751,8 +799,6 @@ public:
             int num = 1;
 
             showHeader();
-            cout << endl
-                 << endl;
             showLogMenu(options, num, start, end);
             if (!getValidInput(input, num))
                 continue;
@@ -772,39 +818,3 @@ public:
         }
     };
 };
-
-// int main()
-// {
-//     File file("limcz");
-//     file.loadScreen();
-//     int col = file.getCol();
-//     int row = file.getRow();
-//     vector<pair<string, int>> title = file.getTitle();
-//     vector<int> compute = file.getCompute();
-//     vector<vector<int>> data = file.getData();
-
-//     cout << col << endl;
-//     cout << row << endl;
-
-//     for (auto c : compute)
-//     {
-//         cout << c << ' ';
-//     }
-
-//     cout << endl;
-
-//     for (auto p : title)
-//     {
-//         cout << p.first << " ";
-//     }
-//     cout << endl;
-
-//     for (auto row : data)
-//     {
-//         for (auto col : row)
-//         {
-//             cout << col << " ";
-//         }
-//         cout << endl;
-//     }
-// }
