@@ -238,11 +238,17 @@ void UserDelete()
     string username;
     vector<Users> users = readUser();
     UserInfo();
-
+    cout << "\nPress enter to go back" << endl << endl;
+    cin.ignore(80, '\n');
     do{
-        cout << "\nPlease enter the account username you wish to delete: " << endl;
-        cin >> username; cin.ignore(80, '\n');
-
+        
+        cout << "Please enter the account username you wish to delete: " << endl;
+        
+        getline(cin, username);
+        if(username == "")
+        {
+            userExists = true;
+        }
 
         int index = findUserbyName(users, username);
         if(index == -1){
@@ -259,6 +265,27 @@ void UserDelete()
 
 }
 
+
+void passwordValidation(bool &valid, string username, string newpass)
+{
+    vector<Users> users = readUser();
+    int index = findUserbyName(users, username);
+    cout << "Enter new password: ";
+    cin >> newpass; cin.ignore(80, '\n');
+    if(!isalpha(newpass[0]))
+        cout << "Password can only start with letter" << endl;
+    else if(check_pw(newpass)){
+        modifyUser(users, index, newpass);
+        writeUser(users);
+        cout << "Password Changed" << endl;
+        pressEnter();
+        valid = true;
+    }
+    else{
+        cout << "Password must include at least one capital letter and one digit!" << endl;
+    }
+}
+
 // Menu for Change User Password (Admin)
 void AdminChangePassword()
 {
@@ -266,10 +293,16 @@ void AdminChangePassword()
     string username, newpass;
     vector<Users> users = readUser();
     UserInfo();
-
+    cout << "\nPress enter to go back" << endl << endl;
+    cin.ignore(80, '\n');
     do{
-        cout << "\nPlease enter the account username you wish to change password: " << endl;
-        cin >> username; cin.ignore(80, '\n');
+        cout << "Please enter the account username you wish to change password: " << endl;
+        getline(cin, username);
+        
+        if(username == "")
+        {
+            userExists = true;
+        }
 
         int index = findUserbyName(users, username);
         if(index == -1){
@@ -278,20 +311,7 @@ void AdminChangePassword()
         else{
             userExists = true;
             do{
-                cout << "Enter new password: ";
-                cin >> newpass; cin.ignore(80, '\n');
-                if(!isalpha(newpass[0]))
-                    cout << "Password can only start with letter" << endl;
-                else if(check_pw(newpass)){
-                    modifyUser(users, index, newpass);
-                    writeUser(users);
-                    cout << "Password Changed" << endl;
-                    pressEnter();
-                    valid = true;
-                }
-                else{
-                    cout << "Password must include at least one capital letter and one digit!" << endl;
-                }
+                passwordValidation(valid, username, newpass);
             }while(!valid);
         }
     }while(!userExists);
@@ -301,10 +321,14 @@ void AdminChangePassword()
 void UserChangePassword(string username){
     bool valid = false;
     string newpass;
-
+    cout << "\nPress enter to go back" << endl << endl;
     do{
         cout << "Enter new password: ";
-        cin >> newpass; cin.ignore(80, '\n');
+        getline(cin, newpass);
+        if(newpass == "")
+        {
+            valid = true;
+        }
         vector<Users> users = readUser();
         int index = findUserbyName(users, username);
         if(!isalpha(newpass[0]))
