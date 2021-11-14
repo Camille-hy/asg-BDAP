@@ -10,6 +10,8 @@
 
 using namespace std;
 
+// Save report function that ask the user to save the repoort as plain text or html
+// Effective lines: 18
 void saveReport(int index, string method, string result, vecpair titles, Logger &logger, File &f, int index2 = -1)
 {
     string s = Save_Report_Menu();
@@ -49,6 +51,7 @@ void saveReport(int index, string method, string result, vecpair titles, Logger 
 }
 
 // Statistical Calculation, Select 1 = Select only for Single Column
+// Effective lines: 11
 void select_1(File &f, Logger &logger, string method, char choice, vecpair titles, vector<int> computable, vector2d arr2d, int row)
 {
     bool flag = true;
@@ -69,6 +72,7 @@ void select_1(File &f, Logger &logger, string method, char choice, vecpair title
 }
 
 // Statistical Calculation, Select 2 = Select only for All Column
+// Effective lines: 13
 void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
 {
     string result = allColumnCompute(method, choice, titles, computable, arr2d, row);
@@ -93,6 +97,9 @@ void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int
     }
 }
 
+
+// Function that contain F3.1 - F3.6
+// Effective lines: 24
 bool statistical_calculation(File &f, Logger &logger, string method, char choice)
 {
     bool error = f.loadScreen();
@@ -580,7 +587,6 @@ int main()
             }
         }
     }
-
 
     return 0;
 }
