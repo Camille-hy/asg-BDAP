@@ -1,0 +1,9 @@
+2021-Nov-14  17:11:49    User login
+2021-Nov-14  17:11:52    User go to view save report menu
+2021-Nov-14  17:11:54    User view plain text report
+2021-Nov-14  18:29:55    User login
+2021-Nov-14  18:29:57    User enter statistical analysis menu
+2021-Nov-14  18:30:00    User chooses histogram
+2021-Nov-14  18:30:02    User go back to statistical analysis menu
+2021-Nov-14  18:30:03    User go back to main menu
+2021-Nov-14  18:30:05    User logout
