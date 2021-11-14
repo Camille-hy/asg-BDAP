@@ -1,3 +1,8 @@
+/* 
+    All Functions in F4.h are implemented by 
+    Student: 1201100840 Chua Hui Yi
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -17,11 +22,11 @@ using namespace std;
 // Class for User Account
 class Users
 {
-public:
-    string user;
-    string pass;
-    int status;
-    int type;
+    public:
+        string user;
+        string pass;
+        int status;
+        int type;
 };
 
 // Check if username and password correct, check user status and user type (admin or user)
@@ -316,31 +321,7 @@ void passwordValidation(bool &valid, string username, string newpass)
     }
 }
 
-
-
-
-void passwordValidation(bool &valid, string username, string newpass)
-{
-    vector<Users> users = readUser();
-    int index = findUserbyName(users, username);
-    cout << "Enter new password: ";
-    cin >> newpass; cin.ignore(80, '\n');
-    if(!isalpha(newpass[0]))
-        cout << "Password can only start with letter" << endl;
-    else if(check_pw(newpass)){
-        modifyUser(users, index, newpass);
-        writeUser(users);
-        cout << "Password Changed" << endl;
-        pressEnter();
-        valid = true;
-    }
-    else{
-        cout << "Password must include at least one capital letter and one digit!" << endl;
-    }
-}
-
 // Menu for Change User Password (Admin)
-
 void AdminChangePassword()
 {
     bool userExists = false, valid = false;

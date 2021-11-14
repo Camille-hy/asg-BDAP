@@ -1,3 +1,11 @@
+/* 
+    All Functions in F4.h are implemented by 
+    Student: 1201100837 Tan Zi Sheng 
+
+*/
+
+
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -21,6 +29,8 @@ int CenterText(string name)
 
 // Title Screen
 
+// This is the title screen that user will see when they first enter out program
+// Effective lines: 7
 void Welcome_Screen()
 {
     clearScreen();
@@ -31,10 +41,15 @@ void Welcome_Screen()
     cout << "+--------------------------------------------------+" << endl;
     cout << endl;
 }
-
 /* ========================================================== */
 
 // Dashboard Screen
+
+
+// This is the title used accross the whole progrma 
+// Effective lines: 6 
+// In: - 
+// Out: - 
 void Menu_Dashboard()
 {
     clearScreen();
@@ -45,6 +60,10 @@ void Menu_Dashboard()
     cout << endl;
 }
 
+// User options menu 
+// In: -
+// Out: User's choice 
+// Effective Lines: 10  
 char Login_Dashboard()
 {
     Menu_Dashboard();
