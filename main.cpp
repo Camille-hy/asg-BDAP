@@ -71,7 +71,7 @@ void select_1(File &f, Logger &logger, string method, char choice, vecpair title
 // Statistical Calculation, Select 2 = Select only for All Column
 void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
 {
-    string result = allColumnCompute(method, titles, computable, choice, arr2d, row);
+    string result = allColumnCompute(method, choice, titles, computable, arr2d, row);
     cin.ignore();
     pressEnter();
     string s = Save_Report_Menu();
