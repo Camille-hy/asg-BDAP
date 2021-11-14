@@ -1,23 +1,19 @@
 #include <iostream>
-#include <algorithm> // for sort
-#include <cmath> // for pow
+#include <algorithm> // For sort()
+#include <cmath> // For pow() & sqrt()
 #include <sstream>
 #include <vector>
 #include <iomanip>
 using namespace std;
 
-// find a specific column or all columns
-char select_column()
-{
-    cout << "Specific column or all column?"
-            << " (1 for specific, 2 for all): ";
-    char choice;
-    cin >> choice;
-    return choice;
-}
 
+/////////////////////////////////////// start of Calculation Functions ///////////////////////////////////////
 
-//find min from a 2d array
+// Find for minimum value in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Minimum Value
+// Effective Lines: 5
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_min(vector2d arr , int row, int column)
 {
     double min = arr[0][column];
@@ -32,7 +28,11 @@ double find_min(vector2d arr , int row, int column)
 }
 
 
-// find max from a 2d array
+// Find for maximum value in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Maximum Value
+// Effective Lines: 5
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_max(vector2d arr , int row, int column)
 {
     double max = arr[0][column];
@@ -46,7 +46,11 @@ double find_max(vector2d arr , int row, int column)
     return max;
 }
 
-// find median from a 2d array
+// Find for median in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Median Value
+// Effective Lines: 10
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_median(vector2d arr , int row, int column)
 {
     double median = 0;
@@ -67,6 +71,11 @@ double find_median(vector2d arr , int row, int column)
     return median;
 }
 
+// Find for mean value in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Median
+// Effective Lines: 4
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_mean(vector2d arr , int row, int column)
 {
     double sum = 0;
@@ -77,6 +86,11 @@ double find_mean(vector2d arr , int row, int column)
     return sum / row;
 }
 
+// Find for variance in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Variance
+// Effective Lines: 5
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_variance(vector2d arr, int row, int column)
 {
     double mean = find_mean(arr, row, column);
@@ -88,34 +102,47 @@ double find_variance(vector2d arr, int row, int column)
     return sum / row;
 }
 
+// Find for standard deviation in the column of a 2D array
+// In: 2D array, number of rows, chosen column
+// Out: Standard Deviation
+// Effective Lines: 2
+// Implemented by: LIM YUEN KHAI(1201100842)
 double find_stdv(vector2d arr , int row, int column)
 {
     double variance = find_variance(arr, row, column);
     return sqrt(variance);
 }
 
+// Find for correlation in the column of a 2D array
+// In: 2D array, number of rows, chosen column x, chosen column y
+// Out: Correlation
+// Effective Lines: 13
+// Implemented by: CHUA HUI YI(1201100840)
+double correlation(vector2d data,int row,int x,int y)
+{
+    double correlation, sumXY=0, sumX2=0, sumY2=0;
+    double mean_x = find_mean(data, row, x);
+    double mean_y = find_mean(data, row, y);
+    for(int i=0;i<row;i++)
+    {
+        sumXY += data[i][x] * data[i][y];
+        sumX2 += pow((data[i][x]), 2);
+        sumY2 += pow((data[i][y]), 2);
+    }
+    double numerator = sumXY - (row*mean_x*mean_y);
+    double mean_x2 = pow(mean_x, 2);
+    double mean_y2 = pow(mean_y, 2);
+    double denominator = (sqrt(sumX2 - row*mean_x2)) * (sqrt(sumY2 - row*mean_y2));
+    correlation = numerator / denominator;
 
+    return correlation;
+}
 
-// // Allocates dynamic array
-// int **allocateArray(int row, int col)
-// {
-//     int **arr;
-//     arr = new int*[row];
-//     for (int i=0; i<row; i++)   
-//         arr[i] = new int[col];
-//     return arr;
-// }
-
-// //Free dynamic array
-// void freeArray(int **arr, int row)
-// {
-//     for (int i=0; i<row; i++)   
-//         delete[] arr[i];
-//     delete[] arr;
-// }
-
-
-// -----------------------------------------------------------------------------------
+// Find for distinct member in the column of a 2D array
+// In: 2D array, chosen column
+// Out: Distinct Count
+// Effective Lines: 16
+// Implemented by: LIM CHIH ZHEN(1201101263)
 vector<pair<int, int>> distinctMember(vector<vector<int>> data, int col)
 {
     vector<int> distincts;
@@ -145,12 +172,16 @@ vector<pair<int, int>> distinctMember(vector<vector<int>> data, int col)
     return distinctCount;
 }
 
+// Pass the distinct count vector pair to construct a table
+// In: vector pair, chosen column
+// Out: Distinct Count Table
+// Effective Lines: 12
+// Implemented by: LIM CHIH ZHEN(1201101263)
 string tabularForm(vector<pair<int, int>> data)
 {
     string form;
     stringstream ss;
     string temp;
-    // form += "Distinct Number | Count\n";
     ss << "+-----------------+-------+" << endl;
     ss << "| Distinct Number | Count |" << endl;
     ss << "+-----------------+-------+" << endl;
@@ -167,10 +198,11 @@ string tabularForm(vector<pair<int, int>> data)
     return form;
 }
 
-
-// -----------------------------------------------------------------------------------
-
-
+// Find for class interval in the column of a 2D array
+// In: Minimum Value, Maximum Value, number of rows
+// Out: Class Interval
+// Effective Lines: 12
+// Implemented by: TAN ZI SHENG(1201100837)
 vector<vector<int>> classInterval(int min, int max, int row) {
   int c;
   vector<vector<int>> interval;
@@ -182,20 +214,25 @@ vector<vector<int>> classInterval(int min, int max, int row) {
   for (int i = 0; i < c; i++) {
     vector<int> temp = {lowerBoundary, upperBoundary};
     interval.push_back(temp);
-    // 125
     lowerBoundary += classWidth;
-    // 129
     upperBoundary += classWidth;
   }
   return interval;
 }
 
-vector<pair<double, int>> countData(vector2d data,
-                                    vector<vector<int>> interval, int index) {
+// Find for count (frequency) in the column of a 2D array
+// In: 2d Array, Interval, Index
+// Out: Count (Frequency)
+// Effective Lines: 10
+// Implemented by: TAN ZI SHENG(1201100837)
+vector<pair<double, int>> countData(vector2d data, vector2d interval, int index) 
+{
   vector<pair<double, int>> count;
-  for (auto i : interval) {
+  for (auto i : interval) 
+  {
     int counter = 0;
-    for (auto d : data) {
+    for (auto d : data) 
+    {
       if (d[index] >= i[0] && d[index] <= i[1]) {
         counter++;
       }
@@ -207,6 +244,11 @@ vector<pair<double, int>> countData(vector2d data,
   return count;
 }
 
+// Construct a Histogram Table (Without data inserted)
+// In: 2d Array, Interval, Index
+// Out: Histogram Table (Without data)
+// Effective Lines: 10
+// Implemented by: TAN ZI SHENG(1201100837)
 string createTable(vector<pair<double, int>> count) {
   stringstream table;
 
@@ -228,6 +270,11 @@ string createTable(vector<pair<double, int>> count) {
   return table.str();
 }
 
+// Construct a Histogram Table (With data inserted)
+// In: 2d Array, Minimum Value, Maximum Value, number of rows, index
+// Out: Histogram Table (With data)
+// Effective Lines: 10
+// Implemented by: TAN ZI SHENG(1201100837)
 string histogram(vector2d data, int min, int max, int row, int index) {
   vector<vector<int>> interval = classInterval(min, max, row);
   vector<pair<double, int>> count = countData(data, interval, index);
@@ -236,28 +283,31 @@ string histogram(vector2d data, int min, int max, int row, int index) {
   return table;
 }
 
-double correlation(vector<vector<int>> data,int row,int x,int y)
-{
-    double correlation, sumXY=0, sumX2=0, sumY2=0;
-    double mean_x = find_mean(data, row, x);
-    double mean_y = find_mean(data, row, y);
-    for(int i=0;i<row;i++)
-    {
-        sumXY += data[i][x] * data[i][y];
-        sumX2 += pow((data[i][x]), 2);
-        sumY2 += pow((data[i][y]), 2);
-    }
-    double numerator = sumXY - (row*mean_x*mean_y);
-    double mean_x2 = pow(mean_x, 2);
-    double mean_y2 = pow(mean_y, 2);
-    double denominator = (sqrt(sumX2 - row*mean_x2)) * (sqrt(sumY2 - row*mean_y2));
-    correlation = numerator / denominator;
+/////////////////////////////////////// end of Calculation Functions ///////////////////////////////////////
 
-    return correlation;
+/////////////////////////////////////// start of User Selection Functions ///////////////////////////////////////
+
+// System will ask the user if they want to 
+// compute for specific column or all column
+// for functional requirements F3.1 to F3.6
+// In: -
+// Out: Choice
+// Effective Lines: 4
+// Implemented by: LIM YUEN KHAI(1201100842)
+char select_column()
+{
+    cout << "Specific column or all column?"
+            << " (1 for specific, 2 for all): ";
+    char choice;
+    cin >> choice;
+    return choice;
 }
 
-
-// Show Computable Titles
+// Show Computable Index with Titles for user to select
+// In: Vector pair titles (index with titles), Computable Vector (1 or 0)
+// Out: - 
+// Effective Lines: 8
+// Implemented by: LIM YUEN KHAI(1201100842)
 void showComputableTitles(vecpair titles, vector<int> computable)
 {
   
@@ -277,6 +327,11 @@ void showComputableTitles(vecpair titles, vector<int> computable)
   cout << "+---------+-------------------+" << endl;
 }
 
+// Return function for 3.1 to 3.6 based on user selection
+// In: choice (which statistical calculation user has chosen), 2d array, number of rows, index
+// Out: return one of Function 3.1 to 3.6 
+// Effective Lines: 13
+// Implemented by: LIM YUEN KHAI(1201100842)
 double returnFunction(char choice, vector2d arr2d, int row, int index)
 {
   if (choice == '1')
@@ -294,29 +349,28 @@ double returnFunction(char choice, vector2d arr2d, int row, int index)
   return 0;
 }
 
+// Compute F3.1 to F3.6 for single column 
+// In: method(name of F3.1 to F3.6), choice(function of F3.1 to F3.6), titles(selected column title name), 
+//     computable vector(1 or 0), 2d array, flag2 boolean 
+// Out: single result of F3.1 to F3.6
+// Effective Lines: 15
+// Implemented by: LIM YUEN KHAI(1201100842)
 double singleColumnCompute
-(string method,
-char &choice,
-vecpair titles, 
-vector<int> computable,
-vector2d arr2d, 
-int row,
-bool &flag2)
+(string method, char &choice, vecpair titles, vector<int> computable, vector2d arr2d, int row, bool &flag2)
 {
   int choiceindex;
   cout << "Select title by index" << endl;
   cin >> choiceindex;
   int index = choiceindex - 1;
 
-  // if choiceto int is in between 0 to computable.size()
   if ((choiceindex >= 0) && (choiceindex <= computable.size()))
   {
     if (computable[index] == 1)
     {
       double result = returnFunction(choice, arr2d, row, index);
       cout << method << " of " 
-          << titles[index].first << ": " 
-          << result << endl;
+           << titles[index].first << ": " 
+           << result << endl;
 
       flag2 = true;
       return result;
@@ -333,7 +387,14 @@ bool &flag2)
   return 0;
 }
 
-string allColumnCompute(string method, vecpair titles, vector<int> computable, char choice, vector2d arr2d, int row)
+// Compute F3.1 to F3.6 for all column
+// In: method(name of F3.1 to F3.6), choice(function of F3.1 to F3.6), titles(selected column title name), 
+//     computable vector(1 or 0), 2d array
+// Out: single result of F3.1 to F3.6
+// Effective Lines: 15
+// Implemented by: LIM YUEN KHAI(1201100842)
+string allColumnCompute
+(string method, char choice, vecpair titles, vector<int> computable, vector2d arr2d, int row)
 {
   stringstream ss;
   for (int i = 0; i < titles.size(); i++)
@@ -350,3 +411,4 @@ string allColumnCompute(string method, vecpair titles, vector<int> computable, c
     cout << ss.str();
     return ss.str();
 }
+/////////////////////////////////////// end of User Selection Functions ///////////////////////////////////////
