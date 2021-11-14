@@ -24,12 +24,38 @@ public:
     int type;
 };
 
-// Check if username and password correct, check user status and user type (admin or user)
-bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin)
-{
-    bool found = false;
+/* ========================================================== */
 
-    for (auto elem : users) // range loop to loop through the vector to get the data
+// Append new user to file
+// Effective lines: 12
+void User_Data_In(string usertype, string username, string password)
+{
+    int admin=1, active=1;
+    int user=0;
+    ofstream file;
+    file.open("UserData.txt", fstream::app);    // Open the file in append mode
+    
+    if (usertype == "Admin" || usertype == "admin")
+    {
+        file << username << " " << password << " " << active << " " << admin << endl;
+    } else if (usertype == "User" || usertype == "user"){
+        file << username << " " << password << " " << active << " " << user << endl;
+        string dir = "Users_Folder";
+        string path = dir + slash + username;   // Create new folder for user
+        system((mkdir + path).c_str());
+    }
+    file.close();
+
+}
+
+/* ========================================================== */
+
+// Check if username and password correct, check user status and user type (admin or user)
+// Effective lines: 12
+bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin){
+    bool found = false;     
+
+    for (auto elem: users)      // range loop to loop through the vector to get the data
     {
         if (name == elem.user &&
             pass == elem.pass &&
@@ -39,45 +65,28 @@ bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin)
 
             if (elem.type == 1) // Check the user type (admin/user)
             {
+
                 isAdmin = true;
             }
             else
             {
                 isAdmin = false;
             }
-            break; // break the loop when user is found
+
+            break;  // break the loop when user is found
         }
     }
 
     return found;
 }
 
-// Append new user to file
-void User_Data_In(string usertype, string username, string password)
-{
-    int admin = 1, active = 1;
-    int user = 0;
-    ofstream file;
-    file.open("UserData.txt", fstream::app); // Open the file in append mode
-
-    if (usertype == "Admin" || usertype == "admin")
-    {
-        file << username << " " << password << " " << active << " " << admin << endl; // Write the data to file
-    }
-    else if (usertype == "User" || usertype == "user")
-    {
-        file << username << " " << password << " " << active << " " << user << endl;
-        string dir = "Users_Folder";
-        string path = dir + slash + username; // Create new folder for user
-        system((mkdir + path).c_str());
-    }
-    file.close();
-}
 
 // Check if registering account password is legit (at least 1 uppercase and 1 digit)
-bool check_pw(string password)
+// Effective lines: 8
+bool check_Pw(string password)
 {
-    bool hasUpper = false, hasDigit = false; // boolean variables to check if digit and uppercase letter are found
+    bool hasUpper = false, hasDigit = false;    // boolean variables to check if digit and uppercase letter are found
+
     for (int i = 0; i < password.length(); i++)
     {
         if (isupper(password[i]))
@@ -85,16 +94,20 @@ bool check_pw(string password)
         else if (isdigit(password[i]))
             hasDigit = true;
     }
-    if (hasUpper && hasDigit)
-        return true;
+
+    if(hasUpper && hasDigit)
+        return true;    // return true if both conditions are satisfied
     else
-        return false;
+        return false;   // else return false
 }
 
+
 // Check if username or password has space
+// Effective lines: 8
 bool check_Space(string username, string password)
 {
-    bool hasSpace = false; // boolean variable to check if username and password have space
+
+    bool hasSpace = false;      // boolean variable to check if username and password have space
 
     for (int i = 0; i < username.size(); i++)
     {
@@ -110,9 +123,14 @@ bool check_Space(string username, string password)
     return hasSpace;
 }
 
+/* ========================================================== */
+
 // Read user account from file into a vector
+
+// Effective lines: 10
 vector<Users> readUser()
 {
+
     ifstream file("UserData.txt");
     vector<Users> users;
     Users user;
@@ -122,63 +140,68 @@ vector<Users> readUser()
         file >> user.pass;
         file >> user.status;
         file >> user.type;
-        users.push_back(user);
+        users.push_back(user);      // append data to vector users
     }
 
     file.close();
     return users;
 }
 
+
 // Find the user account info in the vector and return its index
-int findUserbyName(vector<Users> users, string name)
-{
-    for (int i = 0; i < users.size(); i++)
-    {
-        if (users[i].user == name && users[i].status == 1)
-        {
-            return i; // return index
+// Effective lines: 4
+int findUserbyName(vector<Users> users, string name) {
+    for (int i=0;i<users.size();i++) {
+
+        if (users[i].user == name && users[i].status == 1) {
+            return i;   // return index
         }
     }
-    return -1; // return -1 if the user is not found in database
+    return -1;  // return -1 if user is not found in database
 }
+
 
 // Delete User Account (Change status to 0)
-void deleteUser(vector<Users> &users, int index)
-{
-    users[index].status = 0; // change status to 0 (deleted)
+
+// Effective lines: 1
+void deleteUser(vector<Users> &users, int index) {
+    users[index].status = 0;    // change status to 0 (deleted)
 }
+
 
 // Change User Account password
-void modifyUser(vector<Users> &users, int index, string password)
-{
-    users[index].pass = password; // change user password
+// Effective lines: 1
+void modifyUser(vector<Users> &users, int index, string password) {
+    users[index].pass = password;   // change user password
 }
 
-// Rewrite whole user account data to file after deleting or changing password
-void writeUser(vector<Users> users)
-{
+// Rewrite whole user account data in file after deleting or changing password
+// Effective lines: 6
+void writeUser(vector<Users> users) {
     ofstream file("UserData.txt");
     for (int i = 0; i < users.size(); i++)
     {
         file << users[i].user << " " << users[i].pass << " " << users[i].status << " " << users[i].type;
-        if (i != users.size())
-        {
-            file << endl; // an empty line at the end of the file
+
+        if (i != users.size()) {
+            file << endl;   // an empty line at the end of the file
         }
     }
     file.close();
 }
 
+/* ========================================================== */
+
 //Check username and password from user input
+// Effective lines: 26
 void checkInformation(string usertype, string username, string password, string confirmPw, bool &valid)
 {
-    bool usernameExist = false; // boolean variable to check if the username exists in database
+    bool usernameExist = false;     // check if the username exists in database
     vector<Users> users = readUser();
     for (auto elem : users)
     {
-        if (username == elem.user && elem.status == 1)
-        {
-            usernameExist = true; // username is found in database
+        if (username == elem.user && elem.status == 1){
+            usernameExist = true;   // username is found in database
         }
     }
 
@@ -194,20 +217,21 @@ void checkInformation(string usertype, string username, string password, string 
         cout << "Password cant be more than 20 characters" << endl;
     else if (password != confirmPw)
         cout << "Password does not match" << endl;
-    else if (!isalpha(password[0])) // check if password starts with a letter
+    else if(!isalpha(password[0]))  // Check if password starts with a letter
         cout << "Password can only start with letter" << endl;
-    else if (check_pw(password))
-    {
-        User_Data_In(usertype, username, password); // call function to write in data if username and password are legit
+    else if(check_Pw(password)){
+        User_Data_In(usertype, username, password);     // Call function to write in the data if username and password are legit
         cout << "Register successful" << endl;
-        valid = true; // break the loop
+        valid = true;   // Break the loop
     }
     else
         cout << "Password must include at least one capital letter and one digit!" << endl;
     pressEnter();
 }
 
+
 // Registering User Account
+// Effective lines: 17
 void UserRegister()
 {
     string usertype, username, password, confirmPw;
@@ -233,7 +257,10 @@ void UserRegister()
     } while (!valid);
 }
 
+/* ========================================================== */
+
 // Show all Users information
+// Effective lines: 10
 void UserInfo()
 {
     clearScreen();
@@ -244,20 +271,21 @@ void UserInfo()
          << endl;
     vector<Users> users = readUser();
 
-    // print the user data out
-    for (Users u : users)
-    {
-        cout << "Username: " << left << setw(20) << fixed << u.user << " "
-             << "Password: " << left << setw(20) << fixed << u.pass << " "
-             << "Status: " << left << setw(20) << fixed << u.status << " "
-             << "Type: " << left << setw(20) << fixed << u.type << " " << endl;
+    // Print the user data out
+    for (Users u: users) {
+        cout << "Username: " << left << setw(20) << fixed  << u.user << " " 
+        << "Password: " << left << setw(20) << fixed  << u.pass << " " 
+        << "Status: " <<  left << setw(20) << fixed  << u.status << " " 
+        << "Type: " <<  left << setw(20) << fixed  << u.type << " " << endl;
     }
 }
 
+
 // Delete User Account
+// Effective lines: 21
 void UserDelete()
 {
-    bool userExists = false; // check if user exists
+    bool userExists = false;    // check if user exists in database
     string username;
     vector<Users> users = readUser();
     UserInfo();
@@ -276,7 +304,8 @@ void UserDelete()
         }
 
         int index = findUserbyName(users, username);
-        if (index == -1)
+      
+        if(index == -1)     // If index is -1, the user is not found
         {
             cout << "User does not exists or is deleted" << endl;
         }
@@ -317,8 +346,8 @@ void passwordValidation(bool &valid, string username, string newpass)
 }
 
 
-
-
+// Check if password is valid
+// Effective lines: 14
 void passwordValidation(bool &valid, string username, string newpass)
 {
     vector<Users> users = readUser();
@@ -327,7 +356,7 @@ void passwordValidation(bool &valid, string username, string newpass)
     cin >> newpass; cin.ignore(80, '\n');
     if(!isalpha(newpass[0]))
         cout << "Password can only start with letter" << endl;
-    else if(check_pw(newpass)){
+    else if(check_Pw(newpass)){
         modifyUser(users, index, newpass);
         writeUser(users);
         cout << "Password Changed" << endl;
@@ -339,8 +368,9 @@ void passwordValidation(bool &valid, string username, string newpass)
     }
 }
 
-// Menu for Change User Password (Admin)
 
+// Menu for Change User Password (Admin)
+// Effective lines: 20
 void AdminChangePassword()
 {
     bool userExists = false, valid = false;
@@ -376,7 +406,9 @@ void AdminChangePassword()
     } while (!userExists);
 }
 
+
 // Change User Password (User)
+// Effective lines: 21
 void UserChangePassword(string username)
 {
     bool valid = false;
@@ -395,7 +427,8 @@ void UserChangePassword(string username)
         int index = findUserbyName(users, username);
         if (!isalpha(newpass[0]))
             cout << "Password can only start with letter" << endl;
-        else if (check_pw(newpass))
+
+        else if(check_Pw(newpass))
         {
             modifyUser(users, index, newpass);
             writeUser(users);
@@ -410,8 +443,10 @@ void UserChangePassword(string username)
     } while (!valid);
 }
 
-// Screen
+/* ========================================================== */
 
+// Screen
+// Effective lines: 11
 void dashboard(string &name, string &pass)
 {
     clearScreen();
@@ -419,8 +454,7 @@ void dashboard(string &name, string &pass)
     cout << "|            Basic Data Analysis Program           |" << endl;
     cout << "|                    (  BDAP  )                    |" << endl;
     cout << "+--------------------------------------------------+" << endl;
-    cout << endl
-         << endl;
+    cout << endl << endl;
     cout << "Please enter username: ";
     cin >> name;
     cout << "Please enter password: ";
@@ -428,7 +462,9 @@ void dashboard(string &name, string &pass)
     cout << endl;
 }
 
+
 // Login Menu
+// Effective lines: 27
 int Login_Choice(char &stat, bool &isAdmin, string &name)
 {
     char choice;
