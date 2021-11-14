@@ -9,20 +9,23 @@ using namespace std;
     #define cls "cls"
 #endif
 
-// system((mkdir+ "Users_Folder"))
-
+// Clear Screen function
+// In: -
+// Out: -
+// Effective lines: 1
 void clearScreen()
 {
     system(cls);
 }
 
+// Press enter function
+// In: -
+// Out: -
+// Effective lines: 2
 void pressEnter()
 {
     cout << "Press enter to continue" << endl;
     cin.ignore(30, '\n');
-    // cin.ignore();
 }
-
-
 
 #endif
