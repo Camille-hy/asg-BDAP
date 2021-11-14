@@ -316,15 +316,15 @@ void UserDelete()
         {
             cout << "User does not exists or is deleted" << endl;
         }
-        else{
+        else
+        {
             deleteUser(users, index);
             writeUser(users);
             cout << "User deleted" << endl;
             pressEnter();
             userExists = true;
         }
-    }while(!userExists);
-
+    }while (!userExists);
 }
 
 
