@@ -238,7 +238,7 @@ string histogram(vector2d data, int min, int max, int row, int index) {
 
 double correlation(vector<vector<int>> data,int row,int x,int y)
 {
-    double correlation, sumXY, sumX2, sumY2;
+    double correlation, sumXY=0, sumX2=0, sumY2=0;
     double mean_x = find_mean(data, row, x);
     double mean_y = find_mean(data, row, y);
     for(int i=0;i<row;i++)

@@ -376,6 +376,8 @@ int main()
                                 int min = find_min(arr2d, row, index);
                                 int max = find_max(arr2d, row, index);
                                 string method = "HISTOGRAM";
+                                cout << method << " of "
+                                     << titles[index].first << endl;
 
                                 string graph = histogram(arr2d, min, max, row, index);
                                 cin.ignore();
@@ -480,6 +482,10 @@ int main()
                             {
                                 string method = "DISTINCT DATA MEMBERS";
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
+
+
+                                cout << method << " of "
+                                     << titles[index].first << endl;
                                 string form = tabularForm(distinct);
 
                                 cin.ignore();
@@ -496,7 +502,6 @@ int main()
                         logger.log("User go back to main menu");
                         break;
                         // continue;
-
                     }
                 }
             }

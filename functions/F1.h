@@ -2,26 +2,26 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-
 #include "misc.h"
 
 using namespace std;
 
 #if defined(__linux__) || defined(__APPLE__)
-    #define mkdir "mkdir -p "
-    #define slash "/"
+#define mkdir "mkdir -p "
+#define slash "/"
 #else
-    #define mkdir "mkdir "   // Create new folder for new user registered
-    #define slash "\\"
+#define mkdir "mkdir " // Create new folder for new user registered
+#define slash "\\"
 #endif
 
 // Class for User Account
-class Users {
-    public:
-        string user;
-        string pass;
-        int status;
-        int type;
+class Users
+{
+public:
+    string user;
+    string pass;
+    int status;
+    int type;
 };
 
 /* ========================================================== */
@@ -61,16 +61,22 @@ bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin){
             pass == elem.pass &&
             elem.status == 1)
         {
-            found = true;   // Username and password are correct and the status is active
-            if (elem.type == 1) {
+            found = true; // Username and password are correct and the status is active
+
+            if (elem.type == 1) // Check the user type (admin/user)
+            {
+
                 isAdmin = true;
-            } else {
+            }
+            else
+            {
                 isAdmin = false;
             }
+
             break;  // break the loop when user is found
         }
     }
-    
+
     return found;
 }
 
@@ -80,11 +86,15 @@ bool checkUser(vector<Users> &users, string name, string pass, bool &isAdmin){
 bool check_Pw(string password)
 {
     bool hasUpper = false, hasDigit = false;    // boolean variables to check if digit and uppercase letter are found
+
     for (int i = 0; i < password.length(); i++)
     {
-        if(isupper(password[i])) hasUpper = true;
-        else if(isdigit(password[i])) hasDigit = true;
+        if (isupper(password[i]))
+            hasUpper = true;
+        else if (isdigit(password[i]))
+            hasDigit = true;
     }
+
     if(hasUpper && hasDigit)
         return true;    // return true if both conditions are satisfied
     else
@@ -96,17 +106,18 @@ bool check_Pw(string password)
 // Effective lines: 8
 bool check_Space(string username, string password)
 {
+
     bool hasSpace = false;      // boolean variable to check if username and password have space
 
     for (int i = 0; i < username.size(); i++)
     {
-        if(isspace(username[i]))
+        if (isspace(username[i]))
             hasSpace = true;
     }
 
     for (int i = 0; i < password.size(); i++)
     {
-        if(isspace(password[i]))
+        if (isspace(password[i]))
             hasSpace = true;
     }
     return hasSpace;
@@ -115,13 +126,17 @@ bool check_Space(string username, string password)
 /* ========================================================== */
 
 // Read user account from file into a vector
+
 // Effective lines: 10
-vector<Users> readUser() {
+vector<Users> readUser()
+{
+
     ifstream file("UserData.txt");
     vector<Users> users;
     Users user;
-    
-    while(file >> user.user) {
+
+    while (file >> user.user)
+    {
         file >> user.pass;
         file >> user.status;
         file >> user.type;
@@ -147,6 +162,7 @@ int findUserbyName(vector<Users> users, string name) {
 
 
 // Delete User Account (Change status to 0)
+
 // Effective lines: 1
 void deleteUser(vector<Users> &users, int index) {
     users[index].status = 0;    // change status to 0 (deleted)
@@ -159,13 +175,14 @@ void modifyUser(vector<Users> &users, int index, string password) {
     users[index].pass = password;   // change user password
 }
 
-
 // Rewrite whole user account data in file after deleting or changing password
 // Effective lines: 6
 void writeUser(vector<Users> users) {
     ofstream file("UserData.txt");
-    for (int i=0;i<users.size();i++) {
+    for (int i = 0; i < users.size(); i++)
+    {
         file << users[i].user << " " << users[i].pass << " " << users[i].status << " " << users[i].type;
+
         if (i != users.size()) {
             file << endl;   // an empty line at the end of the file
         }
@@ -181,20 +198,20 @@ void checkInformation(string usertype, string username, string password, string 
 {
     bool usernameExist = false;     // check if the username exists in database
     vector<Users> users = readUser();
-    for (auto elem: users)
+    for (auto elem : users)
     {
         if (username == elem.user && elem.status == 1){
             usernameExist = true;   // username is found in database
         }
     }
-    
-    if(usertype != "Admin" && usertype != "admin" && usertype != "User" && usertype != "user")
+
+    if (usertype != "Admin" && usertype != "admin" && usertype != "User" && usertype != "user")
         cout << "User type does not exist" << endl;
     else if (usernameExist)
         cout << "Username already exists" << endl;
     else if (check_Space(username, password))
         cout << "Username and password cant consist of spaces" << endl;
-    else if(username.size() > 20)
+    else if (username.size() > 20)
         cout << "Username cant be more than 20 characters" << endl;
     else if (password.size() > 20)
         cout << "Password cant be more than 20 characters" << endl;
@@ -209,7 +226,7 @@ void checkInformation(string usertype, string username, string password, string 
     }
     else
         cout << "Password must include at least one capital letter and one digit!" << endl;
-        pressEnter();
+    pressEnter();
 }
 
 
@@ -219,24 +236,25 @@ void UserRegister()
 {
     string usertype, username, password, confirmPw;
     bool valid = false;
-    
-    do{
+
+    do
+    {
         clearScreen();
-        cout << "Register User Account" << endl << endl;
-        cout << "User Type(Admin/User): " ; 
-        cin >> usertype; 
+        cout << "Register User Account" << endl
+             << endl;
+        cout << "User Type(Admin/User): ";
+        cin >> usertype;
         cin.ignore(80, '\n');
-        cout << "Username: " ; 
-        getline(cin, username); 
-        cout << "Password: " ; 
-        getline(cin, password); 
-        cout << "Confirm Password: " ; 
+        cout << "Username: ";
+        getline(cin, username);
+        cout << "Password: ";
+        getline(cin, password);
+        cout << "Confirm Password: ";
         cin >> confirmPw;
         cin.ignore(80, '\n');
 
         checkInformation(usertype, username, password, confirmPw, valid);
-    }while(!valid);
-
+    } while (!valid);
 }
 
 /* ========================================================== */
@@ -246,9 +264,11 @@ void UserRegister()
 void UserInfo()
 {
     clearScreen();
-    cout << "Delete User Account" << endl << endl;
+    cout << "Delete User Account" << endl
+         << endl;
     cout << "Status 0 = Deleted, Status 1 = Active" << endl;
-    cout << "Type 0 = User, Type 1 = Admin" << endl << endl;
+    cout << "Type 0 = User, Type 1 = Admin" << endl
+         << endl;
     vector<Users> users = readUser();
 
     // Print the user data out
@@ -269,6 +289,7 @@ void UserDelete()
     string username;
     vector<Users> users = readUser();
     UserInfo();
+
     cout << "\nPress enter to go back" << endl << endl;
     cin.ignore(80, '\n');
     do{
@@ -277,24 +298,51 @@ void UserDelete()
         
         getline(cin, username);
         if(username == "")
+
         {
             userExists = true;
         }
 
         int index = findUserbyName(users, username);
+      
         if(index == -1)     // If index is -1, the user is not found
         {
             cout << "User does not exists or is deleted" << endl;
         }
-        else{
+        else
+        {
             deleteUser(users, index);
             writeUser(users);
             cout << "User deleted" << endl;
             pressEnter();
             userExists = true;
         }
-    }while(!userExists);
+    } while (!userExists);
+}
 
+// Check if password is valid
+void passwordValidation(bool &valid, string username, string newpass)
+{
+    vector<Users> users = readUser();
+    int index = findUserbyName(users, username);
+    cout << "Enter new password: ";
+    cin >> newpass;
+    cin.ignore(80, '\n');
+
+    if (!isalpha(newpass[0]))
+        cout << "Password can only start with letter" << endl;
+    else if (check_pw(newpass))
+    {
+        modifyUser(users, index, newpass);
+        writeUser(users);
+        cout << "Password Changed" << endl;
+        pressEnter();
+        valid = true;
+    }
+    else
+    {
+        cout << "Password must include at least one capital letter and one digit!" << endl;
+    }
 }
 
 
@@ -342,48 +390,57 @@ void AdminChangePassword()
         }
 
         int index = findUserbyName(users, username);
-        if(index == -1){
+        if (index == -1)
+        {
             cout << "User does not exists or is deleted" << endl;
         }
-        else{
+        else
+        {
             userExists = true;
+
             do{
                 passwordValidation(valid, username, newpass);
             }while(!valid);
+
         }
-    }while(!userExists);
+    } while (!userExists);
 }
 
 
 // Change User Password (User)
 // Effective lines: 21
-void UserChangePassword(string username){
+void UserChangePassword(string username)
+{
     bool valid = false;
     string newpass;
+
     cout << "\nPress enter to go back" << endl << endl;
     do{
         cout << "Enter new password: ";
         getline(cin, newpass);
         if(newpass == "")
+
         {
             valid = true;
         }
         vector<Users> users = readUser();
         int index = findUserbyName(users, username);
-        if(!isalpha(newpass[0]))
+        if (!isalpha(newpass[0]))
             cout << "Password can only start with letter" << endl;
-        else if(check_Pw(newpass)){
+
+        else if(check_Pw(newpass))
+        {
             modifyUser(users, index, newpass);
             writeUser(users);
             cout << "Password Changed" << endl;
             pressEnter();
             valid = true;
         }
-        else{
+        else
+        {
             cout << "Password must include at least one capital letter and one digit!" << endl;
         }
-    }while(!valid);
-
+    } while (!valid);
 }
 
 /* ========================================================== */
