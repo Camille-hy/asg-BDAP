@@ -56,7 +56,7 @@ void select_1(File &f, Logger &logger, string method, char choice, vecpair title
     while (flag)
     {
         double result = singleColumnCompute(method, choice, titles, computable, arr2d, row, flag2);
-        cin.ignore(0);
+        cin.ignore();
         pressEnter();
         if (flag2)
         {
@@ -95,8 +95,13 @@ void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int
 
 bool statistical_calculation(File &f, Logger &logger, string method, char choice)
 {
-    f.loadScreen();
-    
+    bool error = f.loadScreen();
+    if (error)
+    {
+        logger.log("User go back to statistical calculation menu");
+        return false;
+    }
+
     int col = f.getCol();
     int row = f.getRow();
     bool breakLoop = false;
@@ -216,7 +221,6 @@ int main()
             User_Menu(name);
             choice = User_Menu_Selection(name);
             cin.ignore(50, '\n');
-            // cin.get();
 
             while (choice != '1' && choice != '2' && choice != '3' && choice != '4' && choice != '5' && choice != '6') // Bool remain true until user entered valid selection
             {
@@ -225,7 +229,7 @@ int main()
                 logger.log("User Enter Invalid Input");
                 choice = User_Menu_Selection(name);
             }
-            cout << choice << endl;
+           
             if (choice == '1') // Statistical Analysis Menu
             {
                 logger.log("User enter statistical analysis menu");
@@ -344,7 +348,12 @@ int main()
                     {
 
                         logger.log("User chooses histogram");
-                        f.loadScreen();
+                        bool error = f.loadScreen();
+                        if (error)
+                        {
+                            logger.log("User go back to statistical analysis menu");
+                            continue;
+                        }
                         int col = f.getCol();
                         int row = f.getRow();
 
@@ -396,7 +405,12 @@ int main()
                     {
                         logger.log("User chooses correlation");
                         //Correlation
-                        f.loadScreen();
+                        bool error = f.loadScreen();
+                        if (error)
+                        {
+                            logger.log("User go back to statistical analysis menu");
+                            continue;
+                        }
                         int col = f.getCol();
                         int row = f.getRow();
 
@@ -450,7 +464,12 @@ int main()
                     else if (choice == '4')
                     {
                         logger.log("User chooses distinct data members");
-                        f.loadScreen();
+                        bool error = f.loadScreen();
+                        if (error)
+                        {
+                            logger.log("User go back to statistical analysis menu");
+                            continue;
+                        }
                         int col = f.getCol();
                         int row = f.getRow();
 
@@ -484,7 +503,6 @@ int main()
                             {
                                 string method = "DISTINCT DATA MEMBERS";
                                 vector<pair<int, int>> distinct = distinctMember(arr2d, index);
-
 
                                 cout << method << " of "
                                      << titles[index].first << endl;
@@ -543,7 +561,12 @@ int main()
             else if (choice == '5')
             {
                 logger.log("User save the data file as another name");
-                f.loadScreen();
+                bool error = f.loadScreen();
+                if (error)
+                {
+                    logger.log("User go back to main menu");
+                    continue;
+                }
                 f.savedAs();
             }
             else if (choice == '6')
@@ -557,6 +580,7 @@ int main()
             }
         }
     }
+
 
     return 0;
 }
