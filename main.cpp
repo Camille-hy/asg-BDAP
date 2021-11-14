@@ -96,6 +96,7 @@ void select_2(File &f, Logger &logger, string method, vecpair titles, vector<int
 bool statistical_calculation(File &f, Logger &logger, string method, char choice)
 {
     f.loadScreen();
+    
     int col = f.getCol();
     int row = f.getRow();
     bool breakLoop = false;
@@ -198,6 +199,7 @@ int main()
             else if (choice == '3')
             {
                 cout << "Logging Out..." << endl;
+                cin.ignore();
                 pressEnter();
                 main();
                 break;

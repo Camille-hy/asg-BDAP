@@ -9,7 +9,7 @@
 
 #if defined(__linux__) || defined(__APPLE__)
 #define slash "/"
-#define mkdir "mkdir -p"
+#define mkdir "mkdir -p "
 #else
 #define slash "\\"
 #define mkdir "mkdir "
@@ -45,6 +45,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Read number of columns from the data file
+    // Effective line: 9
     int readCol(ifstream &file)
     {
         int col;
@@ -62,6 +63,7 @@ private:
     }
 
     // Read titles from the data file
+    // Effective line: 23
     vecpair readTitle(ifstream &file)
     {
         vecpair titles;
@@ -72,7 +74,6 @@ private:
         ss << line;
         string col;
         int index = 1;
-        // while (stream >> col)
         while (getline(ss, col, ','))
         {
             temp = {col, index};
@@ -84,8 +85,15 @@ private:
         {
             error = true;
             int difference = numCol - titles.size();
-            cout << difference << " title " << (difference > 1 ? "are" : "is") << " missing" << endl;
-
+            if (difference > 0)
+            {
+                cout << difference << " title " << (difference > 1 ? "are" : "is") << " missing" << endl;
+            }
+            else
+            {
+                cout << -difference << " title " << (-difference > 1 ? "are" : "is") << " extra" << endl;
+            }
+            cout << "Please modify the data file" << endl;
             titles.clear();
             pressEnter();
         }
@@ -93,6 +101,7 @@ private:
     }
 
     //Read computable from data file
+    // Effective line: 15
     vector<int> readCompute(ifstream &file)
     {
         vector<int> computes;
@@ -101,7 +110,6 @@ private:
         getline(inFile, line);
         ss << line;
         string col;
-        // while (stream >> col)
         while (getline(ss, col, ','))
         {
             computes.push_back(stoi(col));
@@ -112,13 +120,22 @@ private:
             error = true;
             int difference = numCol - computes.size();
             computes.clear();
-            cout << difference << " computability " << (difference > 1 ? "are" : "is") << " missing" << endl;
+            if (difference > 0)
+            {
+                cout << -difference << " computability " << (difference > 1 ? "are" : "is") << " extra" << endl;
+            }
+            else
+            {
+                cout << -difference << " computability " << (-difference > 1 ? "are" : "is") << " extra" << endl;
+            }
+            cout << "Please modify the data file" << endl;
             pressEnter();
         }
         return computes;
     }
 
     // Read number of row from data file
+    // Effective line: 9
     int readRow(ifstream &file)
     {
         int row;
@@ -135,6 +152,7 @@ private:
     }
 
     // Combine readcol, readTitle, readCompute & readRow
+    // Effective line: 13
     void readInfo(ifstream &file)
     {
         string line;
@@ -157,6 +175,7 @@ private:
     }
 
     // Check and convert string to integer
+    // Effective line: 11
     int getInt(const string &strNum)
     {
         int intNum;
@@ -178,6 +197,7 @@ private:
     }
 
     // Read and check the line of the data from the data file
+    // Effective line: 18
     vector<int> getLineData(const string &line, const int &currentRow)
     {
         vector<int> row;
@@ -209,6 +229,7 @@ private:
     }
 
     // Read the data from the data file
+    // Effective line: 16
     void readData(vector2d &data, int row)
     {
         string line;
@@ -236,6 +257,7 @@ private:
     }
 
     // Combine the readInfo & readData
+    // Effective line: 15
     void readFile(string path)
     {
         inFile.open(path);
@@ -266,6 +288,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Check if the file exist or not
+    // Effective line: 4
     bool fileExist(const string &path)
     {
         ifstream file(path);
@@ -277,6 +300,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Check if the file name accepted by system
+    // Effective line: 8
     bool properName(const string &filename)
     {
         char character[] = {'\\', '/', ':', '*', '?', '<', '>', '|'};
@@ -296,6 +320,7 @@ private:
     }
 
     // A screen will show if the file exists
+    // Effective line: 11
     bool fileExistScreen()
     {
         string res;
@@ -317,6 +342,7 @@ private:
     }
 
     // Ask the filename from the user
+    // Effective line: 13
     void askFilename(string &filename)
     {
         while (true)
@@ -342,12 +368,14 @@ private:
     }
 
     // Write one integer data such as number of column/row into the file
+    // Effective line: 1
     void writeLine(ofstream &file, const int &data)
     {
         file << data << endl;
     }
 
     // Write title into the file
+    // Effective line: 6
     void writeLine(ofstream &file, const vecpair &data)
     {
         for (int i = 0; i < numCol; i++)
@@ -365,6 +393,7 @@ private:
     }
 
     // Write a vector of data such as computable into the file
+    // Effective line: 6
     void writeLine(ofstream &file, const vector<int> &data)
     {
         for (int i = 0; i < numCol; i++)
@@ -382,6 +411,7 @@ private:
     }
 
     // Write the data into the file
+    // Effective line: 8
     void writeLine(ofstream &file, const vector2d &data)
     {
         for (int i = 0; i < numRow; i++)
@@ -407,6 +437,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Ask text report name from the user
+    // Effective line: 13
     void askTxtName(string &filename)
     {
         while (true)
@@ -433,6 +464,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Ask html report name from the user
+    // Effective line: 14
     void askHtmlName(string &filename)
     {
         while (true)
@@ -461,6 +493,7 @@ private:
     // ------------------------------------------------------------------------
 
     // Show the content of text report
+    // Effective line: 6
     void printTxtReport(string path)
     {
         ifstream file(path);
@@ -474,6 +507,7 @@ private:
     }
 
     // ----------------------------------------------------------------------------------------------------------------------------------------------------
+
 public:
     // typedef vector<vector<int>> vector2d;
     // typedef vector<pair<string, int>> vecpair;
@@ -490,6 +524,7 @@ public:
     }
 
     // Screen that ask filename
+    // Effective line: 15
     void loadScreen()
     {
         do
@@ -504,7 +539,6 @@ public:
             cout << "What is the filename (without file extension -> .txt)" << endl;
             getline(cin, fileName);
             path = dataDir + slash + fileName + ".txt";
-            // cout << path << endl;
             readFile(path);
             if (error)
                 continue;
@@ -513,36 +547,42 @@ public:
     }
 
     // Return number of column
+    // Effective line: 1
     int getCol()
     {
         return numCol;
     }
 
     // Return titles
+    // Effective line: 1
     vecpair getTitle()
     {
         return title;
     }
 
     // Return compute
+    // Effective line: 1
     vector<int> getCompute()
     {
         return compute;
     }
 
     // Return number of row
+    // Effective line: 1
     int getRow()
     {
         return numRow;
     }
 
     // Return data
+    // Effective line: 1
     vector2d getData()
     {
         return data;
     }
 
     // Save the data file as another name
+    // Effective line: 12
     void savedAs()
     {
         string filename, path;
@@ -563,6 +603,7 @@ public:
     }
 
     // Save the generated plain text report
+    // Effective line: 20
     void saveTxtReport(const string &data)
     {
         ofstream outFile;
@@ -596,6 +637,7 @@ public:
     }
 
     // Save the generated html report
+    // Effective line: 20
     void saveHtmlReport(const string &data)
     {
         ofstream outFile;
@@ -629,6 +671,7 @@ public:
     }
 
     // Screen that show plain text report
+    // Effective line: 17
     void txtReportScreen()
     {
         string filename;
@@ -661,6 +704,7 @@ public:
     }
 
     // Screen that show html report
+    // Effective line: 15
     void htmlReportScreen()
     {
         string filename;
@@ -702,6 +746,7 @@ private:
     vector<string> logs;
 
     // Get current date and time
+    // Effective line: 6
     string getCurrentTime()
     {
         stringstream t;
@@ -713,6 +758,7 @@ private:
     }
 
     // read log from the log file
+    // Effective line: 10
     vector<string> readFile()
     {
         ifstream file(logPath);
@@ -734,6 +780,7 @@ private:
     }
 
     // Show all log
+    // Effective line: 15
     void showLogMenu(string options[], int &num, int &start, int &end)
     {
         vector<string> logs = readFile();
@@ -762,6 +809,7 @@ private:
     }
 
     // Get and check input from the user
+    // Effective line: 14
     bool getValidInput(int &i, int &num)
     {
         string input;
@@ -789,6 +837,8 @@ private:
         return true;
     }
 
+    // ----------------------------------------------------------------------------------------------------------------------------------------------------
+
 public:
     Logger(string username)
     {
@@ -800,6 +850,7 @@ public:
     }
 
     // Log and write into the log file
+    // Effective line: 4
     void log(string operation)
     {
         ofstream file(logPath, ios::app);
@@ -809,6 +860,7 @@ public:
     }
 
     // Screen that show all log
+    // Effective line: 16
     void showLogScreen()
     {
         int start = 0, end = 10, input;

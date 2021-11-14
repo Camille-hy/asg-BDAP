@@ -34,3 +34,25 @@
 2021-Nov-13  17:41:25    User save the data file as another name
 2021-Nov-13  17:41:40    User logout
 2021-Nov-13  19:17:28    User login
+2021-Nov-13  23:19:13    User login
+2021-Nov-14  14:04:44    User login
+2021-Nov-14  14:04:45    User enter statistical analysis menu
+2021-Nov-14  14:04:46    User chooses histogram
+2021-Nov-14  14:08:30    User login
+2021-Nov-14  14:08:32    User enter statistical analysis menu
+2021-Nov-14  14:08:33    User chooses histogram
+2021-Nov-14  14:09:59    User login
+2021-Nov-14  14:09:59    User enter statistical analysis menu
+2021-Nov-14  14:10:00    User chooses histogram
+2021-Nov-14  14:12:24    User login
+2021-Nov-14  14:12:25    User enter statistical analysis menu
+2021-Nov-14  14:12:26    User chooses histogram
+2021-Nov-14  14:14:02    User login
+2021-Nov-14  14:14:03    User enter statistical analysis menu
+2021-Nov-14  14:14:03    User chooses histogram
+2021-Nov-14  14:14:59    User login
+2021-Nov-14  14:14:59    User enter statistical analysis menu
+2021-Nov-14  14:15:00    User chooses histogram
+2021-Nov-14  14:15:43    User login
+2021-Nov-14  14:15:44    User enter statistical analysis menu
+2021-Nov-14  14:15:44    User chooses histogram
