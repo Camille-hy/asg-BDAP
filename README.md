@@ -5,7 +5,7 @@ The program will keep track (log) of the user and the operations performed until
 system. Built with C++.
 
 ## How to Run
-- C++ 11 Standard or above.
+- C++ 11 Standard
 - Run `main.exe`
 
 ### Contributions
